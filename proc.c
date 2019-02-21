@@ -412,6 +412,46 @@ forkret(void)
   // Return to "caller", actually trapret (see allocproc).
 }
 
+void
+broken_sleep(void *chan, struct spinlock *lk)
+{
+  struct proc *p = myproc();
+  
+  if(p == 0)
+    panic("sleep");
+
+  if(lk == 0)
+    panic("sleep without lk");
+
+  // Must acquire ptable.lock in order to
+  // change p->state and then call sched.
+  // Once we hold ptable.lock, we can be
+  // guaranteed that we won't miss any wakeup
+  // (wakeup runs with ptable.lock locked),
+  // so it's okay to release lk.
+//  if(lk != &ptable.lock){  //DOC: sleeplock0
+//    acquire(&ptable.lock);  //DOC: sleeplock1
+//    release(lk);
+//  }
+  // Go to sleep.
+  p->chan = chan;
+  p->state = SLEEPING;
+
+  acquire(&ptable.lock);
+  sched();
+
+  // Tidy up.
+  p->chan = 0;
+
+  // Reacquire original lock.
+//  if(lk != &ptable.lock){  //DOC: sleeplock2
+    release(&ptable.lock);
+//    acquire(lk);
+//  }
+}
+
+
+
 // Atomically release lock and sleep on chan.
 // Reacquires lock when awakened.
 void
