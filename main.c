@@ -78,7 +78,7 @@ mpmain(void)
 {
   cprintf("cpu%d: starting\n", cpunum());
   idtinit();       // load idt register
-  xchg(&cpu->started, 1); // tell startothers() we're up
+  xchg(&cpu->started, 1); // tell startothers() we're upz
 #if LAB == 1
 // Test the stack back trace
   test_backtrace(5);
