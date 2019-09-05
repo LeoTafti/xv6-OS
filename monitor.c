@@ -22,6 +22,7 @@ struct Command {
 static struct Command commands[] = {
   { "help",      "Display this list of commands",        mon_help       },
   { "info-kern", "Display information about the kernel", mon_infokern   },
+  { "backtrace", "Display backtrace", mon_backtrace   },
 };
 #define NCOMMANDS (sizeof(commands)/sizeof(commands[0]))
 
@@ -56,9 +57,17 @@ mon_infokern(int argc, char **argv, struct Trapframe *tf)
 int
 mon_backtrace(int argc, char **argv, struct Trapframe *tf)
 {
- 
- 
- return 0;
+  int ebp = read_ebp();
+  while(ebp >= KERNBASE){
+    cprintf("ebp = %08x\n", ebp);
+
+    int* ebp_ptr = (int*)ebp;
+    int prev_ebp = *ebp_ptr;
+    //cprintf("prev_ebp = %08x\n", prev_ebp);
+
+    ebp = prev_ebp;
+  }
+  return 0;
 }
 
 
