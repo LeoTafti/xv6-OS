@@ -54,6 +54,15 @@ mon_infokern(int argc, char **argv, struct Trapframe *tf)
   return 0;
 }
 
+/**
+* @brief Prints the stack backtrace to the console
+* 
+* @param argc the arguments count, if any
+* @param argv pointer to the arguments, if any
+* @param tf Trapframe, if any.
+* 
+* @return 0 if everything went fine
+**/
 int
 mon_backtrace(int argc, char **argv, struct Trapframe *tf)
 {
@@ -62,39 +71,35 @@ mon_backtrace(int argc, char **argv, struct Trapframe *tf)
 
   while(eip >= KERNBASE){
     cprintf("ebp %08x", ebp);
-    
-    //eip = ebp_ptr[1];
     cprintf("  eip %08x", eip);
     
-    int* ebp_ptr = (int*)ebp; //for ease of notation
+    int* ebp_ptr = (int*)ebp; //for ease of notation in the following code
 
     cprintf("  args");
     for(int i = 2; i <= 6; i++){
       cprintf(" %08x", ebp_ptr[i]);
     }
 
-    struct Eipdebuginfo info = {0};
+    struct Eipdebuginfo info = {0}; //initializes fields to 0
     int no_info = debuginfo_eip(eip, &info);
 
+    cprintf("\n       ");
     if(!no_info){
-
-      cprintf("\n       %s:%d: ", info.eip_file, info.eip_line);
-      //Since info.eip_fn_name is not null terminated, we cannot print it with %s
-      //we print char by char instead, using info.eip_fn_namelen
-      for(int i = 0; i < info.eip_fn_namelen; i++){
-        cprintf("%c", info.eip_fn_name[i]);
-      }
+      //Print the information obtained from the stabs. Format :
+      //"filename:line_number: function_name+bytes_from_function_beg"
+      cprintf("%s:%d: ", info.eip_file, info.eip_line);
+      cprintf("%.*s", info.eip_fn_namelen, info.eip_fn_name); //Printing non-null-terminated string eip_fn_name
       cprintf("+%0x", eip - info.eip_fn_addr);
+    }else{
+      cprintf("No info found in stabs for given eip");
     }
-
 
     cprintf("\n");
 
+    //Prepare for next loop
     int prev_ebp = *ebp_ptr;
-
     ebp = prev_ebp;
     eip = ((int*)prev_ebp)[1];
-
   }
 
   return 0;

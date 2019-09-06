@@ -180,6 +180,8 @@ debuginfo_eip(uint addr, struct Eipdebuginfo *info)
   //	which one.
 
   stab_binsearch(stabs, &lline, &rline, N_SLINE, addr);
+  
+  //Not found
   if(lline > rline)
     return -1;
 
