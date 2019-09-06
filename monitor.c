@@ -58,12 +58,22 @@ int
 mon_backtrace(int argc, char **argv, struct Trapframe *tf)
 {
   int ebp = read_ebp();
-  while(ebp >= KERNBASE){
-    cprintf("ebp = %08x\n", ebp);
+  while(ebp >= KERNBASE){ //found in panic() in kdebug.c
+    cprintf("ebp %08x", ebp);
 
-    int* ebp_ptr = (int*)ebp;
+    int* ebp_ptr = (int*)ebp; //for ease of notation
+    
+    int eip = *(ebp_ptr+1);
+    cprintf("  eip %08x", eip);
+
+    cprintf("  args");
+    for(int i = 2; i <= 6; i++){
+      cprintf(" %08x", *(ebp_ptr+i));
+    }
+
+    cprintf("\n");
+
     int prev_ebp = *ebp_ptr;
-    //cprintf("prev_ebp = %08x\n", prev_ebp);
 
     ebp = prev_ebp;
   }
