@@ -22,7 +22,7 @@ struct Command {
 static struct Command commands[] = {
   { "help",      "Display this list of commands",        mon_help       },
   { "info-kern", "Display information about the kernel", mon_infokern   },
-  { "backtrace", "Display backtrace", mon_backtrace   },
+  { "backtrace", "Display stack backtrace", mon_backtrace   },
 };
 #define NCOMMANDS (sizeof(commands)/sizeof(commands[0]))
 
@@ -58,25 +58,45 @@ int
 mon_backtrace(int argc, char **argv, struct Trapframe *tf)
 {
   int ebp = read_ebp();
-  while(ebp >= KERNBASE){ //found in panic() in kdebug.c
-    cprintf("ebp %08x", ebp);
+  int eip = ((int*)ebp)[1];
 
-    int* ebp_ptr = (int*)ebp; //for ease of notation
+  while(eip >= KERNBASE){
+    cprintf("ebp %08x", ebp);
     
-    int eip = *(ebp_ptr+1);
+    //eip = ebp_ptr[1];
     cprintf("  eip %08x", eip);
+    
+    int* ebp_ptr = (int*)ebp; //for ease of notation
 
     cprintf("  args");
     for(int i = 2; i <= 6; i++){
-      cprintf(" %08x", *(ebp_ptr+i));
+      cprintf(" %08x", ebp_ptr[i]);
     }
+
+    struct Eipdebuginfo info = {0};
+    int no_info = debuginfo_eip(eip, &info);
+
+    if(!no_info){
+
+      cprintf("\n       %s:%d: ", info.eip_file, info.eip_line);
+      //Since info.eip_fn_name is not null terminated, we cannot print it with %s
+      //we print char by char instead, using info.eip_fn_namelen
+      for(int i = 0; i < info.eip_fn_namelen; i++){
+        cprintf("%c", info.eip_fn_name[i]);
+      }
+      cprintf("+%0x", eip - info.eip_fn_addr);
+    }
+
 
     cprintf("\n");
 
     int prev_ebp = *ebp_ptr;
 
     ebp = prev_ebp;
+    eip = ((int*)prev_ebp)[1];
+
   }
+
   return 0;
 }
 
