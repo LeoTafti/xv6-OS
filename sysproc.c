@@ -89,3 +89,13 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+int
+sys_date(void)
+{
+  cprintf("Need to implement sys_date");
+  return 0;
+}
+
+
+
