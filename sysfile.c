@@ -49,6 +49,19 @@ fdalloc(struct file *f)
   return -1;
 }
 
+// Try to allocate newfd for the given file
+// Return -1 if oldfd wasn't allocated or newfd isn't available, newfd otherwise.
+static int
+fdalloc2(int oldfd, int newfd, struct file *f)
+{
+  //Check that 1. newfd isn't already taken 2. oldfd is already allocated
+  if(!(proc->ofile[oldfd] != 0 && proc->ofile[newfd] == 0))
+    return -1;
+
+  proc->ofile[newfd] = f;
+  return newfd;
+}
+
 int
 sys_dup(void)
 {
@@ -62,6 +75,29 @@ sys_dup(void)
   filedup(f);
   return fd;
 }
+
+int
+sys_dup2(void)
+{
+  struct file * f;
+  int oldfd, newfd;
+
+  //Fetch the old fd and associated struct file
+  if(argfd(0, &oldfd, &f) < 0)
+    return -1;
+
+  //Fetch the new fd
+  if(argfd(1, &newfd, 0) < 0)
+    return -1;
+
+  //Try to allocate newfd for the given file
+  if(fdalloc2(oldfd, newfd, f) < 0)
+    return -1;
+  
+  filedup(f);
+  return newfd;
+}
+
 
 int
 sys_read(void)

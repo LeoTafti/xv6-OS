@@ -81,6 +81,7 @@ extern int sys_chdir(void);
 extern int sys_close(void);
 extern int sys_date(void);
 extern int sys_dup(void);
+extern int sys_dup2(void);
 extern int sys_exec(void);
 extern int sys_exit(void);
 extern int sys_fork(void);
@@ -123,7 +124,7 @@ static int (*syscalls[])(void) = {
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
 [SYS_date]    sys_date,
-
+[SYS_dup2]    sys_dup2,
 };
 
 const char * syscall_names[] = {
@@ -149,6 +150,7 @@ const char * syscall_names[] = {
 [SYS_mkdir]   "mkdir",
 [SYS_close]   "close",
 [SYS_date]    "date",
+[SYS_dup2]    "dup2",
 };
 
 void
