@@ -93,7 +93,14 @@ sys_uptime(void)
 int
 sys_date(void)
 {
-  cprintf("Need to implement sys_date");
+  // get the arg
+  struct rtcdate * rp = {0};
+  if(argptr(0, (void*)&rp, sizeof(struct rtcdate)) < 0)
+    return -1;
+  
+  // fill it with current time and date
+  cmostime(rp);
+
   return 0;
 }
 
