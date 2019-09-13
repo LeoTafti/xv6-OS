@@ -5,8 +5,6 @@
 int
 main(int argc, char *argv[])
 {
-  //printf(1, "Need to implement date.c");
-  
   struct rtcdate r;
 
   if (date(&r)) {
