@@ -87,7 +87,7 @@ sys_dup2(void)
     return -1;
 
   //Fetch the new fd
-  if(argfd(1, &newfd, 0) < 0)
+  if(argint(1, &newfd) < 0)
     return -1;
 
   //Try to allocate newfd for the given file
