@@ -29,13 +29,19 @@ Output :
 Modifications in order to add the dup2 system call : 
 
 1. I repeated modifications 3. 4. 5. 6. from above.
-2. `sysfile.c` : defined the `sys_dup2` function which gets the arguments (`oldfd` and associated `struct file` `f` and `newfd`) and tries to allocate `newfd` to `f`.
+2. `sysfile.c` :
+	* defined the `sys_dup2()` function which gets the arguments (`oldfd` and associated `struct file` `f` and `newfd`) and tries to allocate `newfd` to `f`.
+	* defined a new version of `fdalloc()`, named `fdalloc2()`, which allows to specify a new fd.
 
 ### 2. Test program
 
 1. Created the `dup2_test.c` file
 2. `Makefile` : added `_dup2test` to `UPROGS`
 
+The test program opens a file (creates it if necessary), writes to its file descriptor `oldfd`, uses `dup2` to duplicate it to `newfd` and writes again to the file using `newfd`. I then used `cat` to print the content of the file to the console.
+
+![](/Users/Leo/Desktop/GT/Fall/CS3210 – Design OS/Homeworks/HW2/dup2test_example.png)
+
 ### 3. Using any new fd
 
-It can be shown that any new fd can be used with dup2 using a neat "trick" described [here](https://www.geeksforgeeks.org/dup-dup2-linux-system-call/). The idea is to use dup2 to redirect the standard out to a file, than call `printf` and the output should be written in the file.
+In order to show that (almost) any new fd can be used with `dup2`, my test program simply (tries to) acquire the biggest fd possible, ie. the 15'th. Note that in the above set up, oldfd is the fd 3 and the regular `dup` would have returned `4` for newfd.
