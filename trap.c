@@ -86,6 +86,11 @@ trap(struct trapframe *tf)
               tf->trapno, cpunum(), tf->eip, rcr2());
       panic("trap");
     }
+
+    //Lazy allocation : catch page fault here and allocate one page
+    if(tf->trapno == T_PGFLT){
+      cprintf("Lazily allocate a page here");
+    }
     // In user space, assume process misbehaved.
     cprintf("pid %d %s: trap %d err %d on cpu %d "
             "eip 0x%x addr 0x%x--kill proc\n",
