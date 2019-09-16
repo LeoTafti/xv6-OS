@@ -99,14 +99,20 @@ trap(struct trapframe *tf)
       char *mem = kalloc();
       if(mem == 0){
         cprintf("Out of memory : cannot lazily allocate (1)\n");
-        return 0;
+        return;
       }
       memset(mem, 0, PGSIZE);
 
-      if(mappages(proc->pgdir, &va, PGSIZE, V2P(mem), PTE_W|PTE_U) < 0){
+      cprintf("Everything fine up to here\n");
+
+      if(mappages(proc->pgdir, (char*)va, PGSIZE, V2P(mem), PTE_W|PTE_U) < 0){
         cprintf("Out of memory : cannot lazily allocate (2)\n");
         kfree(mem);
+        return;
       }
+
+      cprintf("We went through all of this together\n");
+      return;
     }
     // In user space, assume process misbehaved.
     cprintf("pid %d %s: trap %d err %d on cpu %d "
