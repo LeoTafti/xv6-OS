@@ -32,6 +32,9 @@ idtinit(void)
   lidt(idt, sizeof(idt));
 }
 
+extern int
+mappages(pde_t *pgdir, void *va, uint size, uint pa, int perm);
+
 //PAGEBREAK: 41
 void
 trap(struct trapframe *tf)
@@ -89,7 +92,8 @@ trap(struct trapframe *tf)
 
     //Lazy allocation : catch page fault here and allocate one page
     if(tf->trapno == T_PGFLT){
-      cprintf("Lazily allocate a page here");
+      cprintf("Lazily allocate a page here\n");
+      mappages((void*)0, (void*)0, 0, 0, 0);
     }
     // In user space, assume process misbehaved.
     cprintf("pid %d %s: trap %d err %d on cpu %d "
