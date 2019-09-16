@@ -45,3 +45,7 @@ The test program opens a file (creates it if necessary), writes to its file desc
 ### 3. Using any new fd
 
 In order to show that (almost) any new fd can be used with `dup2`, my test program simply (tries to) acquire the biggest fd possible, ie. the 15'th. Note that in the above set up, oldfd is the fd 3 and the regular `dup` would have returned `4` for newfd.
+
+## Others
+
+* `Makefile` : Copied modifications from Prof. Andersen to add `make tarball`
