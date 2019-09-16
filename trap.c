@@ -93,7 +93,20 @@ trap(struct trapframe *tf)
     //Lazy allocation : catch page fault here and allocate one page
     if(tf->trapno == T_PGFLT){
       cprintf("Lazily allocate a page here\n");
-      mappages((void*)0, (void*)0, 0, 0, 0);
+      uint va = rcr2();
+
+      //I first need to allocate a physical the page here, before I can map it.
+      char *mem = kalloc();
+      if(mem == 0){
+        cprintf("Out of memory : cannot lazily allocate (1)\n");
+        return 0;
+      }
+      memset(mem, 0, PGSIZE);
+
+      if(mappages(proc->pgdir, &va, PGSIZE, V2P(mem), PTE_W|PTE_U) < 0){
+        cprintf("Out of memory : cannot lazily allocate (2)\n");
+        kfree(mem);
+      }
     }
     // In user space, assume process misbehaved.
     cprintf("pid %d %s: trap %d err %d on cpu %d "
