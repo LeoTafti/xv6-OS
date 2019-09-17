@@ -92,20 +92,19 @@ trap(struct trapframe *tf)
 
     //Lazy allocation : catch page fault here and allocate one page
     if(tf->trapno == T_PGFLT){
-      cprintf("Lazily allocate a page here\n");
+      //cprintf("Lazily allocate a page here\n");
       uint va = rcr2();
-      cprintf("Page fault for va : %x\n", va);
+      cprintf("Caught page fault for va : %x -- lazy allocating a page here\n", va);
 
-      //I first need to allocate a physical the page here, before I can map it.
+      //Allocate a physical the page
       char *mem = kalloc();
       if(mem == 0){
         cprintf("Out of memory : cannot lazily allocate (1)\n");
         return;
       }
-      memset(mem, 0, PGSIZE);
+      memset(mem, 0, PGSIZE); //Zero the page
 
-      cprintf("Everything fine up to here\n");
-
+      //Map the page
       if(mappages(proc->pgdir, (char*)PGROUNDDOWN(va), PGSIZE, V2P(mem), PTE_W|PTE_U) < 0){
         cprintf("Out of memory : cannot lazily allocate (2)\n");
         kfree(mem);
@@ -114,7 +113,6 @@ trap(struct trapframe *tf)
 
       proc->sz += PGSIZE;
       //switchuvm(proc); //TODO : What does it do ? Is it needed ?
-      cprintf("We went through all of this together\n");
       return;
     }
     // In user space, assume process misbehaved.
