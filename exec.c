@@ -65,8 +65,8 @@ exec(char *path, char **argv)
   clearpteu(pgdir, (char*)(sz - 2*PGSIZE));
   sp = sz;
 
-  //Set the user stack guard page pointer
-  proc->ustackgpg = (char*)(sz - 2*PGSIZE);
+  //Set the user stack guard page address field in process
+  proc->ustackgpg = sz - 2*PGSIZE;
 
   // Push argument strings, prepare rest of stack in ustack.
   for(argc = 0; argv[argc]; argc++) {

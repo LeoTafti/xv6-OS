@@ -53,7 +53,7 @@ struct proc {
   uint sz;                     // Size of process memory (bytes)
   pde_t* pgdir;                // Page table
   char *kstack;                // Bottom of kernel stack for this process
-  char *ustackgpg;             // User stack guard page (pointer to the base of the)
+  uint ustackgpg;              // Address of (the beginning of) user stack guard page
   enum procstate state;        // Process state
   int pid;                     // Process ID
   struct proc *parent;         // Parent process
