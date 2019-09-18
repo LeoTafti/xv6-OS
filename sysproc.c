@@ -51,8 +51,8 @@ sys_sbrk(void)
   if(argint(0, &n) < 0)
     return -1;
 
-  //Argument checking : TODO complete
-  if(n < 0){
+  //Argument checking
+  if(n < 0 || proc->sz + n > KERNBASE){
     return -1;
   }
 
