@@ -88,41 +88,38 @@ trap(struct trapframe *tf)
       cprintf("unexpected trap %d from cpu %d eip %x (cr2=0x%x)\n",
               tf->trapno, cpunum(), tf->eip, rcr2());
       panic("trap");
-    }
-
-    //Lazy allocation : catch page fault here and allocate one page
-    if(tf->trapno == T_PGFLT){
-      //cprintf("Lazily allocate a page here\n");
+    }else if(tf->trapno == T_PGFLT){
+      //Lazy allocation : catch page fault here and allocate one page
       uint va = rcr2();
-      cprintf("Caught page fault for va : %x -- lazy allocating a page here\n", va);
+      cprintf("Caught page fault for va : %x – lazy allocating a page here\n", va);
 
       //Allocate a physical the page
       char *mem = kalloc();
       if(mem == 0){
-        cprintf("Out of memory : cannot lazily allocate (1)\n");
-        return;
+        cprintf("Out of memory : cannot lazily allocate (kalloc)\n");
+        proc->killed = 1;
+        goto checks;
       }
       memset(mem, 0, PGSIZE); //Zero the page
 
       //Map the page
       if(mappages(proc->pgdir, (char*)PGROUNDDOWN(va), PGSIZE, V2P(mem), PTE_W|PTE_U) < 0){
-        cprintf("Out of memory : cannot lazily allocate (2)\n");
+        cprintf("Out of memory : cannot lazily allocate (mappages)\n");
         kfree(mem);
-        return;
+        proc->killed = 1;
       }
+    }else{
 
-      proc->sz += PGSIZE;
-      //switchuvm(proc); //TODO : What does it do ? Is it needed ?
-      return;
+      // Otherwise if in user space, assume process misbehaved.
+      cprintf("pid %d %s: trap %d err %d on cpu %d "
+              "eip 0x%x addr 0x%x--kill proc\n",
+              proc->pid, proc->name, tf->trapno, tf->err, cpunum(), tf->eip,
+              rcr2());
+      proc->killed = 1;
     }
-    // In user space, assume process misbehaved.
-    cprintf("pid %d %s: trap %d err %d on cpu %d "
-            "eip 0x%x addr 0x%x--kill proc\n",
-            proc->pid, proc->name, tf->trapno, tf->err, cpunum(), tf->eip,
-            rcr2());
-    proc->killed = 1;
   }
 
+checks:
   // Force process exit if it has been killed and is in user space.
   // (If it is still executing in the kernel, let it keep running
   // until it gets to the regular system call return.)
