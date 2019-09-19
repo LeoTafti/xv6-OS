@@ -1,11 +1,13 @@
 #include "types.h"
 #include "user.h"
 #include "fcntl.h"
+#include "mmu.h"
 
 int
 main(int argc, char *argv[])
 {
-  printf(1, "This will test the stack guard page once implemented.\n");
+  char buf[PGSIZE + 1];
+  memset(buf, 0, sizeof(buf));
 
   exit();
 }
