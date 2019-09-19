@@ -83,14 +83,10 @@ trap(struct trapframe *tf)
 
   //PAGEBREAK: 13
   default:
-    if(proc == 0 || (tf->cs&3) == 0){
-      // In kernel, it must be our mistake.
-      cprintf("unexpected trap %d from cpu %d eip %x (cr2=0x%x)\n",
-              tf->trapno, cpunum(), tf->eip, rcr2());
-      panic("trap");
-    }else if(tf->trapno == T_PGFLT              //Note : rcr2() returns the faulty virtual address here
+    if(proc != 0
+      && tf->trapno == T_PGFLT                  //Note : rcr2() returns the faulty virtual address here
       && PGROUNDDOWN(rcr2()) != proc->ustackgpg //Checks not faulting due to guard page
-      && rcr2() < proc->sz){                    //Checks not faulting due to unallocated address
+      && rcr2() < proc->sz){                    //Checks address is in allocated user space
 
       cprintf("Caught page fault for va : %x –– Lazily allocating a page.\n", rcr2());
 
@@ -109,6 +105,11 @@ trap(struct trapframe *tf)
         kfree(mem);
         proc->killed = 1;
       }
+    }else if(proc == 0 || (tf->cs&3) == 0){
+      // In kernel, it must be our mistake.
+      cprintf("unexpected trap %d from cpu %d eip %x (cr2=0x%x)\n",
+              tf->trapno, cpunum(), tf->eip, rcr2());
+      panic("trap");
     }else{
       // Otherwise if in user space, assume process misbehaved.
       cprintf("pid %d %s: trap %d err %d on cpu %d "
