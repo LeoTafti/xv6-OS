@@ -23,7 +23,36 @@ struct {
 } kmem;
 
 struct page_info {
+  struct page_info *next;
+  int refcount;
+  int used; //0 if unused, other (1) if used
 };
+
+const int PPNUM = 10^6;
+struct page_info ppages_info[PPNUM] = {0}; //Initially unused and refcount is 0.
+
+/**
+ * @brief Decrements the page_info.refcount field for corresponding phy page.
+ * Frees if refcount reaches 0
+ * @param va virtual address of the page, must be page allined
+ * @return 1 if page was freed, 0 otherwise
+ */
+int
+kdecref(char *va){
+  //Check that the address is page alined
+  if((uint)va % PGSIZE != 0){
+    panic("kdecref : va not page alined");
+  }
+  
+  struct page_info pi = ppages_info[V2P(va) / PGSIZE];
+  if(pi.refcount == 0){
+    panic("kdecref : refcount == 0 already");
+  }
+
+  if((--pi.refcount) == 0){
+    kfree(va);
+  }
+}
 
 int
 kinsert(pde_t *pgdir, struct page_info *pp, char *va, int perm)
@@ -66,6 +95,19 @@ kinit2(void *vstart, void *vend)
   kmem.use_lock = 1;
 }
 
+/**
+ * @brief Marks pages in range (vstart, vend) as used
+ * @param vstart virtual address (low), not necessarily page aligned
+ * @param vend virtual address (high), not necessarily page aligned
+ */
+void
+kmarkused(void *vstart, void *vend){
+  char *p;
+  p = (char*)PGROUNDUP((uint)vstart);
+  for(; p + PGSIZE <= (char*)vend; p += PGSIZE)
+    ppages_info[V2P(p) / PGSIZE].used = 1;
+}
+
 void
 freerange(void *vstart, void *vend)
 {
@@ -95,6 +137,7 @@ kfree(char *v)
     acquire(&kmem.lock);
   r = (struct run*)v;
   r->next = kmem.freelist;
+  ppages_info[V2P(v) / PGSIZE].next = kmem.freelist;
   kmem.freelist = r;
   if(kmem.use_lock)
     release(&kmem.lock);
@@ -111,8 +154,12 @@ kalloc(void)
   if(kmem.use_lock)
     acquire(&kmem.lock);
   r = kmem.freelist;
-  if(r)
+  if(r){
     kmem.freelist = r->next;
+    struct page_info pi = ppages_info[V2P((uint)r) / PGSIZE];
+    pi.refcount = 1;
+    pi.used = 1;
+  }
   if(kmem.use_lock)
     release(&kmem.lock);
   return (char*)r;
