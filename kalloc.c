@@ -28,8 +28,7 @@ struct page_info {
   int used; //0 if unused, other (1) if used
 };
 
-const int PPNUM = 10^6;
-struct page_info ppages_info[PPNUM] = {0}; //Initially unused and refcount is 0.
+struct page_info ppages_info[10^6] = {0}; //Initially unused and refcount is 0.
 
 /**
  * @brief Decrements the page_info.refcount field for corresponding phy page.
@@ -51,7 +50,10 @@ kdecref(char *va){
 
   if((--pi.refcount) == 0){
     kfree(va);
+    return 1;
   }
+
+  return 0;
 }
 
 int
@@ -137,7 +139,7 @@ kfree(char *v)
     acquire(&kmem.lock);
   r = (struct run*)v;
   r->next = kmem.freelist;
-  ppages_info[V2P(v) / PGSIZE].next = kmem.freelist;
+  ppages_info[V2P(v) / PGSIZE].next = &ppages_info[V2P((uint)kmem.freelist) / PGSIZE];
   kmem.freelist = r;
   if(kmem.use_lock)
     release(&kmem.lock);

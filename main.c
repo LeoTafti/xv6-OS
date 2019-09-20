@@ -174,8 +174,8 @@ main(void)
     timerinit();   // uniprocessor timer
   startothers();   // start other processors
   kinit2(P2V(4*1024*1024), P2V(PHYSTOP)); // must come after startothers()
-  kmarkused(KERNBASE, end);
-  kmarkused(P2V(PHYSTOP), 0xFFFFFFFF);
+  kmarkused((char*)KERNBASE, end);
+  kmarkused(P2V(PHYSTOP), (char*)0xFFFFFFFF);
 
 	success = test_page_free_list_ext();
 	success ? uartprintcstr("Test_page_free_list_ext succeded!\n") : uartprintcstr("Test_page_free_list_ext failed!\n");
