@@ -6,6 +6,7 @@
 #include "proc.h"
 #include "x86.h"
 #include "monitor.h"
+#include "kalloc.h"
 
 #define LAB 2
 
@@ -14,7 +15,7 @@ static void mpmain(void)  __attribute__((noreturn));
 extern pde_t *kpgdir;
 extern char end[]; // first address after kernel loaded from ELF file
 //extern struct page_info *ppages_info; TODO : remove
-//extern struct page_info *freelist;
+extern struct kmem kmem;
 
 #if LAB >= 2    // ...then leave this code out.
 #elif LAB >= 1
@@ -35,7 +36,7 @@ int
 test_page_free_list()
 {
 	//Check the page free list is not corrupted
-  //cprintf("Test accessing freelist from main.c test_page_free_list() : %p", freelist);
+  cprintf("Test accessing kmem.freelist from main.c test_page_free_list() : %p\n", kmem.freelist);
 
 	//Check that the pages that should not be free are not on the list of free pages
 

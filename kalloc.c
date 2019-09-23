@@ -7,25 +7,14 @@
 #include "param.h"
 #include "memlayout.h"
 #include "mmu.h"
-#include "spinlock.h"
+#include "kalloc.h"
 
 void freerange(void *vstart, void *vend);
 extern char end[]; // first address after kernel loaded from ELF file
 
-// struct kmem {
-//   struct spinlock lock;
-//   int use_lock;
-//   struct page_info *freelist; //TODO : remove ?
-// } kmem;
-
-// struct page_info {
-//   struct page_info *next;
-//   int refcount;
-//   int used; //0 if unused, other (1) if used
-// };
+struct kmem kmem;
 
 struct page_info ppages_info[0xE000] = {0}; //Initially unused and refcount is 0.
-//struct page_info *freelist;
 
 /**
  * @brief Decrements the page_info.refcount field for corresponding phy page.
