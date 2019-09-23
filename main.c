@@ -32,18 +32,39 @@ test_backtrace(int x)
 }
 #endif
 
+//TODO : Document
+//Auxillary method for the two test below.
+int
+check_extmem_mapped(uint p_upto){
+  //We use 1 byte per page and write a 1 at index mapped[i] if the i'th page from pstart to pend is found on the free list
+  const uint FREEPGNB = (p_upto - EXTMEM) / PGSIZE;   //Expected number of free pages, from EXTMEM to "p_upto"
+  const uint EXTMEMPGINDEX = EXTMEM / PGSIZE;         //Index of the page at address EXTMEM
+  char mapped[FREEPGNB];                              //Array, to keep track of which page were found on the free list
+  memset(mapped, 0, sizeof(mapped));
+
+  struct page_info* pi = kmem.freelist;
+  while(pi != (void*)0){
+    uint index = ((uint)pi - (uint)ppages_info)/sizeof(struct page_info);
+    uint addr = index * PGSIZE;
+
+    mapped[index - EXTMEMPGINDEX] = 1;
+
+    pi = pi->next;
+  }
+
+  for(uint i = 0; i < FREEPGNB; i++){ //Check that we covered the whole space from EXTMEM to "p_upto"
+    if(mapped[i] != 1)
+      return 1;
+  }
+
+  return 0;
+}
+
 int
 test_page_free_list()
 {
-	//Check the page free list is not corrupted
+  //Check the page free list is not corrupted
   //Check that the pages that should not be free are not on the list of free pages
-  //Assert that the first part of physical memory have been mapped to free pages
-
-  //We use 1 byte per page and write a 1 at index mapped[i] if the i'th page from EXTMEM to the 4MB limit is found on the free list
-  const uint FREEPGNB = (4 * MB - EXTMEM) / PGSIZE; //Expected number of free pages, from EXTMEM to the 4MB limit
-  const uint EXTMEMPGINDEX = EXTMEM / PGSIZE;       //Index of the page at address EXTMEM
-  char mapped[FREEPGNB];                            //Array, to keep track of which page were found on the free list
-  memset(mapped, 0, sizeof(mapped));
 
   struct page_info* pi = kmem.freelist;
   while(pi != (void*)0){
@@ -53,29 +74,23 @@ test_page_free_list()
         || addr < EXTMEM)   //Checks that no page on the list of free pages comes from a region where it shouldn't be free
       return 1;
 
-    mapped[index - EXTMEMPGINDEX] = 1;
-
     pi = pi->next;
   }
 
-  for(uint i = 0; i < FREEPGNB; i++){ //Check that we covered the whole space from EXTMEM to the 4MB limit
-    if(mapped[i] != 1)
-      return 1;
-  }
-
-  return 0; //Success
+  //Assert that the first part of physical memory have been mapped to free pages
+  return check_extmem_mapped(4 * MB);
 
 }
 
 int
 test_page_free_list_ext()
 {
-	int success = test_page_free_list();
-	if(!success)
-		return 0;
+  int success = test_page_free_list();
+    if(!success)
+      return 0;
 
-	//Assert all unused physical memory have been mapped to free pages
-	return 0;
+  //Assert all unused physical memory have been mapped to free pages
+  return check_extmem_mapped(PHYSTOP);
 }
 
 int
