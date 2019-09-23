@@ -15,7 +15,7 @@ extern char end[]; // first address after kernel loaded from ELF file
 struct {
   struct spinlock lock;
   int use_lock;
-  //struct page_info *freelist; TODO : remove ?
+  struct page_info *freelist; //TODO : remove ?
 } kmem;
 
 struct page_info {
@@ -24,8 +24,8 @@ struct page_info {
   int used; //0 if unused, other (1) if used
 };
 
-struct page_info ppages_info[1 << 19] = {0}; //Initially unused and refcount is 0.
-struct page_info *freelist;
+struct page_info ppages_info[0xE000] = {0}; //Initially unused and refcount is 0.
+//struct page_info *freelist;
 
 /**
  * @brief Decrements the page_info.refcount field for corresponding phy page.
