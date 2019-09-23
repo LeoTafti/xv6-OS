@@ -47,7 +47,6 @@ test_page_free_list()
 
   struct page_info* pi = kmem.freelist;
   while(pi != (void*)0){
-    cprintf("I'm walking the freelist\n");
     uint index = ((uint)pi - (uint)ppages_info)/sizeof(struct page_info);
     uint addr = index * PGSIZE;
     if(addr > 4 * MB        //Checks that no page are above the 4MB limit
@@ -55,6 +54,8 @@ test_page_free_list()
       return 1;
 
     mapped[index - EXTMEMPGINDEX] = 1;
+
+    pi = pi->next;
   }
 
   for(uint i = 0; i < FREEPGNB; i++){ //Check that we covered the whole space from EXTMEM to the 4MB limit
