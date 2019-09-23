@@ -40,7 +40,6 @@ test_page_free_list()
   //Assert that the first part of physical memory have been mapped to free pages
 
   //We use 1 byte per page and write a 1 at index mapped[i] if the i'th page from EXTMEM to the 4MB limit is found on the free list
-  //We check that we covered the whole space by checking that each entry of mapped is 1.
   const uint FREEPGNB = (4 * MB - EXTMEM) / PGSIZE; //Expected number of free pages, from EXTMEM to the 4MB limit
   char mapped[FREEPGNB];
   const uint EXTMEMPGINDEX = EXTMEM / PGSIZE;
@@ -59,7 +58,7 @@ test_page_free_list()
     mapped[index - EXTMEMPGINDEX] = 1;
   }
 
-  for(uint i = 0; i < FREEPGNB; i++){
+  for(uint i = 0; i < FREEPGNB; i++){ //We check that we covered the whole space from EXTMEM to the 4MB limit by checking that each entry of mapped is 1
     if(mapped[i] != 1)
       return 1;
   }
