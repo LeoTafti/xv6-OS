@@ -14,8 +14,8 @@ static void startothers(void);
 static void mpmain(void)  __attribute__((noreturn));
 extern pde_t *kpgdir;
 extern char end[]; // first address after kernel loaded from ELF file
-//extern struct page_info *ppages_info; TODO : remove
 extern struct kmem kmem;
+extern struct page_info ppages_info[];
 
 #if LAB >= 2    // ...then leave this code out.
 #elif LAB >= 1
@@ -36,12 +36,33 @@ int
 test_page_free_list()
 {
 	//Check the page free list is not corrupted
-  cprintf("Test accessing kmem.freelist from main.c test_page_free_list() : %p\n", kmem.freelist);
+  //Check that the pages that should not be free are not on the list of free pages
+  //Assert that the first part of physical memory have been mapped to free pages
 
-	//Check that the pages that should not be free are not on the list of free pages
+  //We use 1 byte per page and write a 1 at index mapped[i] if the i'th page from EXTMEM to the 4MB limit is found on the free list
+  //We check that we covered the whole space by checking that each entry of mapped is 1.
+  const uint FREEPGNB = (4 * MB - EXTMEM) / PGSIZE; //Expected number of free pages, from EXTMEM to the 4MB limit
+  char mapped[FREEPGNB];
+  const uint EXTMEMPGINDEX = EXTMEM / PGSIZE;
+  cprintf("How big is mapped : %d\n", FREEPGNB);
+  memset(mapped, 0, sizeof(mapped));
 
+  struct page_info* pi = kmem.freelist;
+  while(pi != (void*)0){
+    cprintf("I'm walking the freelist\n");
+    uint index = ((uint)pi - (uint)ppages_info)/sizeof(struct page_info);
+    uint addr = index * PGSIZE;
+    if(addr > 4 * MB        //Checks that no page are above the 4MB limit
+        || addr < EXTMEM)   //Checks that no page on the list of free pages comes from a region where it shouldn't be free
+      return 1;
 
-	//Assert that the first part of physical memory have been mapped to free pages
+    mapped[index - EXTMEMPGINDEX] = 1;
+  }
+
+  for(uint i = 0; i < FREEPGNB; i++){
+    if(mapped[i] != 1)
+      return 1;
+  }
 
 	return 0; //Success
 
