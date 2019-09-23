@@ -12,17 +12,17 @@
 void freerange(void *vstart, void *vend);
 extern char end[]; // first address after kernel loaded from ELF file
 
-struct {
-  struct spinlock lock;
-  int use_lock;
-  struct page_info *freelist; //TODO : remove ?
-} kmem;
+// struct kmem {
+//   struct spinlock lock;
+//   int use_lock;
+//   struct page_info *freelist; //TODO : remove ?
+// } kmem;
 
-struct page_info {
-  struct page_info *next;
-  int refcount;
-  int used; //0 if unused, other (1) if used
-};
+// struct page_info {
+//   struct page_info *next;
+//   int refcount;
+//   int used; //0 if unused, other (1) if used
+// };
 
 struct page_info ppages_info[0xE000] = {0}; //Initially unused and refcount is 0.
 //struct page_info *freelist;
@@ -159,7 +159,7 @@ kalloc(void)
   if(kmem.use_lock)
     release(&kmem.lock);
 
-  uint index = (pi - ppages_info) / sizeof(struct page_info); // Gives us the index of the page_info entry in ppages_info
-  return (char*)(index * PGSIZE);                             // We use this index to find the address of the physical page
+  uint index = ((uint)pi - (uint)ppages_info) / sizeof(struct page_info); // Gives us the index of the page_info entry in ppages_info
+  return P2V((char*)(index * PGSIZE));                                    // We use this index to find the address of the physical page
 }
 
