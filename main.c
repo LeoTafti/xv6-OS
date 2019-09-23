@@ -33,43 +33,7 @@ test_backtrace(int x)
 #endif
 
 //TODO : Document
-//Auxillary method for the two test below.
-// int
-// check_extmem_mapped(uint p_upto){
-//   //We use 1 byte per page and write a 1 at index mapped[i] if the i'th page from pstart to pend is found on the free list
-//   const uint FREEPGNB = (p_upto - EXTMEM) / PGSIZE;   //Expected number of free pages, from EXTMEM to "p_upto"
-//   const uint EXTMEMPGINDEX = EXTMEM / PGSIZE;         //Index of the page at address EXTMEM
-//   char mapped[FREEPGNB];                              //Array, to keep track of which page were found on the free list
-//   memset(mapped, 0, sizeof(mapped));
-
-//   struct page_info* pi = kmem.freelist;
-//   while(pi != (void*)0){
-//     uint index = ((uint)pi - (uint)ppages_info)/sizeof(struct page_info);
-//     uint addr = index * PGSIZE;
-
-//     mapped[index - EXTMEMPGINDEX] = 1;
-
-//     pi = pi->next;
-//   }
-
-//   for(uint i = 0; i < FREEPGNB; i++){ //Check that we covered the whole space from EXTMEM to "p_upto"
-//     if(mapped[i] != 1)
-//       return 1;
-//   }
-
-//   return 0;
-// }
-
-int
-check_extmem_mapped(uint p_upto){
-  struct page_info* pi = kmem.freelist;
-  for(uint index = EXTMEM/PGSIZE; index < p_upto/PGSIZE; index++){
-    if(!is_in_freelist(index))
-      return 1;
-  }
-  
-  return 0;
-}
+//Auxillary methods for the two test below.
 
 int is_in_freelist(uint index){
   struct page_info* pi = kmem.freelist;
@@ -81,6 +45,16 @@ int is_in_freelist(uint index){
     pi = pi->next;
   }
   return 1;
+}
+
+int
+check_extmem_mapped(uint p_upto){
+  for(uint index = EXTMEM/PGSIZE; index < p_upto/PGSIZE; index++){
+    if(!is_in_freelist(index))
+      return 1;
+  }
+  
+  return 0;
 }
 
 int
