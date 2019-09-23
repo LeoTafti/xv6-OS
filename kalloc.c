@@ -39,12 +39,12 @@ kdecref(char *va){
     panic("kdecref : va not page alined");
   }
   
-  struct page_info pi = ppages_info[V2P(va) / PGSIZE];
-  if(pi.refcount == 0){
+  struct page_info *pi = &ppages_info[V2P(va) / PGSIZE];
+  if(pi->refcount == 0){
     panic("kdecref : refcount == 0 already");
   }
 
-  if((--pi.refcount) == 0){
+  if((--pi->refcount) == 0){
     kfree(va);
     return 1;
   }
