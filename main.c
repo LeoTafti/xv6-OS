@@ -41,9 +41,8 @@ test_page_free_list()
 
   //We use 1 byte per page and write a 1 at index mapped[i] if the i'th page from EXTMEM to the 4MB limit is found on the free list
   const uint FREEPGNB = (4 * MB - EXTMEM) / PGSIZE; //Expected number of free pages, from EXTMEM to the 4MB limit
-  char mapped[FREEPGNB];
-  const uint EXTMEMPGINDEX = EXTMEM / PGSIZE;
-  cprintf("How big is mapped : %d\n", FREEPGNB);
+  const uint EXTMEMPGINDEX = EXTMEM / PGSIZE;       //Index of the page at address EXTMEM
+  char mapped[FREEPGNB];                            //Array, to keep track of which page were found on the free list
   memset(mapped, 0, sizeof(mapped));
 
   struct page_info* pi = kmem.freelist;
@@ -58,7 +57,7 @@ test_page_free_list()
     mapped[index - EXTMEMPGINDEX] = 1;
   }
 
-  for(uint i = 0; i < FREEPGNB; i++){ //We check that we covered the whole space from EXTMEM to the 4MB limit by checking that each entry of mapped is 1
+  for(uint i = 0; i < FREEPGNB; i++){ //Check that we covered the whole space from EXTMEM to the 4MB limit
     if(mapped[i] != 1)
       return 1;
   }
