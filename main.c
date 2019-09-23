@@ -44,7 +44,7 @@ int
 is_in_freelist(uint index){
   struct page_info* pi = kmem.freelist;
   while(pi != (void*)0){
-    uint i = ((uint)pi - (uint)ppages_info)/sizeof(struct page_info);
+    uint i = pi - ppages_info;
     if(i == index)
       return 0;
 

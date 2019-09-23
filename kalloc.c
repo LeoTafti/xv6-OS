@@ -15,6 +15,7 @@ extern char end[]; // first address after kernel loaded from ELF file
 struct kmem kmem;
 
 struct page_info ppages_info[0xE000] = {0}; //Initially unused and refcount is 0.
+
 /**
  * @brief Decrements the page_info.refcount field for corresponding phy page.
  * Frees if refcount reaches 0
@@ -147,7 +148,7 @@ kalloc(void)
   if(kmem.use_lock)
     release(&kmem.lock);
 
-  uint index = ((uint)pi - (uint)ppages_info) / sizeof(struct page_info); // Gives us the index of the page_info entry in ppages_info
+  uint index = pi - ppages_info; // Gives us the index of the page_info entry in ppages_info
   return (char*)P2V(index * PGSIZE);                                    // We use this index to find the address of the physical page
 }
 
