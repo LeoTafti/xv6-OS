@@ -109,40 +109,43 @@ test_page_alloc()
   uint cnt = 0;
   while(pi != (void*)0){
     cnt++;
+    pi = pi->next;
   }
 
   cprintf("There are %d free pages (= nb of pages on the freelist)\n", cnt);
 
 	//Allocate a few pages with kalloc
   const uint nbpages = 10;
-  char* pages[nbpages] = {0};
+  char* pages[nbpages];
   for(int i = 0; i < nbpages; i++){
     if((pages[i] = kalloc()) == 0)
       panic("test_page_alloc() : error allocating a few pages");
     increfcount(pages[i]);
   }
 
-  int success = 0; // 0 if successful, 1 otherwise
+  int success = 1; // 1 if successful, 0 otherwise
 
 	//Assert all pages are different
   for(int i = 0; i < nbpages; i++){
     for(int j = 0; j < i; j++){
-      if(pages[i] = pages[j]){
+      if(pages[i] == pages[j]){
         cprintf("FAIL : All pages %d and %d are not different\n", i, j);
-        success = 1;
+        success = 0;
       }
     }
   }
-  if(!success)
+  if(!success){
+    cprintf("AM I RETURNING FROM HERE ???\n\n\n\n");
     return 1;
+  }
   cprintf("SUCCESS : All pages are different");
 
 	//Assert that the physical addresses are within expected bounds
-  success = 0;
+  success = 1;
   for(int i = 0; i < nbpages; i++){
     if(V2P(pages[i]) < EXTMEM || V2P(pages[i]) >= PHYSTOP){
       cprintf("FAIL : Page %d is not whithin bounds with phy addr %x\n", i, V2P(pages[i]));
-      success = 1;
+      success = 0;
     }
   }
   if(!success)
@@ -173,11 +176,11 @@ test_page_alloc()
     increfcount(realloc_pages[i]);
   }
 
-  success = 0;
+  success = 1;
   for(int i = 0; i < nbpages; i++){ //Then check that pages[] and realloc_pages[] hold the same addresses
     if(pages[i] != realloc_pages[i]){
       cprintf("FAIL : pages and realloc_pages entries at index %d are not the same\n", i);
-      success = 1;
+      success = 0;
     }
   }
 
@@ -205,11 +208,11 @@ test_page_alloc()
     return 1;
   }
 
-  success = 0;
+  success = 1;
   for(int i = 0; i < PGSIZE; i++){
     if(page0[i] != junk){
       cprintf("FAIL : page0 byte nb %d isn't set to junk value %x\n", i, junk);
-      success = 1;
+      success = 0;
     }
   }
   if(!success)
@@ -227,6 +230,7 @@ test_page_alloc()
   uint cnt2 = 0;
   while(pi != (void*)0){
     cnt2++;
+    pi = pi->next;
   }
 
   if(cnt != cnt2){
