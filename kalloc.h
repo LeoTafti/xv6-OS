@@ -13,3 +13,5 @@ struct kmem {
    int use_lock;
    struct page_info *freelist;
 };
+
+void increfcount(char* vaddr);

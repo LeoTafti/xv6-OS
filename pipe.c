@@ -6,6 +6,7 @@
 #include "fs.h"
 #include "file.h"
 #include "spinlock.h"
+#include "kalloc.h"
 
 #define PIPESIZE 512
 
@@ -29,6 +30,7 @@ pipealloc(struct file **f0, struct file **f1)
     goto bad;
   if((p = (struct pipe*)kalloc()) == 0)
     goto bad;
+  increfcount(p);
   p->readopen = 1;
   p->writeopen = 1;
   p->nwrite = 0;

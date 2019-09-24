@@ -60,6 +60,7 @@ walkpgdir(pde_t *pgdir, const void *va, int alloc)
   } else {
     if(!alloc || (pgtab = (pte_t*)kalloc()) == 0)
       return 0;
+    increfcount((char*)pgtab);
     // Make sure all those PTE_P bits are zero.
     memset(pgtab, 0, PGSIZE);
     // The permissions here are overly generous, but they can
@@ -139,6 +140,7 @@ setupkvm(void)
 
   if((pgdir = (pde_t*)kalloc()) == 0)
     return 0;
+  increfcount((char*)pgdir);
   memset(pgdir, 0, PGSIZE);
   if (P2V(PHYSTOP) > (void*)DEVSPACE)
     panic("PHYSTOP too high");
@@ -195,6 +197,7 @@ inituvm(pde_t *pgdir, char *init, uint sz)
   if(sz >= PGSIZE)
     panic("inituvm: more than a page");
   mem = kalloc();
+  increfcount(mem);
   memset(mem, 0, PGSIZE);
   mappages(pgdir, 0, PGSIZE, V2P(mem), PTE_W|PTE_U);
   memmove(mem, init, sz);
@@ -245,6 +248,7 @@ allocuvm(pde_t *pgdir, uint oldsz, uint newsz)
       deallocuvm(pgdir, newsz, oldsz);
       return 0;
     }
+    increfcount(mem);
     memset(mem, 0, PGSIZE);
     if(mappages(pgdir, (char*)a, PGSIZE, V2P(mem), PTE_W|PTE_U) < 0){
       cprintf("allocuvm out of memory (2)\n");
@@ -339,6 +343,7 @@ copyuvm(pde_t *pgdir, uint sz)
     flags = PTE_FLAGS(*pte);
     if((mem = kalloc()) == 0)
       goto bad;
+    increfcount(mem),
     memmove(mem, (char*)P2V(pa), PGSIZE);
     if(mappages(d, (void*)i, PGSIZE, V2P(mem), flags) < 0)
       goto bad;

@@ -6,6 +6,7 @@
 #include "x86.h"
 #include "proc.h"
 #include "spinlock.h"
+#include "kalloc.h"
 
 struct {
   struct spinlock lock;
@@ -52,6 +53,7 @@ found:
     p->state = UNUSED;
     return 0;
   }
+  increfcount(p->kstack);
   sp = p->kstack + KSTACKSIZE;
 
   // Leave room for trap frame.

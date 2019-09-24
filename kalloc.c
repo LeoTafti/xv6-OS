@@ -142,7 +142,6 @@ kalloc(void)
   pi = kmem.freelist;
   if(pi){
     kmem.freelist = pi->next;
-    pi->refcount = 1;
     pi->used = 1;
   }
   if(kmem.use_lock)
@@ -150,5 +149,23 @@ kalloc(void)
 
   uint index = pi - ppages_info; // Gives us the index of the page_info entry in ppages_info
   return (char*)P2V(index * PGSIZE);                                    // We use this index to find the address of the physical page
+}
+
+/**
+ * @brief finds page_info from vaddr and increments its refcount
+ * @param vaddr virtual address of the page, must be page alined
+ */
+void
+increfcount(char* vaddr){
+  
+  if((uint)vaddr % PGSIZE != 0)
+    panic("increfcount : vaddr not page alined");
+  
+  uint index = V2P(vaddr) / PGSIZE;
+  struct page_info *pi = &ppages_info[index];
+  if(!pi->used)
+    panic("increfcount : not used");
+
+  pi->refcount++;
 }
 
