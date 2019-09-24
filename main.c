@@ -32,10 +32,16 @@ test_backtrace(int x)
 }
 #endif
 
-//TODO : Document
-//Auxillary methods for the two test below.
 
-int is_in_freelist(uint index){
+//Auxillary methods for the two freelist tests below.
+
+/**
+ * @brief Iterates over the freelist linked list, looking for a page_info matching the given index in memory
+ * @param index Index of the page in memory
+ * @return 0 if found, 1 otherwise
+ */
+int
+is_in_freelist(uint index){
   struct page_info* pi = kmem.freelist;
   while(pi != (void*)0){
     uint i = ((uint)pi - (uint)ppages_info)/sizeof(struct page_info);
@@ -47,6 +53,11 @@ int is_in_freelist(uint index){
   return 1;
 }
 
+/**
+ * @brief Checks that the pages from EXTMEM to p_upto are found in freelist
+ * @param p_upto The physical address upto which to perform the check
+ * @return 0 if all pages were found in freelist, 1 otherwise
+ */
 int
 check_extmem_mapped(uint p_upto){
   for(uint index = EXTMEM/PGSIZE; index < p_upto/PGSIZE; index++){
