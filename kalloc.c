@@ -136,7 +136,6 @@ char*
 kalloc(void)
 {
   struct page_info *pi;
-
   if(kmem.use_lock)
     acquire(&kmem.lock);
   pi = kmem.freelist;
@@ -147,8 +146,12 @@ kalloc(void)
   if(kmem.use_lock)
     release(&kmem.lock);
 
-  uint index = pi - ppages_info; // Gives us the index of the page_info entry in ppages_info
-  return (char*)P2V(index * PGSIZE);                                    // We use this index to find the address of the physical page
+  char* retval = (char*)0;
+  if(pi){
+    uint index = pi - ppages_info; // Gives us the index of the page_info entry in ppages_info
+    retval = P2V(index * PGSIZE);
+  }
+  return retval;
 }
 
 /**

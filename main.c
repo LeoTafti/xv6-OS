@@ -56,15 +56,17 @@ is_in_freelist(uint index){
 }
 
 /**
- * @brief Checks that the pages from EXTMEM to p_upto are found in freelist
+ * @brief Checks that the pages from V2P(PGROUNDUP(end)) to PGROUNDDOWN(p_upto) are found in freelist
  * @param p_upto The physical address upto which to perform the check
  * @return true if all pages were found in freelist, false otherwise
  */
 bool
 check_extmem_mapped(uint p_upto){
-  for(uint index = EXTMEM/PGSIZE; index < p_upto/PGSIZE; index++){
-    if(!is_in_freelist(index))
+  for(uint index = V2P(PGROUNDUP((uint)end))/PGSIZE; index < PGROUNDDOWN(p_upto)/PGSIZE; index++){
+    if(!is_in_freelist(index)){
+      cprintf("Index not found %d, corresponding phy addr %x\n", index, index*PGSIZE);
       return false;
+    }
   }
 
   return true;
@@ -78,15 +80,15 @@ test_page_free_list()
 
   struct page_info* pi = kmem.freelist;
   while(pi != (void*)0){
-    uint index = ((uint)pi - (uint)ppages_info)/sizeof(struct page_info);
+    uint index = pi - ppages_info;
     uint addr = index * PGSIZE;
-    if(addr > 4 * MB        //Checks that no page are above the 4MB limit
-        || addr < EXTMEM)   //Checks that no page on the list of free pages comes from a region where it shouldn't be free
+    if(addr > 4 * MB           //Checks that no page are above the 4MB limit
+        || addr < V2P(end)){   //Checks that no page on the list of free pages comes from a region where it shouldn't be free
+      cprintf("FAIL : Page with addr %x, not in bounds\n", addr);
       return false;
-
+    }
     pi = pi->next;
   }
-
   //Assert that the first part of physical memory have been mapped to free pages
   return check_extmem_mapped(4 * MB);
 
@@ -95,9 +97,9 @@ test_page_free_list()
 bool
 test_page_free_list_ext()
 {
-  int success = test_page_free_list();
+  bool success = test_page_free_list();
     if(!success)
-      return 0;
+      return false;
 
   //Assert all unused physical memory have been mapped to free pages
   return check_extmem_mapped(PHYSTOP);
@@ -136,11 +138,9 @@ test_page_alloc()
       }
     }
   }
-  if(!success){
-    cprintf("AM I RETURNING FROM HERE ???\n\n\n\n");
+  if(!success)
     return false;
-  }
-  cprintf("SUCCESS : All pages are different");
+  cprintf("SUCCESS : All pages are different\n");
 
 	//Assert that the physical addresses are within expected bounds
   success = true;
@@ -159,8 +159,9 @@ test_page_alloc()
   kmem.freelist = (void*)0;
 
 	//Assert kalloc returns 0 (null)
-  if(kalloc() != 0){
-    cprintf("FAIL : kalloc returned a non-null value\n");
+  char* ptr;
+  if((ptr = kalloc()) != 0){
+    cprintf("FAIL : kalloc returned a non-null value %p\n", ptr);
     return false;
   }
   cprintf("SUCCESS : kalloc returns 0 (null), as expected\n");
@@ -172,7 +173,7 @@ test_page_alloc()
 
 	//Reallocate pages, assert they are reallocated in reverse order
   char* realloc_pages[nbpages];
-  for(int i = nbpages; i >= 0; i--){ //We fill this array in REVERSE order
+  for(int i = nbpages-1; i >= 0; i--){ //We fill this array in REVERSE order
     if((realloc_pages[i] = kalloc()) == 0)
       panic("test_page_alloc() : error REallocating a few pages");
     increfcount(realloc_pages[i]);
@@ -241,7 +242,7 @@ test_page_alloc()
   }
   
   cprintf("SUCCESS : Same number of pages\n");
-	return true;
+  return true;
 }
 
 int
@@ -308,8 +309,9 @@ main(void)
   kinit1(end, P2V(4*1024*1024)); // phys page allocator
   kvmalloc();      // kernel page table
   uartinit();      // serial port
-	bool success = test_page_free_list();
-	success ? uartprintcstr("Test_page_free_list succeeded!\n") : uartprintcstr("Test_page_free_list failed!\n");
+          bool success;
+	//bool success = test_page_free_list();
+	//success ? uartprintcstr("Test_page_free_list succeeded!\n") : uartprintcstr("Test_page_free_list failed!\n");
   mpinit();        // detect other processors
   lapicinit();     // interrupt controller
   seginit();       // segment descriptors
@@ -333,8 +335,8 @@ main(void)
   kmarkused((char*)KERNBASE, end);
   kmarkused(P2V(PHYSTOP), (char*)0xFFFFFFFF);
 
-	success = test_page_free_list_ext();
-	success ? uartprintcstr("Test_page_free_list_ext succeded!\n") : uartprintcstr("Test_page_free_list_ext failed!\n");
+//	success = test_page_free_list_ext();
+//	success ? uartprintcstr("Test_page_free_list_ext succeded!\n") : uartprintcstr("Test_page_free_list_ext failed!\n");
 
 	success = test_page_alloc();
 	success ? uartprintcstr("Test_page_alloc succeeded!\n") : uartprintcstr("Test_page_alloc failed!\n");
