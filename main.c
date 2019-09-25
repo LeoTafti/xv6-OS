@@ -176,7 +176,7 @@ test_page_alloc()
   for(int i = nbpages-1; i >= 0; i--){ //We fill this array in REVERSE order
     if((realloc_pages[i] = kalloc()) == 0)
       panic("test_page_alloc() : error REallocating a few pages");
-    increfcount(realloc_pages[i]);
+    // increfcount(realloc_pages[i]); // TODO : remove if we don't bother with refcount here (ie. if we keep kfree() calls too)
   }
 
   success = true;

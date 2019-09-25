@@ -13,7 +13,6 @@ void freerange(void *vstart, void *vend);
 extern char end[]; // first address after kernel loaded from ELF file
 
 struct kmem kmem;
-
 struct page_info ppages_info[0xE000] = {0}; //Initially unused and refcount is 0.
 
 /**
@@ -42,24 +41,50 @@ kdecref(char *va){
   return 0;
 }
 
+/**
+ * @brief Maps the physical page associated with pp at virtual address va
+ * @param pgdir (pointer to) the page directory
+ * @param pp (pointer to) the page_info of the physical page to map
+ * @param va virtual address where to map the page
+ * @param perm permission bits
+ */
 int
 kinsert(pde_t *pgdir, struct page_info *pp, char *va, int perm)
 {
+  //We first look if there is already a page mapped at va, and remove it if there is.
+  if(walkpgdir(pgdir, va, 0) != 0){
+    kremove(pgdir, va);
+  }
 
-	return 0; //Placeholder so the empty function will compile
+  //Then we map pp by calling mappages with the right arguments
+  return mappages(pgdir, va, PGSIZE, (pp - ppages_info) * PGSIZE, perm);
 }
 
 void
 kremove(pde_t *pgdir, void *va)
 {
-
+  pte_t *pte;
+  if((pte = walkpgdir(pgdir, va, 0)) != 0){
+    kfree(va);
+    memset(pte, 0, sizeof(pte));
+    tlb_invalidate(pgdir, va);
+  }
 }
 
 struct page_info *
 klookup(pde_t *pgdir, void *va, pte_t **pte_store)
 {
+  pte_t *pte;
+  if((pte = walkpgdir(pgdir, va, 0)) == 0){
+    return (void*)0;
+  }
 
-	return 0;
+  if(pte_store)
+    *pte_store = pte;
+  
+  //Bits 31 downto 12 of pte entry are the physical page number => index in ppages_info array
+  uint ppn = ((*pte) >> PGSHIFT);
+  return &ppages_info[ppn];
 }
 
 
