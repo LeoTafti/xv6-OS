@@ -1,3 +1,5 @@
+#include <stdbool.h>
+
 #include "types.h"
 #include "defs.h"
 #include "param.h"
@@ -38,37 +40,37 @@ test_backtrace(int x)
 /**
  * @brief Iterates over the freelist linked list, looking for a page_info matching the given index in memory
  * @param index Index of the page in memory
- * @return 0 if found, 1 otherwise
+ * @return true if found, false otherwise
  */
-int
+bool
 is_in_freelist(uint index){
   struct page_info* pi = kmem.freelist;
   while(pi != (void*)0){
     uint i = pi - ppages_info;
     if(i == index)
-      return 0;
+      return true;
 
     pi = pi->next;
   }
-  return 1;
+  return false;
 }
 
 /**
  * @brief Checks that the pages from EXTMEM to p_upto are found in freelist
  * @param p_upto The physical address upto which to perform the check
- * @return 0 if all pages were found in freelist, 1 otherwise
+ * @return true if all pages were found in freelist, false otherwise
  */
-int
+bool
 check_extmem_mapped(uint p_upto){
   for(uint index = EXTMEM/PGSIZE; index < p_upto/PGSIZE; index++){
     if(!is_in_freelist(index))
-      return 1;
+      return false;
   }
-  
-  return 0;
+
+  return true;
 }
 
-int
+bool
 test_page_free_list()
 {
   //Check the page free list is not corrupted
@@ -80,7 +82,7 @@ test_page_free_list()
     uint addr = index * PGSIZE;
     if(addr > 4 * MB        //Checks that no page are above the 4MB limit
         || addr < EXTMEM)   //Checks that no page on the list of free pages comes from a region where it shouldn't be free
-      return 1;
+      return false;
 
     pi = pi->next;
   }
@@ -90,7 +92,7 @@ test_page_free_list()
 
 }
 
-int
+bool
 test_page_free_list_ext()
 {
   int success = test_page_free_list();
@@ -101,7 +103,7 @@ test_page_free_list_ext()
   return check_extmem_mapped(PHYSTOP);
 }
 
-int
+bool
 test_page_alloc()
 {
 	//Count the number of free pages
@@ -123,33 +125,33 @@ test_page_alloc()
     increfcount(pages[i]);
   }
 
-  int success = 1; // 1 if successful, 0 otherwise
+  bool success = true;
 
 	//Assert all pages are different
   for(int i = 0; i < nbpages; i++){
     for(int j = 0; j < i; j++){
       if(pages[i] == pages[j]){
         cprintf("FAIL : All pages %d and %d are not different\n", i, j);
-        success = 0;
+        success = false;
       }
     }
   }
   if(!success){
     cprintf("AM I RETURNING FROM HERE ???\n\n\n\n");
-    return 1;
+    return false;
   }
   cprintf("SUCCESS : All pages are different");
 
 	//Assert that the physical addresses are within expected bounds
-  success = 1;
+  success = true;
   for(int i = 0; i < nbpages; i++){
     if(V2P(pages[i]) < EXTMEM || V2P(pages[i]) >= PHYSTOP){
       cprintf("FAIL : Page %d is not whithin bounds with phy addr %x\n", i, V2P(pages[i]));
-      success = 0;
+      success = false;
     }
   }
   if(!success)
-    return 1;
+    return false;
   cprintf("SUCCESS : ALL phy addr. are within bounds\n");
 
 	//Disable the freelist by saving it to a temporary variable and set freelist to null
@@ -159,7 +161,7 @@ test_page_alloc()
 	//Assert kalloc returns 0 (null)
   if(kalloc() != 0){
     cprintf("FAIL : kalloc returned a non-null value\n");
-    return 1;
+    return false;
   }
   cprintf("SUCCESS : kalloc returns 0 (null), as expected\n");
 
@@ -176,22 +178,22 @@ test_page_alloc()
     increfcount(realloc_pages[i]);
   }
 
-  success = 1;
+  success = true;
   for(int i = 0; i < nbpages; i++){ //Then check that pages[] and realloc_pages[] hold the same addresses
     if(pages[i] != realloc_pages[i]){
       cprintf("FAIL : pages and realloc_pages entries at index %d are not the same\n", i);
-      success = 0;
+      success = false;
     }
   }
 
   if(!success)
-    return 1;
+    return false;
   cprintf("SUCCESS : pages were reallocated in reverse order\n");
 
 	//Assert that once all pages are reallocated, kalloc again returns 0
   if(kalloc() != 0){
     cprintf("FAIL : kalloc returned a non-null value (2)\n");
-    return 1;
+    return false;
   }
   
   cprintf("SUCCESS : kalloc returns 0 (null), as expected (2)\n");
@@ -205,18 +207,18 @@ test_page_alloc()
   char* page0 = kalloc();
   if(page0 != pages[0]){
     cprintf("FAIL : Freeing pages[0] then allocating doesn't return the same page.\n");
-    return 1;
+    return false;
   }
 
-  success = 1;
+  success = true;
   for(int i = 0; i < PGSIZE; i++){
     if(page0[i] != junk){
       cprintf("FAIL : page0 byte nb %d isn't set to junk value %x\n", i, junk);
-      success = 0;
+      success = false;
     }
   }
   if(!success)
-    return 1;
+    return false;
   cprintf("SUCCESS : page0 is the same as page[0], filled with all junk values.\n");
 
 	//Restore the page free list saved to the temporary variable in fifth step.  Free the pages allocated in this test.
@@ -235,11 +237,11 @@ test_page_alloc()
 
   if(cnt != cnt2){
     cprintf("FAIL : cnt = %d, cnt2 = %d", cnt, cnt2);
-    return 1;
+    return false;
   }
   
   cprintf("SUCCESS : Same number of pages\n");
-	return 0;
+	return true;
 }
 
 int
@@ -306,7 +308,7 @@ main(void)
   kinit1(end, P2V(4*1024*1024)); // phys page allocator
   kvmalloc();      // kernel page table
   uartinit();      // serial port
-	int success = test_page_free_list();
+	bool success = test_page_free_list();
 	success ? uartprintcstr("Test_page_free_list succeeded!\n") : uartprintcstr("Test_page_free_list failed!\n");
   mpinit();        // detect other processors
   lapicinit();     // interrupt controller
