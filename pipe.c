@@ -6,7 +6,6 @@
 #include "fs.h"
 #include "file.h"
 #include "spinlock.h"
-#include "kalloc.h"
 
 #define PIPESIZE 512
 

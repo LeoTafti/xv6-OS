@@ -65,14 +65,16 @@ extern uchar    ioapicid;
 void            ioapicinit(void);
 
 // kalloc.c
-int 									kinsert(pde_t *pgdir, struct page_info *pp, char *va, int perm);
-void 									kremove(pde_t *pgdir, void *va);
-struct page_info * 		klookup(pde_t *pgdir, void *va, pte_t **pte_store);
+int                         kinsert(pde_t *pgdir, struct page_info *pp, char *va, int perm);
+void                        kremove(pde_t *pgdir, void *va);
+struct page_info * 		    klookup(pde_t *pgdir, void *va, pte_t **pte_store);
 char*           			kalloc(void);
 void            			kfree(char*);
 void            			kinit1(void*, void*);
 void            			kinit2(void*, void*);
-void                                    kmarkused(void*, void*);
+void                        kmarkused(void*, void*);
+void                        increfcount(char* vaddr);
+int                         kdecref(char *va);
 
 // kbd.c
 void            kbdintr(void);

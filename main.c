@@ -105,32 +105,136 @@ int
 test_page_alloc()
 {
 	//Count the number of free pages
-  
+  struct page_info *pi = kmem.freelist;
+  uint cnt = 0;
+  while(pi != (void*)0){
+    cnt++;
+  }
+
+  cprintf("There are %d free pages (= nb of pages on the freelist)\n", cnt);
 
 	//Allocate a few pages with kalloc
+  const uint nbpages = 10;
+  char* pages[nbpages] = {0};
+  for(int i = 0; i < nbpages; i++){
+    if((pages[i] = kalloc()) == 0)
+      panic("test_page_alloc() : error allocating a few pages");
+    increfcount(pages[i]);
+  }
+
+  int success = 0; // 0 if successful, 1 otherwise
 
 	//Assert all pages are different
+  for(int i = 0; i < nbpages; i++){
+    for(int j = 0; j < i; j++){
+      if(pages[i] = pages[j]){
+        cprintf("FAIL : All pages %d and %d are not different\n", i, j);
+        success = 1;
+      }
+    }
+  }
+  if(!success)
+    return 1;
+  cprintf("SUCCESS : All pages are different");
 
 	//Assert that the physical addresses are within expected bounds
+  success = 0;
+  for(int i = 0; i < nbpages; i++){
+    if(V2P(pages[i]) < EXTMEM || V2P(pages[i]) >= PHYSTOP){
+      cprintf("FAIL : Page %d is not whithin bounds with phy addr %x\n", i, V2P(pages[i]));
+      success = 1;
+    }
+  }
+  if(!success)
+    return 1;
+  cprintf("SUCCESS : ALL phy addr. are within bounds\n");
 
 	//Disable the freelist by saving it to a temporary variable and set freelist to null
+  struct page_info *t_freelist = kmem.freelist;
+  kmem.freelist = (void*)0;
 
 	//Assert kalloc returns 0 (null)
+  if(kalloc() != 0){
+    cprintf("FAIL : kalloc returned a non-null value\n");
+    return 1;
+  }
+  cprintf("SUCCESS : kalloc returns 0 (null), as expected\n");
 
 	//Free pages allocated in second commment
+  for(int i = 0; i < nbpages; i++){
+    kfree(pages[i]);
+  }
 
 	//Reallocate pages, assert they are reallocated in reverse order
+  char* realloc_pages[nbpages];
+  for(int i = nbpages; i >= 0; i--){ //We fill this array in REVERSE order
+    if((realloc_pages[i] = kalloc()) == 0)
+      panic("test_page_alloc() : error REallocating a few pages");
+    increfcount(realloc_pages[i]);
+  }
+
+  success = 0;
+  for(int i = 0; i < nbpages; i++){ //Then check that pages[] and realloc_pages[] hold the same addresses
+    if(pages[i] != realloc_pages[i]){
+      cprintf("FAIL : pages and realloc_pages entries at index %d are not the same\n", i);
+      success = 1;
+    }
+  }
+
+  if(!success)
+    return 1;
+  cprintf("SUCCESS : pages were reallocated in reverse order\n");
 
 	//Assert that once all pages are reallocated, kalloc again returns 0
+  if(kalloc() != 0){
+    cprintf("FAIL : kalloc returned a non-null value (2)\n");
+    return 1;
+  }
+  
+  cprintf("SUCCESS : kalloc returns 0 (null), as expected (2)\n");
 
 	//Set one page to known junk values
+  char junk = 0xAA;
+  memset(pages[0], junk, PGSIZE);
 
 	//Free the page, reallocate it.  Assert that the page is the same one with the same junk values.
+  kfree(pages[0]);
+  char* page0 = kalloc();
+  if(page0 != pages[0]){
+    cprintf("FAIL : Freeing pages[0] then allocating doesn't return the same page.\n");
+    return 1;
+  }
+
+  success = 0;
+  for(int i = 0; i < PGSIZE; i++){
+    if(page0[i] != junk){
+      cprintf("FAIL : page0 byte nb %d isn't set to junk value %x\n", i, junk);
+      success = 1;
+    }
+  }
+  if(!success)
+    return 1;
+  cprintf("SUCCESS : page0 is the same as page[0], filled with all junk values.\n");
 
 	//Restore the page free list saved to the temporary variable in fifth step.  Free the pages allocated in this test.
+  kmem.freelist = t_freelist;
+  for(int i = 0; i<nbpages; i++){
+    kfree(pages[i]);
+  }
 
 	//Assert the number of free pages is the same as in the beginning.
+  pi = kmem.freelist;
+  uint cnt2 = 0;
+  while(pi != (void*)0){
+    cnt2++;
+  }
 
+  if(cnt != cnt2){
+    cprintf("FAIL : cnt = %d, cnt2 = %d", cnt, cnt2);
+    return 1;
+  }
+  
+  cprintf("SUCCESS : Same number of pages\n");
 	return 0;
 }
 
