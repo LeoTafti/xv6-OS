@@ -43,10 +43,13 @@ kdecref(char *va){
 
 /**
  * @brief Maps the physical page associated with pp at virtual address va
+ *        Removes previous mapping, if any.
+ *        Allocates and insert a pte entry if needed.
  * @param pgdir (pointer to) the page directory
  * @param pp (pointer to) the page_info of the physical page to map
  * @param va virtual address where to map the page
  * @param perm permission bits
+ * @return -1 if page table could not be allocated, 0 otherwise
  */
 int
 kinsert(pde_t *pgdir, struct page_info *pp, char *va, int perm)
@@ -60,17 +63,30 @@ kinsert(pde_t *pgdir, struct page_info *pp, char *va, int perm)
   return mappages(pgdir, va, PGSIZE, (pp - ppages_info) * PGSIZE, perm);
 }
 
+/**
+ * @brief Unmaps the physical page at virtual address va. If no page at va, does nothing.
+ * @param pgdir (pointer to) the page directory
+ * @param va virtual address
+ */
 void
 kremove(pde_t *pgdir, void *va)
 {
   pte_t *pte;
   if((pte = walkpgdir(pgdir, va, 0)) != 0){
-    kfree(va);
+    kdecref(va);
     memset(pte, 0, sizeof(pte));
     tlb_invalidate(pgdir, va);
   }
 }
 
+/**
+ * @brief Finds and returns (a pointer to the page_info of) the physical page mapped at virtual address va.
+ *        If pte_store is non-null, sets it to save the address of the pte for the physical page.
+ * @param pgdir (pointer to) the page directory
+ * @param va virtual address
+ * @param pte_store (pointer to) a pte entry address
+ * @return (a pointer to) the page_info of the mapped physical page (if any), NULL otherwise
+ */
 struct page_info *
 klookup(pde_t *pgdir, void *va, pte_t **pte_store)
 {
