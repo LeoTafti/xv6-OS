@@ -276,7 +276,8 @@ test_page()
   kmem.freelist = (void*)0;
 
 	//Assert that klookup(0x0) == 0
-  if(klookup(0x0) != 0){
+
+  if(klookup(proc->pgdir, (char*)0x0, (void*)0) != 0){
     cprintf("FAIL : klookup(0x0) != 0\n");
     return false;
   }
@@ -285,7 +286,7 @@ test_page()
 	//Assert that you can not allocate a page table with kinsert
   
   //Try to kinsert the page_info of p1, with virt addr one page below KERNBASE
-  if(kinsert(proc->pgdir, &pi1, KERNBASE - PGSIZE, 0) != -1){
+  if(kinsert(proc->pgdir, &pi1, (char*)(KERNBASE - PGSIZE), 0) != -1){
     cprintf("FAIL : kinsert WAS ABLE to allocate a page table (and we didn't expect it).\n");
     return false;
   }
@@ -293,7 +294,7 @@ test_page()
 
 	//Free page p1, kinsert the physical page p2 at 0x0. Assert the operation succeeded.
   kdecref(p1); //TODO : or kfree() ?
-  if(kinsert(proc->pgdir, &pi2, 0x0, 0) != 0){
+  if(kinsert(proc->pgdir, &pi2, (char*)0x0, 0) != 0){
     cprintf("FAIL : kinsert for p2 didn't succeed.\n");
     return false;
   }
@@ -302,7 +303,7 @@ test_page()
 	//Assert that p1 is the page table from the previous step.  Assert p2 is in that page table.
   struct page_info *pi;
   pte_t *pte_p2;
-  if((pi = klookup(proc->pgdir, 0x0, &pte_p2)) == 0){
+  if((pi = klookup(proc->pgdir, (char*)0x0, &pte_p2)) == 0){
     cprintf("FAIL : nothing mapped at 0x0.\n");
     return false;
   }
@@ -310,8 +311,12 @@ test_page()
     cprintf("FAIL : p1 isn't the physical page used to map p2.\n");
     return false;
   }
-  //p2 is in the page table if its address (pte_store) is less than PGSIZE away from the begining of the page table, which is allocated in p1
-  if(!(pte_p2 >= V2P(p1) && pte_p2 < V2P(p1) + PGSIZE)){ //TODO : not sure about this check.
+  
+  pte_t* pt = (pte_t*)p1; //the page table stored in p1 can be easily accessed through pt
+  
+  //Since p2 was inserted at 0x0, it should be the first pte entry in the page table stored in p1
+  
+  if(pt[0] != *pte_p2){
     cprintf("FAIL : p2 pte isn't in the page table stored in p1.\n");
     return false;
   }
@@ -325,7 +330,7 @@ test_page()
   cprintf("SUCCESS : p1 and p2 have a refcount of 1.\n");
 
 	//Kinsert p3 at 0x1000.
-  if(kinsert(proc->pgdir, &pi3, 0x1000, 0) != 0){
+  if(kinsert(proc->pgdir, &pi3, (char*)0x1000, 0) != 0){
     cprintf("FAIL : Couldn't kinsert p3 at 0x1000.\n");
     return false;
   }
@@ -333,7 +338,7 @@ test_page()
 	//Assert that p3 is also in the page table stored at p1.  Assert p3 has a ref count of 1.
   //We proceed as above TODO : IF ABOVE check marked with a todo is wrong, this copy pasted code will be too
   pte_t *pte_p3;
-  if((pi = klookup(proc->pgdir, 0x1000, &pte_p3)) == 0){
+  if((pi = klookup(proc->pgdir, (char*)0x1000, &pte_p3)) == 0){
     cprintf("FAIL : nothing mapped at 0x1000.\n");
     return false;
   }
@@ -341,7 +346,7 @@ test_page()
     cprintf("FAIL : p1 isn't the physical page used to map p3.\n");
     return false;
   }
-  if(!(pte_p3 >= V2P(p1) && pte_p3 < V2P(p1) + PGSIZE)){ //TODO : not sure about this check.
+  if(pt[1] != *pte_p3){
     cprintf("FAIL : p3 pte isn't in the page table stored in p1.\n");
     return false;
   }
@@ -354,14 +359,14 @@ test_page()
   cprintf("SUCCESS : p3's refcount is 1.\n");
 
 	//Reinsert p3 at 0x1000.
-  if(kinsert(proc->pgdir, &pi3, 0x1000, 0) != 0){
+  if(kinsert(proc->pgdir, &pi3, (char*)0x1000, 0) != 0){
     cprintf("Fail : Couldn't re-kinsert p3 at 0x1000.\n");
     return false;
   }
 
 	//Assert that p3 is still in the page table stored at p1.  Assert p3 still has a reference count of 1.
   //TODO : copy pasted here again. Maye create a function ? but it would be a bit weird
-  if((pi = klookup(proc->pgdir, 0x1000, &pte_p3)) == 0){
+  if((pi = klookup(proc->pgdir, (char*)0x1000, &pte_p3)) == 0){
     cprintf("FAIL : nothing mapped at 0x1000.(2)\n");
     return false;
   }
@@ -369,7 +374,7 @@ test_page()
     cprintf("FAIL : p1 isn't the physical page used to map p3.(2)\n");
     return false;
   }
-  if(!(pte_p3 >= V2P(p1) && pte_p3 < V2P(p1) + PGSIZE)){ //TODO : not sure about this check.
+  if(pt[1] != *pte_p3){
     cprintf("FAIL : p3 pte isn't in the page table stored in p1.(2)\n");
     return false;
   }
@@ -390,12 +395,12 @@ test_page()
   cprintf("SUCCESS : cannot allocate any more pages. kalloc returns 0 (null)\n");
 
 	//Change the permissions on the pages with kinsert. Assert permissions were changed correctly.
-  if(kinsert(proc->pgdir, &pi2, 0x0, PTE_W) != 0){
+  if(kinsert(proc->pgdir, &pi2, (char*)0x0, PTE_W) != 0){
     cprintf("FAIL : couldn't call kinsert again for p2\n");
     return false;
   }
   //pte_p2 PTE_W should be set
-  if(*pte_p2 & PTE_W == 0){
+  if((*pte_p2 & PTE_W) == 0){
     cprintf("FAIL : pte_p2 PTE_W bit still not set.\n");
     return false;
   }
@@ -403,35 +408,34 @@ test_page()
 
 	//Do a remap with fewer permissions on the pages with kinsert.  Assert permissions were changed correctly.
   //TODO : copy pasted code from just above. Don't know if "remap" means kinsert for sure (ask !)
-  if(kinsert(proc->pgdir, &pi2, 0x0, 0) != 0){
+  if(kinsert(proc->pgdir, &pi2, (char*)0x0, 0) != 0){
     cprintf("FAIL : couldn't call kinsert again for p2(2)\n");
     return false;
   }
   //pte_p2 PTE_W should be cleared now
-  if(*pte_p2 & PTE_W != 0){
+  if((*pte_p2 & PTE_W) != 0){
     cprintf("FAIL : pte_p2 PTE_W bit still set.\n");
     return false;
   }
   cprintf("SUCCESS : Could change permissions – pte_p2 PTE_W bit was cleared.\n");
 
 	//Try to remap at a place where kinsert will fail because it will need to allocate another page table.  
-  if(kinsert(proc->pgdir, &pi2, 0x400000, 0) == 0){
+  if(kinsert(proc->pgdir, &pi2, (char*)0x400000, 0) == 0){
     cprintf("FAIL : was able to kinsert, shouldn't have been able to allocate one more page table for it.\n");
     return false;
   }
   cprintf("SUCCESS : kinsert failed as expected (not able to allocate a new page table).\n");
 
 	//Insert a different page, e.g. p2 at 0x1000.
-  if(kinsert(proc->pgdir, &pi2, 0x1000, 0) != 0){
+  if(kinsert(proc->pgdir, &pi2, (char*)0x1000, 0) != 0){
     cprintf("FAIL : Couldn't insert p2 at 0x1000 (where p3 was)\n.");
     return false;
   }
   cprintf("SUCCESS : Was able to insert p2 at 0x1000.\n");
 
 	//Check that physical page p2 is mapped in two places and verify that the reference count for p2 is 2 and for p3 is 0
-  pte_t* pt = (pte_t*)p1;
   //With the addresses above, the first 2 entries of the page table store in p1 should be p2's pte
-  if(pt[0] != pte_p2 || pt[1] != pte_p2){
+  if(pt[0] != *pte_p2 || pt[1] != *pte_p2){
     cprintf("FAIL : p2 isn't mapped in the first two entries of the page table in p1.\n");
     return false;
   }
@@ -451,8 +455,8 @@ test_page()
   cprintf("SUCCESS : kalloc() returns p3 as expected.\n");
 
 	//kremove the reference to p2 at 0x0. Assert p2 is still mapped at 0x1000.
-  kremove(proc->pgdir, 0x0);
-  if(pt[1] != pte_p2){
+  kremove(proc->pgdir, (char*)0x0);
+  if(pt[1] != *pte_p2){
     cprintf("FAIL : removing ref to p2 at 0x0 seems to have removed it from 0x1000 too.\n");
     return false;
   }
@@ -466,7 +470,7 @@ test_page()
   cprintf("SUCCESS : p2's refcount is 1, as expected.\n");
 
 	//Reinsert p2 at 0x1000 and assert that the reference count is still 1.
-  if(kinsert(proc->pgdir, &pi2, 0x1000, 0) != 0){
+  if(kinsert(proc->pgdir, &pi2, (char*)0x1000, 0) != 0){
     cprintf("FAIL : couldn't re insert p2 at 0x1000.\n");
     return false;
   }
@@ -477,7 +481,7 @@ test_page()
   cprintf("SUCESS : reinserting p2 at 0x1000 didn't change its refcount, still is 1.\n");
 
 	//Remove the mapping of p2, verify that it is freed.  Assert that when you kallocate you get it back.
-  kremove(proc->pgdir, 0x1000);
+  kremove(proc->pgdir, (char*)0x1000);
   if(pi2.used != 0 || pi2.refcount != 0){
     cprintf("FAIL : p2 wasn't freed correctly. refcount is %d and used field is %d.\n", pi2.refcount, pi2.used);
     return false;
@@ -525,7 +529,7 @@ main(void)
   consoleinit();   // console hardware
   uartinit();      // serial port (Have to call it twice to get interrupt output)
 
-  cprintf("6828 decimal is %o octal!\n", 6828);
+  //cprintf("6828 decimal is %o octal!\n", 6828);
   
   pinit();         // process table
   tvinit();        // trap vectors
@@ -542,8 +546,8 @@ main(void)
 //	success = test_page_free_list_ext();
 //	success ? uartprintcstr("Test_page_free_list_ext succeded!\n") : uartprintcstr("Test_page_free_list_ext failed!\n");
 
-	success = test_page_alloc();
-	success ? uartprintcstr("Test_page_alloc succeeded!\n") : uartprintcstr("Test_page_alloc failed!\n");
+	//success = test_page_alloc();
+	//success ? uartprintcstr("Test_page_alloc succeeded!\n") : uartprintcstr("Test_page_alloc failed!\n");
 
 	success = test_page();
 	success ? uartprintcstr("Test_page succeeded!\n") : uartprintcstr("Test_page failed!\n");
