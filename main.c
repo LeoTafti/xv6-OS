@@ -124,7 +124,6 @@ test_page_alloc()
   for(int i = 0; i < nbpages; i++){
     if((pages[i] = kalloc()) == 0)
       panic("test_page_alloc() : error allocating a few pages");
-    increfcount(pages[i]);
   }
 
   bool success = true;
@@ -176,7 +175,6 @@ test_page_alloc()
   for(int i = nbpages-1; i >= 0; i--){ //We fill this array in REVERSE order
     if((realloc_pages[i] = kalloc()) == 0)
       panic("test_page_alloc() : error REallocating a few pages");
-    // increfcount(realloc_pages[i]); // TODO : remove if we don't bother with refcount here (ie. if we keep kfree() calls too)
   }
 
   success = true;
@@ -259,11 +257,6 @@ test_page()
     cprintf("FAIL : Pages are either not all non-zero or not all different from one another.\n");
     return false;
   }
-
-  increfcount(p1);
-  increfcount(p2);
-  increfcount(p3);
-
   cprintf("SUCCESS : Pages are all non-zero and different from one another.\n");
 
   //For later use, we store the corresp. page_info entries
@@ -286,15 +279,15 @@ test_page()
 	//Assert that you can not allocate a page table with kinsert
   
   //Try to kinsert the page_info of p1, with virt addr one page below KERNBASE
-  if(kinsert(kpgdir, pi1, (char*)(KERNBASE - PGSIZE), PTE_U) != -1){
+  if(kinsert(kpgdir, pi1, (char*)(KERNBASE - PGSIZE), 0) != -1){
     cprintf("FAIL : kinsert WAS ABLE to allocate a page table (and we didn't expect it).\n");
     return false;
   }
   cprintf("SUCCESS : kinsert was NOT able to allocate a page table, as expected.\n");
 
 	//Free page p1, kinsert the physical page p2 at 0x0. Assert the operation succeeded.
-  kdecref(p1); //TODO : or kfree() ?
-  if(kinsert(kpgdir, pi2, (char*)0x0, PTE_U) != 0){
+  kfree(p1);
+  if(kinsert(kpgdir, pi2, (char*)0x0, 0) != 0){
     cprintf("FAIL : kinsert for p2 didn't succeed.\n");
     return false;
   }
@@ -330,13 +323,12 @@ test_page()
   cprintf("SUCCESS : p1 and p2 have a refcount of 1.\n");
 
 	//Kinsert p3 at 0x1000.
-  if(kinsert(kpgdir, pi3, (char*)0x1000, PTE_U) != 0){
+  if(kinsert(kpgdir, pi3, (char*)0x1000, 0) != 0){
     cprintf("FAIL : Couldn't kinsert p3 at 0x1000.\n");
     return false;
   }
 
 	//Assert that p3 is also in the page table stored at p1.  Assert p3 has a ref count of 1.
-  //We proceed as above TODO : IF ABOVE check marked with a todo is wrong, this copy pasted code will be too
   pte_t *pte_p3;
   if((pi = klookup(kpgdir, (char*)0x1000, &pte_p3)) == 0){
     cprintf("FAIL : nothing mapped at 0x1000.\n");
@@ -359,13 +351,12 @@ test_page()
   cprintf("SUCCESS : p3's refcount is 1.\n");
 
 	//Reinsert p3 at 0x1000.
-  if(kinsert(kpgdir, pi3, (char*)0x1000, PTE_U) != 0){
+  if(kinsert(kpgdir, pi3, (char*)0x1000, 0) != 0){
     cprintf("Fail : Couldn't re-kinsert p3 at 0x1000.\n");
     return false;
   }
 
 	//Assert that p3 is still in the page table stored at p1.  Assert p3 still has a reference count of 1.
-  //TODO : copy pasted here again. Maye create a function ? but it would be a bit weird
   if((pi = klookup(kpgdir, (char*)0x1000, &pte_p3)) == 0){
     cprintf("FAIL : nothing mapped at 0x1000.(2)\n");
     return false;
@@ -395,7 +386,7 @@ test_page()
   cprintf("SUCCESS : cannot allocate any more pages. kalloc returns 0 (null)\n");
 
 	//Change the permissions on the pages with kinsert. Assert permissions were changed correctly.
-  if(kinsert(kpgdir, pi2, (char*)0x0, PTE_W | PTE_U) != 0){
+  if(kinsert(kpgdir, pi2, (char*)0x0, PTE_W) != 0){
     cprintf("FAIL : couldn't call kinsert again for p2\n");
     return false;
   }
@@ -407,8 +398,7 @@ test_page()
   cprintf("SUCCESS : Could change permissions – pte_p2 PTE_W bit was set.\n");
 
 	//Do a remap with fewer permissions on the pages with kinsert.  Assert permissions were changed correctly.
-  //TODO : copy pasted code from just above. Don't know if "remap" means kinsert for sure (ask !)
-  if(kinsert(kpgdir, pi2, (char*)0x0, PTE_U) != 0){
+  if(kinsert(kpgdir, pi2, (char*)0x0, 0) != 0){
     cprintf("FAIL : couldn't call kinsert again for p2(2)\n");
     return false;
   }
@@ -420,14 +410,14 @@ test_page()
   cprintf("SUCCESS : Could change permissions – pte_p2 PTE_W bit was cleared.\n");
 
 	//Try to remap at a place where kinsert will fail because it will need to allocate another page table.  
-  if(kinsert(kpgdir, pi2, (char*)0x400000, PTE_U) == 0){
+  if(kinsert(kpgdir, pi2, (char*)0x400000, 0) == 0){
     cprintf("FAIL : was able to kinsert, shouldn't have been able to allocate one more page table for it.\n");
     return false;
   }
   cprintf("SUCCESS : kinsert failed as expected (not able to allocate a new page table).\n");
 
 	//Insert a different page, e.g. p2 at 0x1000.
-  if(kinsert(kpgdir, pi2, (char*)0x1000, PTE_U) != 0){
+  if(kinsert(kpgdir, pi2, (char*)0x1000, 0) != 0){
     cprintf("FAIL : Couldn't insert p2 at 0x1000 (where p3 was)\n.");
     return false;
   }
@@ -455,6 +445,9 @@ test_page()
   cprintf("SUCCESS : kalloc() returns p3 as expected.\n");
 
 	//kremove the reference to p2 at 0x0. Assert p2 is still mapped at 0x1000.
+  //Note : we make our pte_p2 pointer point at the pte at 0x1000 first, otherwise it'll be zeroed out too by kremove.
+  pte_p2 = &pt[1];
+  
   kremove(kpgdir, (char*)0x0);
   if(pt[1] != *pte_p2){
     cprintf("FAIL : removing ref to p2 at 0x0 seems to have removed it from 0x1000 too.\n");
@@ -470,7 +463,7 @@ test_page()
   cprintf("SUCCESS : p2's refcount is 1, as expected.\n");
 
 	//Reinsert p2 at 0x1000 and assert that the reference count is still 1.
-  if(kinsert(kpgdir, pi2, (char*)0x1000, PTE_U) != 0){
+  if(kinsert(kpgdir, pi2, (char*)0x1000, 0) != 0){
     cprintf("FAIL : couldn't re insert p2 at 0x1000.\n");
     return false;
   }
@@ -478,7 +471,7 @@ test_page()
     cprintf("FAIL : reinserting p2 at 0x1000 changed its refcount from 1 to %d\n", pi2->refcount);
     return false;
   }
-  cprintf("SUCESS : reinserting p2 at 0x1000 didn't change its refcount, still is 1.\n");
+  cprintf("SUCCESS : reinserting p2 at 0x1000 didn't change its refcount, still is 1.\n");
 
 	//Remove the mapping of p2, verify that it is freed.  Assert that when you kallocate you get it back.
   kremove(kpgdir, (char*)0x1000);
@@ -493,14 +486,10 @@ test_page()
   cprintf("SUCCESS : p2 was freed correctly and calling kalloc() gets it back.\n");
 
 	//Free the pages and restore the free list.
-  kdecref(p1);
-  kdecref(p2);
-  kdecref(p3);
-
-  if(pi1->refcount != 0 || pi2->refcount != 0 || pi3->refcount != 0){ //Sanity check, make sure they were freed correctly
-    cprintf("FAIL : Didn't free properly.\n");
-    return false;
-  }
+  
+  kfree(p1);
+  kfree(p2);
+  kfree(p3);
 
   kmem.freelist = t_freelist;
 
