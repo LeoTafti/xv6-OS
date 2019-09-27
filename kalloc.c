@@ -18,7 +18,7 @@ struct page_info ppages_info[0xE000] = {0}; //Initially unused and refcount is 0
 /**
  * @brief Decrements the page_info.refcount field for corresponding phy page.
  * Frees if refcount reaches 0
- * @param va virtual address of the page, must be page allined
+ * @param va (kernel) virtual address of the page, must be page allined
  * @return 1 if page was freed, 0 otherwise
  */
 int
@@ -71,7 +71,9 @@ kremove(pde_t *pgdir, void *va)
 {
   pte_t *pte = walkpgdir(pgdir, va, 0);
   if(pte && (*pte & PTE_P) != 0){
-    kdecref(va);
+    //Translate pte into kernel va
+    char* kva = P2V((uint)*pte & 0x000); // "& 0x000" clears flags, effectively setting offset to 0
+    kdecref(kva);
     memset(pte, 0, sizeof(pte));
     tlb_invalidate(pgdir, va);
   }
@@ -192,16 +194,16 @@ kalloc(void)
 }
 
 /**
- * @brief finds page_info from vaddr and increments its refcount
- * @param vaddr virtual address of the page, must be page alined
+ * @brief finds page_info from va and increments its refcount
+ * @param va (kernel) virtual address of the page, must be page alined
  */
 void
-increfcount(char* vaddr){
+increfcount(char* va){
   
-  if((uint)vaddr % PGSIZE != 0)
-    panic("increfcount : vaddr not page alined");
+  if((uint)va % PGSIZE != 0)
+    panic("increfcount : va not page alined");
   
-  uint index = V2P(vaddr) / PGSIZE;
+  uint index = V2P(va) / PGSIZE;
   struct page_info *pi = &ppages_info[index];
   if(!pi->used)
     panic("increfcount : not used");
