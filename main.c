@@ -267,9 +267,9 @@ test_page()
   cprintf("SUCCESS : Pages are all non-zero and different from one another.\n");
 
   //For later use, we store the corresp. page_info entries
-  struct page_info pi1 = ppages_info[V2P(p1) / PGSIZE];
-  struct page_info pi2 = ppages_info[V2P(p2) / PGSIZE];
-  struct page_info pi3 = ppages_info[V2P(p3) / PGSIZE];
+  struct page_info *pi1 = &ppages_info[V2P(p1) / PGSIZE];
+  struct page_info *pi2 = &ppages_info[V2P(p2) / PGSIZE];
+  struct page_info *pi3 = &ppages_info[V2P(p3) / PGSIZE];
 
 	//Save the free page list to a temporary variable.  Set free page list to zero.
   struct page_info *t_freelist = kmem.freelist;
@@ -286,7 +286,7 @@ test_page()
 	//Assert that you can not allocate a page table with kinsert
   
   //Try to kinsert the page_info of p1, with virt addr one page below KERNBASE
-  if(kinsert(kpgdir, &pi1, (char*)(KERNBASE - PGSIZE), 0) != -1){
+  if(kinsert(kpgdir, pi1, (char*)(KERNBASE - PGSIZE), 0) != -1){
     cprintf("FAIL : kinsert WAS ABLE to allocate a page table (and we didn't expect it).\n");
     return false;
   }
@@ -294,11 +294,11 @@ test_page()
 
 	//Free page p1, kinsert the physical page p2 at 0x0. Assert the operation succeeded.
   kdecref(p1); //TODO : or kfree() ?
-  if(kinsert(kpgdir, &pi2, (char*)0x0, 0) != 0){
+  if(kinsert(kpgdir, pi2, (char*)0x0, 0) != 0){
     cprintf("FAIL : kinsert for p2 didn't succeed.\n");
     return false;
   }
-  cprintf("SUCCESS : kinsert for p2 succeeded.");
+  cprintf("SUCCESS : kinsert for p2 succeeded.\n");
 
 	//Assert that p1 is the page table from the previous step.  Assert p2 is in that page table.
   struct page_info *pi;
@@ -307,8 +307,9 @@ test_page()
     cprintf("FAIL : nothing mapped at 0x0.\n");
     return false;
   }
-  if(pi != &pi1){
-    cprintf("FAIL : p1 isn't the physical page used to map p2.\n");
+  cprintf("pi = %x, pi1 = %x\n", pi, pi1);
+  if(pi != pi1){
+    cprintf("FAIL : p1 isn't the physical page used to map p2. pi = %p, pi1 = %p\n", pi, pi1);
     return false;
   }
   
@@ -323,14 +324,14 @@ test_page()
   cprintf("SUCCESS : p1 was allocated to use as page table, and p2's pte is in it\n");
 	
   //Asset that p1 and p2 have a ref count of 1.
-  if(pi1.refcount != 1 || pi2.refcount != 1){
-    cprintf("FAIL : p1 or p2 hasn't a refcount of 1. p1 : %d, p2 : %d\n", pi1.refcount, pi2.refcount);
+  if(pi1->refcount != 1 || pi2->refcount != 1){
+    cprintf("FAIL : p1 or p2 hasn't a refcount of 1. p1 : %d, p2 : %d\n", pi1->refcount, pi2->refcount);
     return false;
   }
   cprintf("SUCCESS : p1 and p2 have a refcount of 1.\n");
 
 	//Kinsert p3 at 0x1000.
-  if(kinsert(kpgdir, &pi3, (char*)0x1000, 0) != 0){
+  if(kinsert(kpgdir, pi3, (char*)0x1000, 0) != 0){
     cprintf("FAIL : Couldn't kinsert p3 at 0x1000.\n");
     return false;
   }
@@ -342,7 +343,7 @@ test_page()
     cprintf("FAIL : nothing mapped at 0x1000.\n");
     return false;
   }
-  if(pi != &pi1){
+  if(pi != pi1){
     cprintf("FAIL : p1 isn't the physical page used to map p3.\n");
     return false;
   }
@@ -352,14 +353,14 @@ test_page()
   }
   cprintf("SUCCESS : p3's pte is in the page table in p1.\n");
 
-  if(pi3.refcount != 1){
-    cprintf("FAIL : p3's refcount is %d instead of 1.\n", pi3.refcount);
+  if(pi3->refcount != 1){
+    cprintf("FAIL : p3's refcount is %d instead of 1.\n", pi3->refcount);
     return false;
   }
   cprintf("SUCCESS : p3's refcount is 1.\n");
 
 	//Reinsert p3 at 0x1000.
-  if(kinsert(kpgdir, &pi3, (char*)0x1000, 0) != 0){
+  if(kinsert(kpgdir, pi3, (char*)0x1000, 0) != 0){
     cprintf("Fail : Couldn't re-kinsert p3 at 0x1000.\n");
     return false;
   }
@@ -370,7 +371,7 @@ test_page()
     cprintf("FAIL : nothing mapped at 0x1000.(2)\n");
     return false;
   }
-  if(pi != &pi1){
+  if(pi != pi1){
     cprintf("FAIL : p1 isn't the physical page used to map p3.(2)\n");
     return false;
   }
@@ -380,8 +381,8 @@ test_page()
   }
   cprintf("SUCCESS : p3's pte is in the page table in p1.(2)\n");
 
-  if(pi3.refcount != 1){
-    cprintf("FAIL : p3's refcount is %d instead of 1.(2)\n", pi3.refcount);
+  if(pi3->refcount != 1){
+    cprintf("FAIL : p3's refcount is %d instead of 1.(2)\n", pi3->refcount);
     return false;
   }
   cprintf("SUCCESS : p3's refcount is still 1.\n");
@@ -395,7 +396,7 @@ test_page()
   cprintf("SUCCESS : cannot allocate any more pages. kalloc returns 0 (null)\n");
 
 	//Change the permissions on the pages with kinsert. Assert permissions were changed correctly.
-  if(kinsert(kpgdir, &pi2, (char*)0x0, PTE_W) != 0){
+  if(kinsert(kpgdir, pi2, (char*)0x0, PTE_W) != 0){
     cprintf("FAIL : couldn't call kinsert again for p2\n");
     return false;
   }
@@ -408,7 +409,7 @@ test_page()
 
 	//Do a remap with fewer permissions on the pages with kinsert.  Assert permissions were changed correctly.
   //TODO : copy pasted code from just above. Don't know if "remap" means kinsert for sure (ask !)
-  if(kinsert(kpgdir, &pi2, (char*)0x0, 0) != 0){
+  if(kinsert(kpgdir, pi2, (char*)0x0, 0) != 0){
     cprintf("FAIL : couldn't call kinsert again for p2(2)\n");
     return false;
   }
@@ -420,14 +421,14 @@ test_page()
   cprintf("SUCCESS : Could change permissions – pte_p2 PTE_W bit was cleared.\n");
 
 	//Try to remap at a place where kinsert will fail because it will need to allocate another page table.  
-  if(kinsert(kpgdir, &pi2, (char*)0x400000, 0) == 0){
+  if(kinsert(kpgdir, pi2, (char*)0x400000, 0) == 0){
     cprintf("FAIL : was able to kinsert, shouldn't have been able to allocate one more page table for it.\n");
     return false;
   }
   cprintf("SUCCESS : kinsert failed as expected (not able to allocate a new page table).\n");
 
 	//Insert a different page, e.g. p2 at 0x1000.
-  if(kinsert(kpgdir, &pi2, (char*)0x1000, 0) != 0){
+  if(kinsert(kpgdir, pi2, (char*)0x1000, 0) != 0){
     cprintf("FAIL : Couldn't insert p2 at 0x1000 (where p3 was)\n.");
     return false;
   }
@@ -441,8 +442,8 @@ test_page()
   }
   cprintf("SUCCESS : p2 is mapped twice now.\n");
 
-  if(pi2.refcount != 2 || pi3.refcount != 0){
-    cprintf("FAIL : either p2 refcount was %d instead of 2 or p3 refcount was %d instead of 0.\n", pi2.refcount, pi3.refcount);
+  if(pi2->refcount != 2 || pi3->refcount != 0){
+    cprintf("FAIL : either p2 refcount was %d instead of 2 or p3 refcount was %d instead of 0.\n", pi2->refcount, pi3->refcount);
     return false;
   }
   cprintf("SUCCESS : p2's refcount was 2 and p3's refcount was 0, as expected.\n");
@@ -463,27 +464,27 @@ test_page()
   cprintf("SUCCESS : p2 is still mapped at 0x1000.\n");
 
 	//Assert that the reference count to p2 has been decremented to 1.
-  if(pi2.refcount != 1){
-    cprintf("FAIL : p2's refcount is %d instead of 1\n", pi2.refcount);
+  if(pi2->refcount != 1){
+    cprintf("FAIL : p2's refcount is %d instead of 1\n", pi2->refcount);
     return false;
   }
   cprintf("SUCCESS : p2's refcount is 1, as expected.\n");
 
 	//Reinsert p2 at 0x1000 and assert that the reference count is still 1.
-  if(kinsert(kpgdir, &pi2, (char*)0x1000, 0) != 0){
+  if(kinsert(kpgdir, pi2, (char*)0x1000, 0) != 0){
     cprintf("FAIL : couldn't re insert p2 at 0x1000.\n");
     return false;
   }
-  if(pi2.refcount != 1){
-    cprintf("FAIL : reinserting p2 at 0x1000 changed its refcount from 1 to %d\n", pi2.refcount);
+  if(pi2->refcount != 1){
+    cprintf("FAIL : reinserting p2 at 0x1000 changed its refcount from 1 to %d\n", pi2->refcount);
     return false;
   }
   cprintf("SUCESS : reinserting p2 at 0x1000 didn't change its refcount, still is 1.\n");
 
 	//Remove the mapping of p2, verify that it is freed.  Assert that when you kallocate you get it back.
   kremove(kpgdir, (char*)0x1000);
-  if(pi2.used != 0 || pi2.refcount != 0){
-    cprintf("FAIL : p2 wasn't freed correctly. refcount is %d and used field is %d.\n", pi2.refcount, pi2.used);
+  if(pi2->used != 0 || pi2->refcount != 0){
+    cprintf("FAIL : p2 wasn't freed correctly. refcount is %d and used field is %d.\n", pi2->refcount, pi2->used);
     return false;
   }
   if((ptr = kalloc()) != p2){
@@ -497,7 +498,7 @@ test_page()
   kdecref(p2);
   kdecref(p3);
 
-  if(pi1.refcount != 0 || pi2.refcount != 0 || pi3.refcount != 0){ //Sanity check, make sure they were freed correctly
+  if(pi1->refcount != 0 || pi2->refcount != 0 || pi3->refcount != 0){ //Sanity check, make sure they were freed correctly
     cprintf("FAIL : Didn't free properly.\n");
     return false;
   }

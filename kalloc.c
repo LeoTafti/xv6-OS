@@ -55,7 +55,7 @@ int
 kinsert(pde_t *pgdir, struct page_info *pp, char *va, int perm)
 {
   //We first look if there is already a page mapped at va, and remove it if there is.
-  if(walkpgdir(pgdir, va, 0) != 0){
+  if(walkpgdir(pgdir, va, 0) != 0){ //FIXME : THIS IS BS. NEED TO INTERPRET WHAT WALKPGDIR RETURNS TO LOOK IF IT IS IN USE.
     kremove(pgdir, va);
   }
 
@@ -81,7 +81,7 @@ kremove(pde_t *pgdir, void *va)
 
 /**
  * @brief Finds and returns (a pointer to the page_info of) the physical page mapped at virtual address va.
- *        If pte_store is non-null, sets it to save the address of the pte for the physical page.
+ *        If pte_store is non-null, sets it to save the virtual address of the pte for the physical page.
  * @param pgdir (pointer to) the page directory
  * @param va virtual address
  * @param pte_store (pointer to) a pte entry address
@@ -98,9 +98,8 @@ klookup(pde_t *pgdir, void *va, pte_t **pte_store)
   if(pte_store)
     *pte_store = pte;
   
-  //Bits 31 downto 12 of pte entry are the physical page number => index in ppages_info array
-  uint ppn = ((*pte) >> PGSHIFT);
-  return &ppages_info[ppn];
+  //TODO : Understand this, will need to use again to fix kinsert() just above
+  return &ppages_info[PGROUNDDOWN(V2P(pte)) / PGSIZE];
 }
 
 
