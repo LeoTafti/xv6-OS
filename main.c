@@ -307,7 +307,6 @@ test_page()
     cprintf("FAIL : nothing mapped at 0x0.\n");
     return false;
   }
-  cprintf("pi = %x, pi1 = %x\n", pi, pi1);
   if(pi != pi1){
     cprintf("FAIL : p1 isn't the physical page used to map p2. pi = %p, pi1 = %p\n", pi, pi1);
     return false;
