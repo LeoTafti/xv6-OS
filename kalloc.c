@@ -72,11 +72,10 @@ void
 kremove(pde_t *pgdir, void *va)
 {
   pte_t *pte = walkpgdir(pgdir, va, 0);
-  cprintf("pte addr = %x\n", pte);
   if(pte && (*pte & PTE_P) != 0){
     //Translate pte into kernel va
+    cprintf("*pte = %x\n", *pte);
     char* kva = P2V((uint)*pte & 0x000); // "& 0x000" clears flags, effectively setting offset to 0
-    cprintf("kremove : va = %x, kva = %x\n", va, kva);
     kdecref(kva);
     memset(pte, 0, sizeof(pte));
     tlb_invalidate(pgdir, va);
@@ -98,11 +97,8 @@ klookup(pde_t *pgdir, void *va, pte_t **pte_store)
   if(!pte || ((*pte & PTE_P) == 0)){
     return (void*)0;
   }
-
-  cprintf("coucou\n");
   if(pte_store)
     *pte_store = pte;
-  cprintf("PGROUNDDOWN(V2P(pte)) / PGSIZE = %x\n", PGROUNDDOWN(V2P(pte)) / PGSIZE);
   return &ppages_info[PGROUNDDOWN(V2P(pte)) / PGSIZE];
 }
 
