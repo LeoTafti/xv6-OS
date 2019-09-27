@@ -61,8 +61,8 @@ is_in_freelist(uint index){
  * @return true if all pages were found in freelist, false otherwise
  */
 bool
-check_extmem_mapped(uint p_upto){
-  for(uint index = V2P(PGROUNDUP((uint)end))/PGSIZE; index < PGROUNDDOWN(p_upto)/PGSIZE; index++){
+check_extmem_mapped(uint p_from, uint p_upto){
+  for(uint index = PGROUNDUP(p_from)/PGSIZE; index < PGROUNDDOWN(p_upto)/PGSIZE; index++){
     if(!is_in_freelist(index)){
       cprintf("Index not found %d, corresponding phy addr %x\n", index, index*PGSIZE);
       return false;
@@ -90,19 +90,24 @@ test_page_free_list()
     pi = pi->next;
   }
   //Assert that the first part of physical memory have been mapped to free pages
-  return check_extmem_mapped(4 * MB);
+  //kvmalloc() call will have allocated pages for the process mapping already.
+  //From 0 to PHYSTOP and DEVSPACE to the top :  0xE000000 + 0x2000000 = 0x10000000 bytes = 256 MB
+  //Each page table page maps 4MB => 256MB / 4MB = 64 pages
+  //and one more page for the pgdir => 65 pages
+  //hence we only check up to 4 * MB - 65 * PGSIZE high
+  return check_extmem_mapped(V2P(end), 4 * MB - 65 * PGSIZE);
 
 }
 
 bool
 test_page_free_list_ext()
 {
-  bool success = test_page_free_list();
-    if(!success)
-      return false;
+  //bool success = test_page_free_list();
+  //if(!success)
+  //  return false;
 
   //Assert all unused physical memory have been mapped to free pages
-  return check_extmem_mapped(PHYSTOP);
+  return check_extmem_mapped(4*MB, PHYSTOP);
 }
 
 bool
@@ -506,9 +511,8 @@ main(void)
   kinit1(end, P2V(4*1024*1024)); // phys page allocator
   kvmalloc();      // kernel page table
   uartinit();      // serial port
-          bool success;
-	//bool success = test_page_free_list();
-	//success ? uartprintcstr("Test_page_free_list succeeded!\n") : uartprintcstr("Test_page_free_list failed!\n");
+	bool success = test_page_free_list();
+	success ? uartprintcstr("Test_page_free_list succeeded!\n") : uartprintcstr("Test_page_free_list failed!\n");
   mpinit();        // detect other processors
   lapicinit();     // interrupt controller
   seginit();       // segment descriptors
@@ -532,14 +536,14 @@ main(void)
   kmarkused((char*)KERNBASE, end);
   kmarkused(P2V(PHYSTOP), (char*)0xFFFFFFFF);
 
-//	success = test_page_free_list_ext();
-//	success ? uartprintcstr("Test_page_free_list_ext succeded!\n") : uartprintcstr("Test_page_free_list_ext failed!\n");
+	success = test_page_free_list_ext();
+	success ? uartprintcstr("Test_page_free_list_ext succeded!\n") : uartprintcstr("Test_page_free_list_ext failed!\n");
 
 	success = test_page_alloc();
 	success ? uartprintcstr("Test_page_alloc succeeded!\n") : uartprintcstr("Test_page_alloc failed!\n");
 
-	//success = test_page();
-	//success ? uartprintcstr("Test_page succeeded!\n") : uartprintcstr("Test_page failed!\n");
+	success = test_page();
+	success ? uartprintcstr("Test_page succeeded!\n") : uartprintcstr("Test_page failed!\n");
 
   userinit();      // first user process
   mpmain();        // finish this processor's setup
