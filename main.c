@@ -546,11 +546,11 @@ main(void)
 //	success = test_page_free_list_ext();
 //	success ? uartprintcstr("Test_page_free_list_ext succeded!\n") : uartprintcstr("Test_page_free_list_ext failed!\n");
 
-	//success = test_page_alloc();
-	//success ? uartprintcstr("Test_page_alloc succeeded!\n") : uartprintcstr("Test_page_alloc failed!\n");
+	success = test_page_alloc();
+	success ? uartprintcstr("Test_page_alloc succeeded!\n") : uartprintcstr("Test_page_alloc failed!\n");
 
-	success = test_page();
-	success ? uartprintcstr("Test_page succeeded!\n") : uartprintcstr("Test_page failed!\n");
+	//success = test_page();
+	//success ? uartprintcstr("Test_page succeeded!\n") : uartprintcstr("Test_page failed!\n");
 
   userinit();      // first user process
   mpmain();        // finish this processor's setup
