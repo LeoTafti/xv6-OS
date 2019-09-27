@@ -54,9 +54,13 @@ kdecref(char *va){
 int
 kinsert(pde_t *pgdir, struct page_info *pp, char *va, int perm)
 {
+  cprintf("Entering kinsert. refcount is %d\n", pp->refcount);
+  cprintf("Address of page_info from pp is %x, address of pi compd in kdecref is %x\n", pp, &ppages_info[V2P(va) / PGSIZE]);
+  cprintf("Va is : %x\n", va);
   //If there is already a page mapped at va, remove it.
   kremove(pgdir, va); //kremove will do nothing if there is no page mapped.
 
+  cprintf("kremove done. refcount is %d\n", pp->refcount);
   //Then we map pp by calling mappages with the right arguments
   return mappages(pgdir, va, PGSIZE, (pp - ppages_info) * PGSIZE, perm);
 }
