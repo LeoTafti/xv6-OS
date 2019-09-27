@@ -238,8 +238,8 @@ test_page_alloc()
     cprintf("FAIL : cnt = %d, cnt2 = %d", cnt, cnt2);
     return false;
   }
-  
   cprintf("SUCCESS : Same number of pages\n");
+  
   return true;
 }
 
