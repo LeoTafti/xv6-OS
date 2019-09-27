@@ -54,9 +54,7 @@ kdecref(char *va){
 int
 kinsert(pde_t *pgdir, struct page_info *pp, char *va, int perm)
 {
-  cprintf("Entering kinsert. refcount is %d\n", pp->refcount);
-  cprintf("Address of page_info from pp is %x, address of pi compd in kdecref is %x\n", pp, &ppages_info[V2P(va) / PGSIZE]);
-  cprintf("Va is : %x\n", va);
+  cprintf("Entering kinsert.\n");
   //If there is already a page mapped at va, remove it.
   kremove(pgdir, va); //kremove will do nothing if there is no page mapped.
 
@@ -74,9 +72,11 @@ void
 kremove(pde_t *pgdir, void *va)
 {
   pte_t *pte = walkpgdir(pgdir, va, 0);
+  cprintf("pte addr = %x\n", pte);
   if(pte && (*pte & PTE_P) != 0){
     //Translate pte into kernel va
     char* kva = P2V((uint)*pte & 0x000); // "& 0x000" clears flags, effectively setting offset to 0
+    cprintf("kremove : va = %x, kva = %x\n", va, kva);
     kdecref(kva);
     memset(pte, 0, sizeof(pte));
     tlb_invalidate(pgdir, va);
@@ -99,9 +99,10 @@ klookup(pde_t *pgdir, void *va, pte_t **pte_store)
     return (void*)0;
   }
 
+  cprintf("coucou\n");
   if(pte_store)
     *pte_store = pte;
-  
+  cprintf("PGROUNDDOWN(V2P(pte)) / PGSIZE = %x\n", PGROUNDDOWN(V2P(pte)) / PGSIZE);
   return &ppages_info[PGROUNDDOWN(V2P(pte)) / PGSIZE];
 }
 
