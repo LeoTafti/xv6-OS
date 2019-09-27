@@ -55,7 +55,7 @@ int
 kinsert(pde_t *pgdir, struct page_info *pp, char *va, int perm)
 {
   //We first look if there is already a page mapped at va, and remove it if there is.
-  if(walkpgdir(pgdir, va, 0) != 0){ //FIXME : THIS IS BS. NEED TO INTERPRET WHAT WALKPGDIR RETURNS TO LOOK IF IT IS IN USE.
+  if(walkpgdir(pgdir, va, 0) != 0){ //FIXME : This is wrong too (but I'm starting to get it). See below.
     kremove(pgdir, va);
   }
 
@@ -72,7 +72,7 @@ void
 kremove(pde_t *pgdir, void *va)
 {
   pte_t *pte;
-  if((pte = walkpgdir(pgdir, va, 0)) != 0){
+  if((pte = walkpgdir(pgdir, va, 0)) != 0){ //FIXME : similarily, this is wrong (see klookup comment below)
     kdecref(va);
     memset(pte, 0, sizeof(pte));
     tlb_invalidate(pgdir, va);
@@ -91,14 +91,13 @@ struct page_info *
 klookup(pde_t *pgdir, void *va, pte_t **pte_store)
 {
   pte_t *pte;
-  if((pte = walkpgdir(pgdir, va, 0)) == 0){
+  if((pte = walkpgdir(pgdir, va, 0)) == 0){ //FIXME : this is wrong. we should check if a phy page has been allocated, ie. if the pte is valid, not only that there is a page table set up for this va.
     return (void*)0;
   }
 
   if(pte_store)
     *pte_store = pte;
   
-  //TODO : Understand this, will need to use again to fix kinsert() just above
   return &ppages_info[PGROUNDDOWN(V2P(pte)) / PGSIZE];
 }
 
