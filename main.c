@@ -286,7 +286,7 @@ test_page()
 	//Assert that you can not allocate a page table with kinsert
   
   //Try to kinsert the page_info of p1, with virt addr one page below KERNBASE
-  if(kinsert(kpgdir, pi1, (char*)(KERNBASE - PGSIZE), 0) != -1){
+  if(kinsert(kpgdir, pi1, (char*)(KERNBASE - PGSIZE), PTE_U) != -1){
     cprintf("FAIL : kinsert WAS ABLE to allocate a page table (and we didn't expect it).\n");
     return false;
   }
@@ -294,7 +294,7 @@ test_page()
 
 	//Free page p1, kinsert the physical page p2 at 0x0. Assert the operation succeeded.
   kdecref(p1); //TODO : or kfree() ?
-  if(kinsert(kpgdir, pi2, (char*)0x0, 0) != 0){
+  if(kinsert(kpgdir, pi2, (char*)0x0, PTE_U) != 0){
     cprintf("FAIL : kinsert for p2 didn't succeed.\n");
     return false;
   }
@@ -330,7 +330,7 @@ test_page()
   cprintf("SUCCESS : p1 and p2 have a refcount of 1.\n");
 
 	//Kinsert p3 at 0x1000.
-  if(kinsert(kpgdir, pi3, (char*)0x1000, 0) != 0){
+  if(kinsert(kpgdir, pi3, (char*)0x1000, PTE_U) != 0){
     cprintf("FAIL : Couldn't kinsert p3 at 0x1000.\n");
     return false;
   }
@@ -359,7 +359,7 @@ test_page()
   cprintf("SUCCESS : p3's refcount is 1.\n");
 
 	//Reinsert p3 at 0x1000.
-  if(kinsert(kpgdir, pi3, (char*)0x1000, 0) != 0){
+  if(kinsert(kpgdir, pi3, (char*)0x1000, PTE_U) != 0){
     cprintf("Fail : Couldn't re-kinsert p3 at 0x1000.\n");
     return false;
   }
@@ -395,7 +395,7 @@ test_page()
   cprintf("SUCCESS : cannot allocate any more pages. kalloc returns 0 (null)\n");
 
 	//Change the permissions on the pages with kinsert. Assert permissions were changed correctly.
-  if(kinsert(kpgdir, pi2, (char*)0x0, PTE_W) != 0){
+  if(kinsert(kpgdir, pi2, (char*)0x0, PTE_W | PTE_U) != 0){
     cprintf("FAIL : couldn't call kinsert again for p2\n");
     return false;
   }
@@ -408,7 +408,7 @@ test_page()
 
 	//Do a remap with fewer permissions on the pages with kinsert.  Assert permissions were changed correctly.
   //TODO : copy pasted code from just above. Don't know if "remap" means kinsert for sure (ask !)
-  if(kinsert(kpgdir, pi2, (char*)0x0, 0) != 0){
+  if(kinsert(kpgdir, pi2, (char*)0x0, PTE_U) != 0){
     cprintf("FAIL : couldn't call kinsert again for p2(2)\n");
     return false;
   }
@@ -420,14 +420,14 @@ test_page()
   cprintf("SUCCESS : Could change permissions – pte_p2 PTE_W bit was cleared.\n");
 
 	//Try to remap at a place where kinsert will fail because it will need to allocate another page table.  
-  if(kinsert(kpgdir, pi2, (char*)0x400000, 0) == 0){
+  if(kinsert(kpgdir, pi2, (char*)0x400000, PTE_U) == 0){
     cprintf("FAIL : was able to kinsert, shouldn't have been able to allocate one more page table for it.\n");
     return false;
   }
   cprintf("SUCCESS : kinsert failed as expected (not able to allocate a new page table).\n");
 
 	//Insert a different page, e.g. p2 at 0x1000.
-  if(kinsert(kpgdir, pi2, (char*)0x1000, 0) != 0){
+  if(kinsert(kpgdir, pi2, (char*)0x1000, PTE_U) != 0){
     cprintf("FAIL : Couldn't insert p2 at 0x1000 (where p3 was)\n.");
     return false;
   }
@@ -470,7 +470,7 @@ test_page()
   cprintf("SUCCESS : p2's refcount is 1, as expected.\n");
 
 	//Reinsert p2 at 0x1000 and assert that the reference count is still 1.
-  if(kinsert(kpgdir, pi2, (char*)0x1000, 0) != 0){
+  if(kinsert(kpgdir, pi2, (char*)0x1000, PTE_U) != 0){
     cprintf("FAIL : couldn't re insert p2 at 0x1000.\n");
     return false;
   }
