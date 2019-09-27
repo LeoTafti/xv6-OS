@@ -54,11 +54,8 @@ kdecref(char *va){
 int
 kinsert(pde_t *pgdir, struct page_info *pp, char *va, int perm)
 {
-  //We first look if there is already a page mapped at va, and remove it if there is.
-  pte_t *pte = walkpgdir(pgdir, va, 0);
-  if((*pte & PTE_P) != 0){
-    kremove(pgdir, va);
-  }
+  //If there is already a page mapped at va, remove it.
+  kremove(pgdir, va); //kremove will do nothing if there is no page mapped.
 
   //Then we map pp by calling mappages with the right arguments
   return mappages(pgdir, va, PGSIZE, (pp - ppages_info) * PGSIZE, perm);
@@ -73,7 +70,7 @@ void
 kremove(pde_t *pgdir, void *va)
 {
   pte_t *pte = walkpgdir(pgdir, va, 0);
-  if((*pte & PTE_P) != 0){
+  if(pte && (*pte & PTE_P) != 0){
     kdecref(va);
     memset(pte, 0, sizeof(pte));
     tlb_invalidate(pgdir, va);
@@ -92,7 +89,7 @@ struct page_info *
 klookup(pde_t *pgdir, void *va, pte_t **pte_store)
 {
   pte_t *pte = walkpgdir(pgdir, va, 0);
-  if((*pte & PTE_P) == 0){
+  if(!pte || ((*pte & PTE_P) == 0)){
     return (void*)0;
   }
 
