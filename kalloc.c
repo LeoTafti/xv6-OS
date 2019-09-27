@@ -44,7 +44,7 @@ kdecref(char *va){
 /**
  * @brief Maps the physical page associated with pp at virtual address va
  *        Removes previous mapping, if any.
- *        Allocates and insert a pte entry if needed.
+ *        Allocates a page table if needed and inserts it into pgdir.
  * @param pgdir (pointer to) the page directory
  * @param pp (pointer to) the page_info of the physical page to map
  * @param va virtual address where to map the page
@@ -54,13 +54,18 @@ kdecref(char *va){
 int
 kinsert(pde_t *pgdir, struct page_info *pp, char *va, int perm)
 {
-  cprintf("Entering kinsert.\n");
+  pp->refcount++; //Increment refcount right away.
+  //This way, in the special case in which we reinsert the same page to the same pte
+  //kremove WONT free the page
+
   //If there is already a page mapped at va, remove it.
   kremove(pgdir, va); //kremove will do nothing if there is no page mapped.
 
-  cprintf("kremove done. refcount is %d\n", pp->refcount);
   //Then we map pp by calling mappages with the right arguments
-  return mappages(pgdir, va, PGSIZE, (pp - ppages_info) * PGSIZE, perm);
+  int retval = mappages(pgdir, va, PGSIZE, (pp - ppages_info) * PGSIZE, perm);
+  if(retval != 0) //If insertion didn't succeed, decrement refcount to undo.
+    pp->refcount--;
+  return retval;
 }
 
 /**
@@ -74,10 +79,10 @@ kremove(pde_t *pgdir, void *va)
   pte_t *pte = walkpgdir(pgdir, va, 0);
   if(pte && (*pte & PTE_P) != 0){
     //Translate pte into kernel va
-    cprintf("*pte = %x\n", *pte);
-    char* kva = P2V((uint)*pte & 0x000); // "& 0x000" clears flags, effectively setting offset to 0
+    //TODO : magic number
+    char* kva = P2V((uint)*pte & 0xFFFFF000); // "& 0x000" clears flags, effectively setting offset to 0
     kdecref(kva);
-    memset(pte, 0, sizeof(pte));
+    memset(pte, 0, sizeof(pte_t));
     tlb_invalidate(pgdir, va);
   }
 }
@@ -191,6 +196,7 @@ kalloc(void)
     uint index = pi - ppages_info; // Gives us the index of the page_info entry in ppages_info
     retval = P2V(index * PGSIZE);
   }
+
   return retval;
 }
 
