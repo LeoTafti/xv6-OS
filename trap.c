@@ -102,27 +102,27 @@ trap(struct trapframe *tf)
           uint newFlags = (PTE_FLAGS(*pte) & ~PTE_COW) | PTE_W;
           *pte = PTE_ADDR(*pte) | newFlags;
           tlb_invalidate(proc->pgdir, (char*)rcr2());
+        }else{
+          //Allocate a page, copy faulting page content to it, map it.
+          char* newpgkva;
+          if((newpgkva = kalloc()) == 0){
+            cprintf("COW : kalloc() failed. Killing process.\n");
+            goto kill;
+          }
+
+          char* faultpgkva = (char*)P2V(((pi - ppages_info) * PGSIZE));
+          memmove(newpgkva, faultpgkva, PGSIZE);
+
+          uint flags = PTE_FLAGS(*pte);
+          struct page_info *newpgpi = &ppages_info[V2P(newpgkva) / PGSIZE];
+          if(kinsert(proc->pgdir, newpgpi, (char*)rcr2(), (flags & ~PTE_COW) | PTE_W) != 0){ //Mark the new page writable and not COW
+            cprintf("COW : kinsert() failed. Killing process.\n");
+            goto kill;
+          }
+
+          //Edit faulting page refcount
+          kdecref(faultpgkva);
         }
-
-        //Allocate a page, copy faulting page content to it, map it.
-        char* newpgkva;
-        if((newpgkva = kalloc()) == 0){
-          cprintf("COW : kalloc() failed. Killing process.\n");
-          goto kill;
-        }
-
-        char* faultpgkva = (char*)P2V(((pi - ppages_info) * PGSIZE));
-        memmove(newpgkva, faultpgkva, PGSIZE);
-
-        uint flags = PTE_FLAGS(*pte);
-        struct page_info *newpgpi = &ppages_info[V2P(newpgkva) / PGSIZE];
-        if(kinsert(proc->pgdir, newpgpi, (char*)rcr2(), (flags & ~PTE_COW) | PTE_W) != 0){ //Mark the new page writable and not COW
-          cprintf("COW : kinsert() failed. Killing process.\n");
-          goto kill;
-        }
-
-        //Edit faulting page refcount
-        kdecref(faultpgkva);
       }else{
         panic("trap.c : unexpected page fault");
       }
