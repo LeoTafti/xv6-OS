@@ -390,11 +390,13 @@ vcopyuvm(pde_t *pgdir, uint sz){
     uint flags = PTE_FLAGS(*pte);
     if((flags & PTE_W) || (flags & PTE_COW)){
       uint newflags = (flags & ~(PTE_W)) | PTE_COW; // Set PTE_COW to 1, PTE_W to 0
-      mappages(d, (char*)i, PGSIZE, pa, newflags); //Edit child process permissions
+      kinsert(d, &ppages_info[pa / PGSIZE], (char*)i, newflags);
+      //mappages(d, (char*)i, PGSIZE, pa, newflags); //Edit child process permissions
       *pte = pa | newflags;                        //Edit parent process permissions
       tlb_invalidate(pgdir, (char*) i);            //Since we changed the entry, invalidate in the tlb
     }else{ //Non-writable and not COW
-      mappages(d, (char*)i, PGSIZE, pa, flags);
+      kinsert(d, &ppages_info[pa / PGSIZE], (char*)i, flags);
+      //mappages(d, (char*)i, PGSIZE, pa, flags);
     }
 
     //Update refcount
