@@ -102,10 +102,6 @@ test_page_free_list()
 bool
 test_page_free_list_ext()
 {
-  //bool success = test_page_free_list();
-  //if(!success)
-  //  return false;
-
   struct page_info* pi = kmem.freelist;
   while(pi != (void*)0){
     uint index = pi - ppages_info;
