@@ -90,9 +90,23 @@ sys_uptime(void)
   return xticks;
 }
 
+typedef void (*Handler)(void);
+
 int
 sys_alarm(void){
   //TODO : implement
-  cprintf("This is printed from the alarm syscall, youhouuu\n");
+  int n;
+  if(argint(0, &n) < 0)
+    return -1;
+  
+  Handler func;
+  if(argptr(1, &func, 4)); //TODO : what is the size in bytes here ??
+  
+  uint ref = uptime();
+  
+  while(uptime() - ref < n); //Busy waiting
+
+  func();
+  
   return 0;
 }
