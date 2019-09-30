@@ -106,6 +106,18 @@ test_page_free_list_ext()
   //if(!success)
   //  return false;
 
+  struct page_info* pi = kmem.freelist;
+  while(pi != (void*)0){
+    uint index = pi - ppages_info;
+    uint addr = index * PGSIZE;
+    if(addr > PHYSTOP         //Checks that no page are above the PHYSTOP limit
+        || addr < V2P(end)){   //Checks that no page on the list of free pages comes from a region where it shouldn't be free
+      cprintf("FAIL : Page with addr %x, not in bounds\n", addr);
+      return false;
+    }
+    pi = pi->next;
+  }
+
   //Assert all unused physical memory have been mapped to free pages
   return check_extmem_mapped(4*MB, PHYSTOP);
 }
