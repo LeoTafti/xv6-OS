@@ -89,3 +89,9 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+int
+sys_alarm(void){
+  //TODO : implement
+  cprintf("This is printed from the alarm syscall, youhouuu\n");
+}
