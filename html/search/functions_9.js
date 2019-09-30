@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['ialloc',['ialloc',['../defs_8h.html#ab4d7f391ca5219199e1b7502ac12ea85',1,'ialloc(uint, short):&#160;fs.c'],['../fs_8c.html#adb360ce0b70a32d19d089fba4cd91293',1,'ialloc(uint dev, short type):&#160;fs.c'],['../mkfs_8c.html#a341af7faeda3d6fcb57a5a9fe3a0104a',1,'ialloc(ushort type):&#160;mkfs.c']]],
+  ['iappend',['iappend',['../mkfs_8c.html#a268b61616f575ff072f5bb34c83e02e9',1,'mkfs.c']]],
+  ['ideinit',['ideinit',['../defs_8h.html#aefb190a6104cb58c0bc1f8fec88d1307',1,'ideinit(void):&#160;ide.c'],['../ide_8c.html#aefb190a6104cb58c0bc1f8fec88d1307',1,'ideinit(void):&#160;ide.c'],['../memide_8c.html#aefb190a6104cb58c0bc1f8fec88d1307',1,'ideinit(void):&#160;memide.c']]],
+  ['ideintr',['ideintr',['../defs_8h.html#a709693afdb9b89d848e684e7acde1f8f',1,'ideintr(void):&#160;ide.c'],['../ide_8c.html#a709693afdb9b89d848e684e7acde1f8f',1,'ideintr(void):&#160;ide.c'],['../memide_8c.html#a709693afdb9b89d848e684e7acde1f8f',1,'ideintr(void):&#160;memide.c']]],
+  ['iderw',['iderw',['../defs_8h.html#a70985c3f5b2fb79737457b5c88f5327a',1,'iderw(struct buf *):&#160;ide.c'],['../ide_8c.html#a7f36b008f02088c86f76e98e05b55af5',1,'iderw(struct buf *b):&#160;ide.c'],['../memide_8c.html#a7f36b008f02088c86f76e98e05b55af5',1,'iderw(struct buf *b):&#160;memide.c']]],
+  ['idtinit',['idtinit',['../defs_8h.html#a9b6e7f6c302700cb54216ad22cbc1591',1,'idtinit(void):&#160;trap.c'],['../trap_8c.html#a9b6e7f6c302700cb54216ad22cbc1591',1,'idtinit(void):&#160;trap.c']]],
+  ['idup',['idup',['../defs_8h.html#acdd1de79a331b8922c483434d257731d',1,'idup(struct inode *):&#160;fs.c'],['../fs_8c.html#a6b41577cc09b2a009be8f84bfb500079',1,'idup(struct inode *ip):&#160;fs.c']]],
+  ['iinit',['iinit',['../defs_8h.html#a301761a27cf266e0bad483272fb31a3c',1,'iinit(int dev):&#160;fs.c'],['../fs_8c.html#a301761a27cf266e0bad483272fb31a3c',1,'iinit(int dev):&#160;fs.c']]],
+  ['ilock',['ilock',['../defs_8h.html#a29a4d743d41fe659f74b0a57fdc25012',1,'ilock(struct inode *):&#160;fs.c'],['../fs_8c.html#aed28187406d84a3aa71f10c6235a03ec',1,'ilock(struct inode *ip):&#160;fs.c']]],
+  ['increfcount',['increfcount',['../defs_8h.html#abb5413cdffa02836d5365dcaa60d2d20',1,'increfcount(char *vaddr):&#160;kalloc.c'],['../kalloc_8c.html#a2dbc043f63eeea52478aae2bb0907a4b',1,'increfcount(char *va):&#160;kalloc.c']]],
+  ['initlock',['initlock',['../defs_8h.html#ab56d728e6966819a0260c358d3ac3419',1,'initlock(struct spinlock *, char *):&#160;spinlock.c'],['../spinlock_8c.html#abda07b4a007b2e888d9d783920460b89',1,'initlock(struct spinlock *lk, char *name):&#160;spinlock.c']]],
+  ['initlog',['initlog',['../defs_8h.html#ad5e79aaefb91f41b9ef6aeae7ecf4708',1,'initlog(int dev):&#160;log.c'],['../log_8c.html#ad5e79aaefb91f41b9ef6aeae7ecf4708',1,'initlog(int dev):&#160;log.c']]],
+  ['inituvm',['inituvm',['../defs_8h.html#a7b3410bde4005e848e1748f2b0f0a084',1,'inituvm(pde_t *, char *, uint):&#160;vm.c'],['../vm_8c.html#ac96c231d4053eaf4322c27d1f2cd9d49',1,'inituvm(pde_t *pgdir, char *init, uint sz):&#160;vm.c']]],
+  ['ioapicenable',['ioapicenable',['../defs_8h.html#a63da75c0c2f0b051f2c790aea2116b63',1,'ioapicenable(int irq, int cpu):&#160;ioapic.c'],['../ioapic_8c.html#a9688537a0879e9e2ac5a90184e2ef987',1,'ioapicenable(int irq, int cpunum):&#160;ioapic.c']]],
+  ['ioapicinit',['ioapicinit',['../defs_8h.html#abce023b98422f397abdb425b20c8ceec',1,'ioapicinit(void):&#160;ioapic.c'],['../ioapic_8c.html#abce023b98422f397abdb425b20c8ceec',1,'ioapicinit(void):&#160;ioapic.c']]],
+  ['iput',['iput',['../defs_8h.html#a29530a0afdfe924818d8c70b6724528d',1,'iput(struct inode *):&#160;fs.c'],['../fs_8c.html#ab3c447f135c68e4c3c1f8d5866f6e77b',1,'iput(struct inode *ip):&#160;fs.c']]],
+  ['iputtest',['iputtest',['../usertests_8c.html#ac9fe56d8f6e4ed1c9677b06cb7b325e6',1,'usertests.c']]],
+  ['iref',['iref',['../usertests_8c.html#a267227083b00d0cc3141b34f5152ae04',1,'usertests.c']]],
+  ['iscons',['iscons',['../console_8c.html#ac130f71968e37e58a2d30ccb9888347d',1,'iscons(int fdnum):&#160;console.c'],['../stdio_8h.html#a9ffee997c4e61511c4bad79a7057bc6f',1,'iscons(int fd):&#160;console.c']]],
+  ['iunlock',['iunlock',['../defs_8h.html#af301c10ad8ced77a5dfb2de3a64c666c',1,'iunlock(struct inode *):&#160;fs.c'],['../fs_8c.html#ae4e29916219b9293b37f9c34220694fe',1,'iunlock(struct inode *ip):&#160;fs.c']]],
+  ['iunlockput',['iunlockput',['../defs_8h.html#adff5bb5a1eeaf921853ec06479f8c49b',1,'iunlockput(struct inode *):&#160;fs.c'],['../fs_8c.html#a207b3008bae35596c55ec7c4fc6875eb',1,'iunlockput(struct inode *ip):&#160;fs.c']]],
+  ['iupdate',['iupdate',['../defs_8h.html#a2ee6784c123b2a2656d88b5b357f2253',1,'iupdate(struct inode *):&#160;fs.c'],['../fs_8c.html#a7220afa8e5f4bea540eb95879ea7df6e',1,'iupdate(struct inode *ip):&#160;fs.c']]]
+];

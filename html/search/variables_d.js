@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['n',['n',['../structlogheader.html#a50b276b70d44ae77497ef1d71d182875',1,'logheader']]],
+  ['n_5fdesc',['n_desc',['../structStab.html#a19fc71754b1c75e5dcd59f1522301f2d',1,'Stab']]],
+  ['n_5fother',['n_other',['../structStab.html#a70852cf6c049c690f0b7a93aab5fffbf',1,'Stab']]],
+  ['n_5fstrx',['n_strx',['../structStab.html#a8d874c575cc5137432a0b5fd0b202119',1,'Stab']]],
+  ['n_5ftype',['n_type',['../structStab.html#a4952b6befb5edaaa136fd49b7a52ddc8',1,'Stab']]],
+  ['n_5fvalue',['n_value',['../structStab.html#a934b1b9ccdfb7c332b0513f9d460bed5',1,'Stab']]],
+  ['name',['name',['../structdirent.html#a4e08a84dbac9b9f6a3e006151855d14d',1,'dirent::name()'],['../structCommand.html#aaac7db0461198bc84c6bb01e64ae82e3',1,'Command::name()'],['../structproc.html#ac04af53e17d24b90c3cbfab56d658d62',1,'proc::name()'],['../structspinlock.html#afbec3274bf8ad9c421695a22f8d9d584',1,'spinlock::name()'],['../usertests_8c.html#aee754febd402311e2a552cb0d6ab6629',1,'name():&#160;usertests.c']]],
+  ['nbitmap',['nbitmap',['../mkfs_8c.html#ab3610080ec9ad31beae2488dffd98026',1,'mkfs.c']]],
+  ['nblocks',['nblocks',['../structsuperblock.html#a2a27a7cfb54689f0e1dcd1788d049218',1,'superblock::nblocks()'],['../mkfs_8c.html#a076c8e8b7f7acccc46cd356bd8776b26',1,'nblocks():&#160;mkfs.c']]],
+  ['ncli',['ncli',['../structcpu.html#a9ccad8ae031c295f86e96de26df24805',1,'cpu']]],
+  ['ncpu',['ncpu',['../mp_8c.html#a6201a0661c3d5b88df5f63529298eb48',1,'ncpu():&#160;mp.c'],['../proc_8h.html#a6201a0661c3d5b88df5f63529298eb48',1,'ncpu():&#160;mp.c']]],
+  ['next',['next',['../structbuf.html#ab18c18abb22f07617619e9a74c71f51a',1,'buf::next()'],['../structpage__info.html#ad9b26cd23c4a059fdbf0f4b2f4363944',1,'page_info::next()']]],
+  ['nextpid',['nextpid',['../proc_8c.html#aec016216766697de7529c7b9cb5beda9',1,'proc.c']]],
+  ['ninodeblocks',['ninodeblocks',['../mkfs_8c.html#a86bf1487f875e3a82dbb4f7c0cde878c',1,'mkfs.c']]],
+  ['ninodes',['ninodes',['../structsuperblock.html#a355d2a1ebdc51f80820c23e69363cf42',1,'superblock']]],
+  ['nlink',['nlink',['../structinode.html#af8b88b409bea7ef99c49a55f387538b2',1,'inode::nlink()'],['../structdinode.html#a105562253b461c11413c9a229ef15358',1,'dinode::nlink()'],['../structstat.html#a99ca3487fd2f4799337eb4281f8871e4',1,'stat::nlink()']]],
+  ['nlog',['nlog',['../structsuperblock.html#aea92ae872785fd4fb39b903d9157aac5',1,'superblock::nlog()'],['../mkfs_8c.html#aa86ff3fab07bd3139fcd159de0ffce90',1,'nlog():&#160;mkfs.c']]],
+  ['nmeta',['nmeta',['../mkfs_8c.html#a6bb66ce69ae378551f55d86c515ae02c',1,'mkfs.c']]],
+  ['nread',['nread',['../structpipe.html#ad71eb56c445f9178dac07ae47f352fd1',1,'pipe']]],
+  ['nwrite',['nwrite',['../structpipe.html#a419b6fc2780013358de51c91371dac66',1,'pipe']]]
+];

@@ -1,0 +1,70 @@
+\hypertarget{log_8c}{}\section{log.\+c File Reference}
+\label{log_8c}\index{log.\+c@{log.\+c}}
+{\ttfamily \#include \char`\"{}types.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}defs.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}param.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}spinlock.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}fs.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}buf.\+h\char`\"{}}\\*
+Include dependency graph for log.\+c\+:
+% FIG 0
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structlogheader}{logheader}
+\item 
+struct \hyperlink{structlog}{log}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{log_8c_ad5e79aaefb91f41b9ef6aeae7ecf4708}{initlog} (int dev)
+\item 
+void \hyperlink{log_8c_ac96aa31ffc0500e749c62c4d377c21c9}{begin\+\_\+op} (void)
+\item 
+void \hyperlink{log_8c_ac0f12be0ca0de555e60b27b06a57a65b}{end\+\_\+op} (void)
+\item 
+void \hyperlink{log_8c_a7eacb0fbebe5ce4c7d3ddea15908b13d}{log\+\_\+write} (struct \hyperlink{structbuf}{buf} $\ast$b)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structlog}{log} \hyperlink{log_8c_a3583f58fafd1ed3c2dba9d6dfc67c597}{log}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{log.\+c@{log.\+c}!begin\+\_\+op@{begin\+\_\+op}}
+\index{begin\+\_\+op@{begin\+\_\+op}!log.\+c@{log.\+c}}
+\subsubsection[{\texorpdfstring{begin\+\_\+op(void)}{begin_op(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void begin\+\_\+op (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{log_8c_ac96aa31ffc0500e749c62c4d377c21c9}{}\label{log_8c_ac96aa31ffc0500e749c62c4d377c21c9}
+\index{log.\+c@{log.\+c}!end\+\_\+op@{end\+\_\+op}}
+\index{end\+\_\+op@{end\+\_\+op}!log.\+c@{log.\+c}}
+\subsubsection[{\texorpdfstring{end\+\_\+op(void)}{end_op(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void end\+\_\+op (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{log_8c_ac0f12be0ca0de555e60b27b06a57a65b}{}\label{log_8c_ac0f12be0ca0de555e60b27b06a57a65b}
+\index{log.\+c@{log.\+c}!initlog@{initlog}}
+\index{initlog@{initlog}!log.\+c@{log.\+c}}
+\subsubsection[{\texorpdfstring{initlog(int dev)}{initlog(int dev)}}]{\setlength{\rightskip}{0pt plus 5cm}void initlog (
+\begin{DoxyParamCaption}
+\item[{int}]{dev}
+\end{DoxyParamCaption}
+)}\hypertarget{log_8c_ad5e79aaefb91f41b9ef6aeae7ecf4708}{}\label{log_8c_ad5e79aaefb91f41b9ef6aeae7ecf4708}
+\index{log.\+c@{log.\+c}!log\+\_\+write@{log\+\_\+write}}
+\index{log\+\_\+write@{log\+\_\+write}!log.\+c@{log.\+c}}
+\subsubsection[{\texorpdfstring{log\+\_\+write(struct buf $\ast$b)}{log_write(struct buf *b)}}]{\setlength{\rightskip}{0pt plus 5cm}void log\+\_\+write (
+\begin{DoxyParamCaption}
+\item[{struct {\bf buf} $\ast$}]{b}
+\end{DoxyParamCaption}
+)}\hypertarget{log_8c_a7eacb0fbebe5ce4c7d3ddea15908b13d}{}\label{log_8c_a7eacb0fbebe5ce4c7d3ddea15908b13d}
+
+
+\subsection{Variable Documentation}
+\index{log.\+c@{log.\+c}!log@{log}}
+\index{log@{log}!log.\+c@{log.\+c}}
+\subsubsection[{\texorpdfstring{log}{log}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf log} {\bf log}}\hypertarget{log_8c_a3583f58fafd1ed3c2dba9d6dfc67c597}{}\label{log_8c_a3583f58fafd1ed3c2dba9d6dfc67c597}

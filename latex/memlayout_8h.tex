@@ -1,0 +1,71 @@
+\hypertarget{memlayout_8h}{}\section{memlayout.\+h File Reference}
+\label{memlayout_8h}\index{memlayout.\+h@{memlayout.\+h}}
+This graph shows which files directly or indirectly include this file\+:
+% FIG 0
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{memlayout_8h_afa15977c771e531ebd3f3a5c2563ce16}{E\+X\+T\+M\+EM}~0x100000
+\item 
+\#define \hyperlink{memlayout_8h_ad3c557a115f7d82d9ef849846779531c}{P\+H\+Y\+S\+T\+OP}~0x\+E000000
+\item 
+\#define \hyperlink{memlayout_8h_a643ab4c8a98a6f7bfde12c8f52f6aafa}{D\+E\+V\+S\+P\+A\+CE}~0x\+F\+E000000
+\item 
+\#define \hyperlink{memlayout_8h_a20cbfc19992a40ab9ccf4aa8ab8283d0}{K\+E\+R\+N\+B\+A\+SE}~0x80000000
+\item 
+\#define \hyperlink{memlayout_8h_aca91837d3500b42e38e6427ca4db4946}{K\+E\+R\+N\+L\+I\+NK}~(\hyperlink{memlayout_8h_a20cbfc19992a40ab9ccf4aa8ab8283d0}{K\+E\+R\+N\+B\+A\+SE}+\hyperlink{memlayout_8h_afa15977c771e531ebd3f3a5c2563ce16}{E\+X\+T\+M\+EM})
+\item 
+\#define \hyperlink{memlayout_8h_a5021188bc7da1304f27e913aee183407}{V2P}(a)~(((\hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}) (a)) -\/ \hyperlink{memlayout_8h_a20cbfc19992a40ab9ccf4aa8ab8283d0}{K\+E\+R\+N\+B\+A\+SE})
+\item 
+\#define \hyperlink{memlayout_8h_aefd5e8b62c49bba2cf20309c7dd174e2}{P2V}(a)~(((void $\ast$) (a)) + \hyperlink{memlayout_8h_a20cbfc19992a40ab9ccf4aa8ab8283d0}{K\+E\+R\+N\+B\+A\+SE})
+\item 
+\#define \hyperlink{memlayout_8h_a07c445cd5425fc1d69188d1e6d511e4b}{V2\+P\+\_\+\+WO}(x)~((x) -\/ \hyperlink{memlayout_8h_a20cbfc19992a40ab9ccf4aa8ab8283d0}{K\+E\+R\+N\+B\+A\+SE})
+\item 
+\#define \hyperlink{memlayout_8h_a6835c6206bedd9fccc1a29205c233309}{P2\+V\+\_\+\+WO}(x)~((x) + \hyperlink{memlayout_8h_a20cbfc19992a40ab9ccf4aa8ab8283d0}{K\+E\+R\+N\+B\+A\+SE})
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{memlayout.\+h@{memlayout.\+h}!D\+E\+V\+S\+P\+A\+CE@{D\+E\+V\+S\+P\+A\+CE}}
+\index{D\+E\+V\+S\+P\+A\+CE@{D\+E\+V\+S\+P\+A\+CE}!memlayout.\+h@{memlayout.\+h}}
+\subsubsection[{\texorpdfstring{D\+E\+V\+S\+P\+A\+CE}{DEVSPACE}}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+V\+S\+P\+A\+CE~0x\+F\+E000000}\hypertarget{memlayout_8h_a643ab4c8a98a6f7bfde12c8f52f6aafa}{}\label{memlayout_8h_a643ab4c8a98a6f7bfde12c8f52f6aafa}
+\index{memlayout.\+h@{memlayout.\+h}!E\+X\+T\+M\+EM@{E\+X\+T\+M\+EM}}
+\index{E\+X\+T\+M\+EM@{E\+X\+T\+M\+EM}!memlayout.\+h@{memlayout.\+h}}
+\subsubsection[{\texorpdfstring{E\+X\+T\+M\+EM}{EXTMEM}}]{\setlength{\rightskip}{0pt plus 5cm}\#define E\+X\+T\+M\+EM~0x100000}\hypertarget{memlayout_8h_afa15977c771e531ebd3f3a5c2563ce16}{}\label{memlayout_8h_afa15977c771e531ebd3f3a5c2563ce16}
+\index{memlayout.\+h@{memlayout.\+h}!K\+E\+R\+N\+B\+A\+SE@{K\+E\+R\+N\+B\+A\+SE}}
+\index{K\+E\+R\+N\+B\+A\+SE@{K\+E\+R\+N\+B\+A\+SE}!memlayout.\+h@{memlayout.\+h}}
+\subsubsection[{\texorpdfstring{K\+E\+R\+N\+B\+A\+SE}{KERNBASE}}]{\setlength{\rightskip}{0pt plus 5cm}\#define K\+E\+R\+N\+B\+A\+SE~0x80000000}\hypertarget{memlayout_8h_a20cbfc19992a40ab9ccf4aa8ab8283d0}{}\label{memlayout_8h_a20cbfc19992a40ab9ccf4aa8ab8283d0}
+\index{memlayout.\+h@{memlayout.\+h}!K\+E\+R\+N\+L\+I\+NK@{K\+E\+R\+N\+L\+I\+NK}}
+\index{K\+E\+R\+N\+L\+I\+NK@{K\+E\+R\+N\+L\+I\+NK}!memlayout.\+h@{memlayout.\+h}}
+\subsubsection[{\texorpdfstring{K\+E\+R\+N\+L\+I\+NK}{KERNLINK}}]{\setlength{\rightskip}{0pt plus 5cm}\#define K\+E\+R\+N\+L\+I\+NK~({\bf K\+E\+R\+N\+B\+A\+SE}+{\bf E\+X\+T\+M\+EM})}\hypertarget{memlayout_8h_aca91837d3500b42e38e6427ca4db4946}{}\label{memlayout_8h_aca91837d3500b42e38e6427ca4db4946}
+\index{memlayout.\+h@{memlayout.\+h}!P2V@{P2V}}
+\index{P2V@{P2V}!memlayout.\+h@{memlayout.\+h}}
+\subsubsection[{\texorpdfstring{P2V}{P2V}}]{\setlength{\rightskip}{0pt plus 5cm}\#define P2V(
+\begin{DoxyParamCaption}
+\item[{}]{a}
+\end{DoxyParamCaption}
+)~(((void $\ast$) (a)) + {\bf K\+E\+R\+N\+B\+A\+SE})}\hypertarget{memlayout_8h_aefd5e8b62c49bba2cf20309c7dd174e2}{}\label{memlayout_8h_aefd5e8b62c49bba2cf20309c7dd174e2}
+\index{memlayout.\+h@{memlayout.\+h}!P2\+V\+\_\+\+WO@{P2\+V\+\_\+\+WO}}
+\index{P2\+V\+\_\+\+WO@{P2\+V\+\_\+\+WO}!memlayout.\+h@{memlayout.\+h}}
+\subsubsection[{\texorpdfstring{P2\+V\+\_\+\+WO}{P2V_WO}}]{\setlength{\rightskip}{0pt plus 5cm}\#define P2\+V\+\_\+\+WO(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~((x) + {\bf K\+E\+R\+N\+B\+A\+SE})}\hypertarget{memlayout_8h_a6835c6206bedd9fccc1a29205c233309}{}\label{memlayout_8h_a6835c6206bedd9fccc1a29205c233309}
+\index{memlayout.\+h@{memlayout.\+h}!P\+H\+Y\+S\+T\+OP@{P\+H\+Y\+S\+T\+OP}}
+\index{P\+H\+Y\+S\+T\+OP@{P\+H\+Y\+S\+T\+OP}!memlayout.\+h@{memlayout.\+h}}
+\subsubsection[{\texorpdfstring{P\+H\+Y\+S\+T\+OP}{PHYSTOP}}]{\setlength{\rightskip}{0pt plus 5cm}\#define P\+H\+Y\+S\+T\+OP~0x\+E000000}\hypertarget{memlayout_8h_ad3c557a115f7d82d9ef849846779531c}{}\label{memlayout_8h_ad3c557a115f7d82d9ef849846779531c}
+\index{memlayout.\+h@{memlayout.\+h}!V2P@{V2P}}
+\index{V2P@{V2P}!memlayout.\+h@{memlayout.\+h}}
+\subsubsection[{\texorpdfstring{V2P}{V2P}}]{\setlength{\rightskip}{0pt plus 5cm}\#define V2P(
+\begin{DoxyParamCaption}
+\item[{}]{a}
+\end{DoxyParamCaption}
+)~((({\bf uint}) (a)) -\/ {\bf K\+E\+R\+N\+B\+A\+SE})}\hypertarget{memlayout_8h_a5021188bc7da1304f27e913aee183407}{}\label{memlayout_8h_a5021188bc7da1304f27e913aee183407}
+\index{memlayout.\+h@{memlayout.\+h}!V2\+P\+\_\+\+WO@{V2\+P\+\_\+\+WO}}
+\index{V2\+P\+\_\+\+WO@{V2\+P\+\_\+\+WO}!memlayout.\+h@{memlayout.\+h}}
+\subsubsection[{\texorpdfstring{V2\+P\+\_\+\+WO}{V2P_WO}}]{\setlength{\rightskip}{0pt plus 5cm}\#define V2\+P\+\_\+\+WO(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~((x) -\/ {\bf K\+E\+R\+N\+B\+A\+SE})}\hypertarget{memlayout_8h_a07c445cd5425fc1d69188d1e6d511e4b}{}\label{memlayout_8h_a07c445cd5425fc1d69188d1e6d511e4b}

@@ -1,0 +1,419 @@
+\hypertarget{usertests_8c}{}\section{usertests.\+c File Reference}
+\label{usertests_8c}\index{usertests.\+c@{usertests.\+c}}
+{\ttfamily \#include \char`\"{}param.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}types.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}stat.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}user.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}fs.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}fcntl.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}syscall.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}traps.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}memlayout.\+h\char`\"{}}\\*
+Include dependency graph for usertests.\+c\+:
+% FIG 0
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{usertests_8c_a38eb76aa0a9a1bb1dac30c75be4a05b6}{B\+IG}~(100$\ast$1024$\ast$1024)
+\item 
+\#define \hyperlink{usertests_8c_a6ee8e8390002b24c20c7a1c64bc2c7ac}{R\+T\+C\+\_\+\+A\+D\+DR}~0x70
+\item 
+\#define \hyperlink{usertests_8c_aa6e7096882c10a7c82c33f3589694b6e}{R\+T\+C\+\_\+\+D\+A\+TA}~0x71
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{usertests_8c_ac9fe56d8f6e4ed1c9677b06cb7b325e6}{iputtest} (void)
+\item 
+void \hyperlink{usertests_8c_a8faab06cc4d48335076b368f02709ee2}{exitiputtest} (void)
+\item 
+void \hyperlink{usertests_8c_a3208ed001a225f5d9ea3fb37f46810c7}{openiputtest} (void)
+\item 
+void \hyperlink{usertests_8c_ae7c61791dd2cfb8ad59b4c6e87685c07}{opentest} (void)
+\item 
+void \hyperlink{usertests_8c_a3a007a46ea6310b39a233e45d439f11a}{writetest} (void)
+\item 
+void \hyperlink{usertests_8c_a48ac3cbd37dcf4c4e08b0572b3a0e9f3}{writetest1} (void)
+\item 
+void \hyperlink{usertests_8c_a6773439702f38f3835fb6195f77e001c}{createtest} (void)
+\item 
+void \hyperlink{usertests_8c_a8db9f9a2634bab29096bab0b8bc6945c}{dirtest} (void)
+\item 
+void \hyperlink{usertests_8c_a6f94e3b215d069b5419e87bafe80799a}{exectest} (void)
+\item 
+void \hyperlink{usertests_8c_a16ae754fb9c5622d44d0c3ce62ad7c49}{pipe1} (void)
+\item 
+void \hyperlink{usertests_8c_a026b8c4ab2cb9af17e1c20d533981604}{preempt} (void)
+\item 
+void \hyperlink{usertests_8c_a330ed2370fe27045b8bec1eb0bd7818f}{exitwait} (void)
+\item 
+void \hyperlink{usertests_8c_aa1c6e6e76813ccb29a29bb119dba668a}{mem} (void)
+\item 
+void \hyperlink{usertests_8c_a02e1ca3f4db5f4bf8a683a0b7c18cc43}{sharedfd} (void)
+\item 
+void \hyperlink{usertests_8c_a77a4432bc67dfb513f1c1d698c2c4ea6}{fourfiles} (void)
+\item 
+void \hyperlink{usertests_8c_a425a0efe4f459decf4b5ea14517ab3cf}{createdelete} (void)
+\item 
+void \hyperlink{usertests_8c_a3331ced6fb67502a2e5277260d4f5aec}{unlinkread} (void)
+\item 
+void \hyperlink{usertests_8c_a4eeee588d4689a58fc140a7d5d7b0608}{linktest} (void)
+\item 
+void \hyperlink{usertests_8c_a5a12affe4fdfaa172d85da9a6adf98d2}{concreate} (void)
+\item 
+void \hyperlink{usertests_8c_a1740f29f4ce6d3060fd79a9312edc315}{linkunlink} ()
+\item 
+void \hyperlink{usertests_8c_aa0d46fcb43667c805b84ea7e1ff6100a}{bigdir} (void)
+\item 
+void \hyperlink{usertests_8c_a5d39024e15998d6a6865f4cd0f69738b}{subdir} (void)
+\item 
+void \hyperlink{usertests_8c_a57e55b2d0161d62bb99765ca3de43e35}{bigwrite} (void)
+\item 
+void \hyperlink{usertests_8c_a86fe524d99d69c18a335512cf3405b31}{bigfile} (void)
+\item 
+void \hyperlink{usertests_8c_abf4af50e65630225208fef177e267efb}{fourteen} (void)
+\item 
+void \hyperlink{usertests_8c_a6b22568d42b584ed4b0dc4e2b0677013}{rmdot} (void)
+\item 
+void \hyperlink{usertests_8c_aedd6d3f148dd5c99b47900215c1ac43f}{dirfile} (void)
+\item 
+void \hyperlink{usertests_8c_a267227083b00d0cc3141b34f5152ae04}{iref} (void)
+\item 
+void \hyperlink{usertests_8c_a0ef8ccf57bc8c491407ec513b234f83c}{forktest} (void)
+\item 
+void \hyperlink{usertests_8c_a06636ed0cda58c748d68e82d33d1afce}{sbrktest} (void)
+\item 
+void \hyperlink{usertests_8c_a426d02dfb5155266933466f604bed0b2}{validateint} (int $\ast$p)
+\item 
+void \hyperlink{usertests_8c_a98d8496ecb698b9400831f2718d805c3}{validatetest} (void)
+\item 
+void \hyperlink{usertests_8c_a0b0ff95e564df3c3e8fc977226b75de7}{bsstest} (void)
+\item 
+void \hyperlink{usertests_8c_ac5b5d4517586be6396b4f3b37445945a}{bigargtest} (void)
+\item 
+void \hyperlink{usertests_8c_a37568127a326729b0576444a4a4509e1}{fsfull} ()
+\item 
+void \hyperlink{usertests_8c_a6888f9f6d973f81f73091d1530ad212b}{uio} ()
+\item 
+unsigned int \hyperlink{usertests_8c_a866c3f5e3e89035c3ba01b22d786d8bc}{rand} ()
+\item 
+int \hyperlink{usertests_8c_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$\hyperlink{init_8c_abd1a2cf54950f450187ef24c1cdcac0c}{argv}\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+char \hyperlink{usertests_8c_ad42dafc8306f25c145c246f973b420cf}{buf} \mbox{[}8192\mbox{]}
+\item 
+char \hyperlink{usertests_8c_aee754febd402311e2a552cb0d6ab6629}{name} \mbox{[}3\mbox{]}
+\item 
+char $\ast$ \hyperlink{usertests_8c_ac75529abacd59858a9ff6165253d14ca}{echoargv} \mbox{[}$\,$\mbox{]} = \{ \char`\"{}echo\char`\"{}, \char`\"{}A\+LL\char`\"{}, \char`\"{}T\+E\+S\+TS\char`\"{}, \char`\"{}P\+A\+S\+S\+ED\char`\"{}, 0 \}
+\item 
+int \hyperlink{usertests_8c_adc9da8a05ab98e52153fe99402f93613}{stdout} = 1
+\item 
+char \hyperlink{usertests_8c_a7def0d79bfddb934aaf3fe627c97daf3}{uninit} \mbox{[}10000\mbox{]}
+\item 
+unsigned long \hyperlink{usertests_8c_af0bd27c045c0317df893912a0142b21a}{randstate} = 1
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{usertests.\+c@{usertests.\+c}!B\+IG@{B\+IG}}
+\index{B\+IG@{B\+IG}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{B\+IG}{BIG}}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\+IG~(100$\ast$1024$\ast$1024)}\hypertarget{usertests_8c_a38eb76aa0a9a1bb1dac30c75be4a05b6}{}\label{usertests_8c_a38eb76aa0a9a1bb1dac30c75be4a05b6}
+\index{usertests.\+c@{usertests.\+c}!R\+T\+C\+\_\+\+A\+D\+DR@{R\+T\+C\+\_\+\+A\+D\+DR}}
+\index{R\+T\+C\+\_\+\+A\+D\+DR@{R\+T\+C\+\_\+\+A\+D\+DR}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{R\+T\+C\+\_\+\+A\+D\+DR}{RTC_ADDR}}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+T\+C\+\_\+\+A\+D\+DR~0x70}\hypertarget{usertests_8c_a6ee8e8390002b24c20c7a1c64bc2c7ac}{}\label{usertests_8c_a6ee8e8390002b24c20c7a1c64bc2c7ac}
+\index{usertests.\+c@{usertests.\+c}!R\+T\+C\+\_\+\+D\+A\+TA@{R\+T\+C\+\_\+\+D\+A\+TA}}
+\index{R\+T\+C\+\_\+\+D\+A\+TA@{R\+T\+C\+\_\+\+D\+A\+TA}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{R\+T\+C\+\_\+\+D\+A\+TA}{RTC_DATA}}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+T\+C\+\_\+\+D\+A\+TA~0x71}\hypertarget{usertests_8c_aa6e7096882c10a7c82c33f3589694b6e}{}\label{usertests_8c_aa6e7096882c10a7c82c33f3589694b6e}
+
+
+\subsection{Function Documentation}
+\index{usertests.\+c@{usertests.\+c}!bigargtest@{bigargtest}}
+\index{bigargtest@{bigargtest}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{bigargtest(void)}{bigargtest(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void bigargtest (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_ac5b5d4517586be6396b4f3b37445945a}{}\label{usertests_8c_ac5b5d4517586be6396b4f3b37445945a}
+\index{usertests.\+c@{usertests.\+c}!bigdir@{bigdir}}
+\index{bigdir@{bigdir}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{bigdir(void)}{bigdir(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void bigdir (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_aa0d46fcb43667c805b84ea7e1ff6100a}{}\label{usertests_8c_aa0d46fcb43667c805b84ea7e1ff6100a}
+\index{usertests.\+c@{usertests.\+c}!bigfile@{bigfile}}
+\index{bigfile@{bigfile}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{bigfile(void)}{bigfile(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void bigfile (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a86fe524d99d69c18a335512cf3405b31}{}\label{usertests_8c_a86fe524d99d69c18a335512cf3405b31}
+\index{usertests.\+c@{usertests.\+c}!bigwrite@{bigwrite}}
+\index{bigwrite@{bigwrite}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{bigwrite(void)}{bigwrite(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void bigwrite (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a57e55b2d0161d62bb99765ca3de43e35}{}\label{usertests_8c_a57e55b2d0161d62bb99765ca3de43e35}
+\index{usertests.\+c@{usertests.\+c}!bsstest@{bsstest}}
+\index{bsstest@{bsstest}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{bsstest(void)}{bsstest(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void bsstest (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a0b0ff95e564df3c3e8fc977226b75de7}{}\label{usertests_8c_a0b0ff95e564df3c3e8fc977226b75de7}
+\index{usertests.\+c@{usertests.\+c}!concreate@{concreate}}
+\index{concreate@{concreate}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{concreate(void)}{concreate(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void concreate (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a5a12affe4fdfaa172d85da9a6adf98d2}{}\label{usertests_8c_a5a12affe4fdfaa172d85da9a6adf98d2}
+\index{usertests.\+c@{usertests.\+c}!createdelete@{createdelete}}
+\index{createdelete@{createdelete}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{createdelete(void)}{createdelete(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void createdelete (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a425a0efe4f459decf4b5ea14517ab3cf}{}\label{usertests_8c_a425a0efe4f459decf4b5ea14517ab3cf}
+\index{usertests.\+c@{usertests.\+c}!createtest@{createtest}}
+\index{createtest@{createtest}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{createtest(void)}{createtest(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void createtest (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a6773439702f38f3835fb6195f77e001c}{}\label{usertests_8c_a6773439702f38f3835fb6195f77e001c}
+\index{usertests.\+c@{usertests.\+c}!dirfile@{dirfile}}
+\index{dirfile@{dirfile}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{dirfile(void)}{dirfile(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void dirfile (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_aedd6d3f148dd5c99b47900215c1ac43f}{}\label{usertests_8c_aedd6d3f148dd5c99b47900215c1ac43f}
+\index{usertests.\+c@{usertests.\+c}!dirtest@{dirtest}}
+\index{dirtest@{dirtest}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{dirtest(void)}{dirtest(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void dirtest (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a8db9f9a2634bab29096bab0b8bc6945c}{}\label{usertests_8c_a8db9f9a2634bab29096bab0b8bc6945c}
+\index{usertests.\+c@{usertests.\+c}!exectest@{exectest}}
+\index{exectest@{exectest}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{exectest(void)}{exectest(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void exectest (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a6f94e3b215d069b5419e87bafe80799a}{}\label{usertests_8c_a6f94e3b215d069b5419e87bafe80799a}
+\index{usertests.\+c@{usertests.\+c}!exitiputtest@{exitiputtest}}
+\index{exitiputtest@{exitiputtest}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{exitiputtest(void)}{exitiputtest(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void exitiputtest (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a8faab06cc4d48335076b368f02709ee2}{}\label{usertests_8c_a8faab06cc4d48335076b368f02709ee2}
+\index{usertests.\+c@{usertests.\+c}!exitwait@{exitwait}}
+\index{exitwait@{exitwait}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{exitwait(void)}{exitwait(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void exitwait (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a330ed2370fe27045b8bec1eb0bd7818f}{}\label{usertests_8c_a330ed2370fe27045b8bec1eb0bd7818f}
+\index{usertests.\+c@{usertests.\+c}!forktest@{forktest}}
+\index{forktest@{forktest}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{forktest(void)}{forktest(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void forktest (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a0ef8ccf57bc8c491407ec513b234f83c}{}\label{usertests_8c_a0ef8ccf57bc8c491407ec513b234f83c}
+\index{usertests.\+c@{usertests.\+c}!fourfiles@{fourfiles}}
+\index{fourfiles@{fourfiles}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{fourfiles(void)}{fourfiles(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void fourfiles (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a77a4432bc67dfb513f1c1d698c2c4ea6}{}\label{usertests_8c_a77a4432bc67dfb513f1c1d698c2c4ea6}
+\index{usertests.\+c@{usertests.\+c}!fourteen@{fourteen}}
+\index{fourteen@{fourteen}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{fourteen(void)}{fourteen(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void fourteen (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_abf4af50e65630225208fef177e267efb}{}\label{usertests_8c_abf4af50e65630225208fef177e267efb}
+\index{usertests.\+c@{usertests.\+c}!fsfull@{fsfull}}
+\index{fsfull@{fsfull}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{fsfull()}{fsfull()}}]{\setlength{\rightskip}{0pt plus 5cm}void fsfull (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a37568127a326729b0576444a4a4509e1}{}\label{usertests_8c_a37568127a326729b0576444a4a4509e1}
+\index{usertests.\+c@{usertests.\+c}!iputtest@{iputtest}}
+\index{iputtest@{iputtest}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{iputtest(void)}{iputtest(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void iputtest (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_ac9fe56d8f6e4ed1c9677b06cb7b325e6}{}\label{usertests_8c_ac9fe56d8f6e4ed1c9677b06cb7b325e6}
+\index{usertests.\+c@{usertests.\+c}!iref@{iref}}
+\index{iref@{iref}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{iref(void)}{iref(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void iref (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a267227083b00d0cc3141b34f5152ae04}{}\label{usertests_8c_a267227083b00d0cc3141b34f5152ae04}
+\index{usertests.\+c@{usertests.\+c}!linktest@{linktest}}
+\index{linktest@{linktest}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{linktest(void)}{linktest(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void linktest (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a4eeee588d4689a58fc140a7d5d7b0608}{}\label{usertests_8c_a4eeee588d4689a58fc140a7d5d7b0608}
+\index{usertests.\+c@{usertests.\+c}!linkunlink@{linkunlink}}
+\index{linkunlink@{linkunlink}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{linkunlink()}{linkunlink()}}]{\setlength{\rightskip}{0pt plus 5cm}void linkunlink (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a1740f29f4ce6d3060fd79a9312edc315}{}\label{usertests_8c_a1740f29f4ce6d3060fd79a9312edc315}
+\index{usertests.\+c@{usertests.\+c}!main@{main}}
+\index{main@{main}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{main(int argc, char $\ast$argv[])}{main(int argc, char *argv[])}}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a0ddf1224851353fc92bfbff6f499fa97}{}\label{usertests_8c_a0ddf1224851353fc92bfbff6f499fa97}
+\index{usertests.\+c@{usertests.\+c}!mem@{mem}}
+\index{mem@{mem}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{mem(void)}{mem(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void mem (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_aa1c6e6e76813ccb29a29bb119dba668a}{}\label{usertests_8c_aa1c6e6e76813ccb29a29bb119dba668a}
+\index{usertests.\+c@{usertests.\+c}!openiputtest@{openiputtest}}
+\index{openiputtest@{openiputtest}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{openiputtest(void)}{openiputtest(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void openiputtest (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a3208ed001a225f5d9ea3fb37f46810c7}{}\label{usertests_8c_a3208ed001a225f5d9ea3fb37f46810c7}
+\index{usertests.\+c@{usertests.\+c}!opentest@{opentest}}
+\index{opentest@{opentest}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{opentest(void)}{opentest(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void opentest (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_ae7c61791dd2cfb8ad59b4c6e87685c07}{}\label{usertests_8c_ae7c61791dd2cfb8ad59b4c6e87685c07}
+\index{usertests.\+c@{usertests.\+c}!pipe1@{pipe1}}
+\index{pipe1@{pipe1}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{pipe1(void)}{pipe1(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void pipe1 (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a16ae754fb9c5622d44d0c3ce62ad7c49}{}\label{usertests_8c_a16ae754fb9c5622d44d0c3ce62ad7c49}
+\index{usertests.\+c@{usertests.\+c}!preempt@{preempt}}
+\index{preempt@{preempt}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{preempt(void)}{preempt(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void preempt (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a026b8c4ab2cb9af17e1c20d533981604}{}\label{usertests_8c_a026b8c4ab2cb9af17e1c20d533981604}
+\index{usertests.\+c@{usertests.\+c}!rand@{rand}}
+\index{rand@{rand}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{rand()}{rand()}}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int rand (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a866c3f5e3e89035c3ba01b22d786d8bc}{}\label{usertests_8c_a866c3f5e3e89035c3ba01b22d786d8bc}
+\index{usertests.\+c@{usertests.\+c}!rmdot@{rmdot}}
+\index{rmdot@{rmdot}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{rmdot(void)}{rmdot(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void rmdot (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a6b22568d42b584ed4b0dc4e2b0677013}{}\label{usertests_8c_a6b22568d42b584ed4b0dc4e2b0677013}
+\index{usertests.\+c@{usertests.\+c}!sbrktest@{sbrktest}}
+\index{sbrktest@{sbrktest}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{sbrktest(void)}{sbrktest(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void sbrktest (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a06636ed0cda58c748d68e82d33d1afce}{}\label{usertests_8c_a06636ed0cda58c748d68e82d33d1afce}
+\index{usertests.\+c@{usertests.\+c}!sharedfd@{sharedfd}}
+\index{sharedfd@{sharedfd}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{sharedfd(void)}{sharedfd(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void sharedfd (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a02e1ca3f4db5f4bf8a683a0b7c18cc43}{}\label{usertests_8c_a02e1ca3f4db5f4bf8a683a0b7c18cc43}
+\index{usertests.\+c@{usertests.\+c}!subdir@{subdir}}
+\index{subdir@{subdir}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{subdir(void)}{subdir(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void subdir (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a5d39024e15998d6a6865f4cd0f69738b}{}\label{usertests_8c_a5d39024e15998d6a6865f4cd0f69738b}
+\index{usertests.\+c@{usertests.\+c}!uio@{uio}}
+\index{uio@{uio}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{uio()}{uio()}}]{\setlength{\rightskip}{0pt plus 5cm}void uio (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a6888f9f6d973f81f73091d1530ad212b}{}\label{usertests_8c_a6888f9f6d973f81f73091d1530ad212b}
+\index{usertests.\+c@{usertests.\+c}!unlinkread@{unlinkread}}
+\index{unlinkread@{unlinkread}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{unlinkread(void)}{unlinkread(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void unlinkread (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a3331ced6fb67502a2e5277260d4f5aec}{}\label{usertests_8c_a3331ced6fb67502a2e5277260d4f5aec}
+\index{usertests.\+c@{usertests.\+c}!validateint@{validateint}}
+\index{validateint@{validateint}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{validateint(int $\ast$p)}{validateint(int *p)}}]{\setlength{\rightskip}{0pt plus 5cm}void validateint (
+\begin{DoxyParamCaption}
+\item[{int $\ast$}]{p}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a426d02dfb5155266933466f604bed0b2}{}\label{usertests_8c_a426d02dfb5155266933466f604bed0b2}
+\index{usertests.\+c@{usertests.\+c}!validatetest@{validatetest}}
+\index{validatetest@{validatetest}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{validatetest(void)}{validatetest(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void validatetest (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a98d8496ecb698b9400831f2718d805c3}{}\label{usertests_8c_a98d8496ecb698b9400831f2718d805c3}
+\index{usertests.\+c@{usertests.\+c}!writetest@{writetest}}
+\index{writetest@{writetest}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{writetest(void)}{writetest(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void writetest (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a3a007a46ea6310b39a233e45d439f11a}{}\label{usertests_8c_a3a007a46ea6310b39a233e45d439f11a}
+\index{usertests.\+c@{usertests.\+c}!writetest1@{writetest1}}
+\index{writetest1@{writetest1}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{writetest1(void)}{writetest1(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void writetest1 (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{usertests_8c_a48ac3cbd37dcf4c4e08b0572b3a0e9f3}{}\label{usertests_8c_a48ac3cbd37dcf4c4e08b0572b3a0e9f3}
+
+
+\subsection{Variable Documentation}
+\index{usertests.\+c@{usertests.\+c}!buf@{buf}}
+\index{buf@{buf}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{buf}{buf}}]{\setlength{\rightskip}{0pt plus 5cm}char {\bf buf}\mbox{[}8192\mbox{]}}\hypertarget{usertests_8c_ad42dafc8306f25c145c246f973b420cf}{}\label{usertests_8c_ad42dafc8306f25c145c246f973b420cf}
+\index{usertests.\+c@{usertests.\+c}!echoargv@{echoargv}}
+\index{echoargv@{echoargv}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{echoargv}{echoargv}}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ echoargv\mbox{[}$\,$\mbox{]} = \{ \char`\"{}echo\char`\"{}, \char`\"{}A\+LL\char`\"{}, \char`\"{}T\+E\+S\+TS\char`\"{}, \char`\"{}P\+A\+S\+S\+ED\char`\"{}, 0 \}}\hypertarget{usertests_8c_ac75529abacd59858a9ff6165253d14ca}{}\label{usertests_8c_ac75529abacd59858a9ff6165253d14ca}
+\index{usertests.\+c@{usertests.\+c}!name@{name}}
+\index{name@{name}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{name}{name}}]{\setlength{\rightskip}{0pt plus 5cm}char name\mbox{[}3\mbox{]}}\hypertarget{usertests_8c_aee754febd402311e2a552cb0d6ab6629}{}\label{usertests_8c_aee754febd402311e2a552cb0d6ab6629}
+\index{usertests.\+c@{usertests.\+c}!randstate@{randstate}}
+\index{randstate@{randstate}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{randstate}{randstate}}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long randstate = 1}\hypertarget{usertests_8c_af0bd27c045c0317df893912a0142b21a}{}\label{usertests_8c_af0bd27c045c0317df893912a0142b21a}
+\index{usertests.\+c@{usertests.\+c}!stdout@{stdout}}
+\index{stdout@{stdout}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{stdout}{stdout}}]{\setlength{\rightskip}{0pt plus 5cm}int stdout = 1}\hypertarget{usertests_8c_adc9da8a05ab98e52153fe99402f93613}{}\label{usertests_8c_adc9da8a05ab98e52153fe99402f93613}
+\index{usertests.\+c@{usertests.\+c}!uninit@{uninit}}
+\index{uninit@{uninit}!usertests.\+c@{usertests.\+c}}
+\subsubsection[{\texorpdfstring{uninit}{uninit}}]{\setlength{\rightskip}{0pt plus 5cm}char uninit\mbox{[}10000\mbox{]}}\hypertarget{usertests_8c_a7def0d79bfddb934aaf3fe627c97daf3}{}\label{usertests_8c_a7def0d79bfddb934aaf3fe627c97daf3}

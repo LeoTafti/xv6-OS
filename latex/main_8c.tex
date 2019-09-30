@@ -1,0 +1,118 @@
+\hypertarget{main_8c}{}\section{main.\+c File Reference}
+\label{main_8c}\index{main.\+c@{main.\+c}}
+{\ttfamily \#include $<$stdbool.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}types.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}defs.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}param.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}memlayout.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}mmu.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}proc.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}x86.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}monitor.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}kalloc.\+h\char`\"{}}\\*
+Include dependency graph for main.\+c\+:
+% FIG 0
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{main_8c_adf9cd4ad44de625db6924e995bc4aa70}{L\+AB}~2
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{main_8c_abd7aa67c2e6a82e3c33e01609bf84327}{check\+\_\+extmem\+\_\+mapped} (\hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} p\+\_\+from, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} p\+\_\+upto)
+\begin{DoxyCompactList}\small\item\em Checks that the pages from \hyperlink{memlayout_8h_a5021188bc7da1304f27e913aee183407}{V2\+P(\+P\+G\+R\+O\+U\+N\+D\+U\+P(end))} to \hyperlink{mmu_8h_a687e91750055553dd2788386c6a512fb}{P\+G\+R\+O\+U\+N\+D\+D\+O\+W\+N(p\+\_\+upto)} are found in freelist. \end{DoxyCompactList}\item 
+bool \hyperlink{main_8c_a68d612745a554b88a3cd5e46ca6c7df3}{test\+\_\+page\+\_\+free\+\_\+list} ()
+\item 
+bool \hyperlink{main_8c_acff8b5dc6d40acd910fd944b7947c0c7}{test\+\_\+page\+\_\+free\+\_\+list\+\_\+ext} ()
+\item 
+bool \hyperlink{main_8c_a594e552d73bfe10bfbf45634cc1a2ff4}{test\+\_\+page\+\_\+alloc} ()
+\item 
+int \hyperlink{main_8c_a10b9845e78307b74552f24d252d0370c}{test\+\_\+page} ()
+\item 
+int \hyperlink{main_8c_a840291bc02cba5474a4cb46a9b9566fe}{main} (void)
+\item 
+\hyperlink{main_8c_a08f0b7c20a38fda2383d4f70bb78dc3e}{\+\_\+\+\_\+attribute\+\_\+\+\_\+} ((\+\_\+\+\_\+aligned\+\_\+\+\_\+(\hyperlink{mmu_8h_a5f96cb6ae6670e023c407cc2f77e1704}{P\+G\+S\+I\+ZE})))
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{custom__types_8h_ac131849542282b2c95dfeaf1f26dc010}{pde\+\_\+t} \hyperlink{main_8c_af70a0e2fc2c22139673a8bd47319d5ff}{entrypgdir} \mbox{[}$\,$\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{main.\+c@{main.\+c}!L\+AB@{L\+AB}}
+\index{L\+AB@{L\+AB}!main.\+c@{main.\+c}}
+\subsubsection[{\texorpdfstring{L\+AB}{LAB}}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\+AB~2}\hypertarget{main_8c_adf9cd4ad44de625db6924e995bc4aa70}{}\label{main_8c_adf9cd4ad44de625db6924e995bc4aa70}
+
+
+\subsection{Function Documentation}
+\index{main.\+c@{main.\+c}!\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+attribute\+\_\+\+\_\+@{\+\_\+\+\_\+attribute\+\_\+\+\_\+}!main.\+c@{main.\+c}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+attribute\+\_\+\+\_\+((\+\_\+\+\_\+aligned\+\_\+\+\_\+(\+P\+G\+S\+I\+Z\+E)))}{__attribute__((__aligned__(PGSIZE)))}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+attribute\+\_\+\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{(\+\_\+\+\_\+aligned\+\_\+\+\_\+({\bf P\+G\+S\+I\+ZE}))}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{main_8c_a08f0b7c20a38fda2383d4f70bb78dc3e}{}\label{main_8c_a08f0b7c20a38fda2383d4f70bb78dc3e}
+\index{main.\+c@{main.\+c}!check\+\_\+extmem\+\_\+mapped@{check\+\_\+extmem\+\_\+mapped}}
+\index{check\+\_\+extmem\+\_\+mapped@{check\+\_\+extmem\+\_\+mapped}!main.\+c@{main.\+c}}
+\subsubsection[{\texorpdfstring{check\+\_\+extmem\+\_\+mapped(uint p\+\_\+from, uint p\+\_\+upto)}{check_extmem_mapped(uint p_from, uint p_upto)}}]{\setlength{\rightskip}{0pt plus 5cm}bool check\+\_\+extmem\+\_\+mapped (
+\begin{DoxyParamCaption}
+\item[{{\bf uint}}]{p\+\_\+from, }
+\item[{{\bf uint}}]{p\+\_\+upto}
+\end{DoxyParamCaption}
+)}\hypertarget{main_8c_abd7aa67c2e6a82e3c33e01609bf84327}{}\label{main_8c_abd7aa67c2e6a82e3c33e01609bf84327}
+
+
+Checks that the pages from \hyperlink{memlayout_8h_a5021188bc7da1304f27e913aee183407}{V2\+P(\+P\+G\+R\+O\+U\+N\+D\+U\+P(end))} to \hyperlink{mmu_8h_a687e91750055553dd2788386c6a512fb}{P\+G\+R\+O\+U\+N\+D\+D\+O\+W\+N(p\+\_\+upto)} are found in freelist. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\+\_\+upto} & The physical address upto which to perform the check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if all pages were found in freelist, false otherwise 
+\end{DoxyReturn}
+\index{main.\+c@{main.\+c}!main@{main}}
+\index{main@{main}!main.\+c@{main.\+c}}
+\subsubsection[{\texorpdfstring{main(void)}{main(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{main_8c_a840291bc02cba5474a4cb46a9b9566fe}{}\label{main_8c_a840291bc02cba5474a4cb46a9b9566fe}
+\index{main.\+c@{main.\+c}!test\+\_\+page@{test\+\_\+page}}
+\index{test\+\_\+page@{test\+\_\+page}!main.\+c@{main.\+c}}
+\subsubsection[{\texorpdfstring{test\+\_\+page()}{test_page()}}]{\setlength{\rightskip}{0pt plus 5cm}int test\+\_\+page (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{main_8c_a10b9845e78307b74552f24d252d0370c}{}\label{main_8c_a10b9845e78307b74552f24d252d0370c}
+\index{main.\+c@{main.\+c}!test\+\_\+page\+\_\+alloc@{test\+\_\+page\+\_\+alloc}}
+\index{test\+\_\+page\+\_\+alloc@{test\+\_\+page\+\_\+alloc}!main.\+c@{main.\+c}}
+\subsubsection[{\texorpdfstring{test\+\_\+page\+\_\+alloc()}{test_page_alloc()}}]{\setlength{\rightskip}{0pt plus 5cm}bool test\+\_\+page\+\_\+alloc (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{main_8c_a594e552d73bfe10bfbf45634cc1a2ff4}{}\label{main_8c_a594e552d73bfe10bfbf45634cc1a2ff4}
+\index{main.\+c@{main.\+c}!test\+\_\+page\+\_\+free\+\_\+list@{test\+\_\+page\+\_\+free\+\_\+list}}
+\index{test\+\_\+page\+\_\+free\+\_\+list@{test\+\_\+page\+\_\+free\+\_\+list}!main.\+c@{main.\+c}}
+\subsubsection[{\texorpdfstring{test\+\_\+page\+\_\+free\+\_\+list()}{test_page_free_list()}}]{\setlength{\rightskip}{0pt plus 5cm}bool test\+\_\+page\+\_\+free\+\_\+list (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{main_8c_a68d612745a554b88a3cd5e46ca6c7df3}{}\label{main_8c_a68d612745a554b88a3cd5e46ca6c7df3}
+\index{main.\+c@{main.\+c}!test\+\_\+page\+\_\+free\+\_\+list\+\_\+ext@{test\+\_\+page\+\_\+free\+\_\+list\+\_\+ext}}
+\index{test\+\_\+page\+\_\+free\+\_\+list\+\_\+ext@{test\+\_\+page\+\_\+free\+\_\+list\+\_\+ext}!main.\+c@{main.\+c}}
+\subsubsection[{\texorpdfstring{test\+\_\+page\+\_\+free\+\_\+list\+\_\+ext()}{test_page_free_list_ext()}}]{\setlength{\rightskip}{0pt plus 5cm}bool test\+\_\+page\+\_\+free\+\_\+list\+\_\+ext (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{main_8c_acff8b5dc6d40acd910fd944b7947c0c7}{}\label{main_8c_acff8b5dc6d40acd910fd944b7947c0c7}
+
+
+\subsection{Variable Documentation}
+\index{main.\+c@{main.\+c}!entrypgdir@{entrypgdir}}
+\index{entrypgdir@{entrypgdir}!main.\+c@{main.\+c}}
+\subsubsection[{\texorpdfstring{entrypgdir}{entrypgdir}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf pde\+\_\+t} entrypgdir\mbox{[}$\,$\mbox{]}}\hypertarget{main_8c_af70a0e2fc2c22139673a8bd47319d5ff}{}\label{main_8c_af70a0e2fc2c22139673a8bd47319d5ff}

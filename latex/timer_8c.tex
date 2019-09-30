@@ -1,0 +1,68 @@
+\hypertarget{timer_8c}{}\section{timer.\+c File Reference}
+\label{timer_8c}\index{timer.\+c@{timer.\+c}}
+{\ttfamily \#include \char`\"{}types.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}defs.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}traps.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}x86.\+h\char`\"{}}\\*
+Include dependency graph for timer.\+c\+:
+% FIG 0
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{timer_8c_a95b5a23b2d1437404a4a197c0917dd86}{I\+O\+\_\+\+T\+I\+M\+E\+R1}~0x040
+\item 
+\#define \hyperlink{timer_8c_acf926951944b6cf370b7229ebd50dd8b}{T\+I\+M\+E\+R\+\_\+\+F\+R\+EQ}~1193182
+\item 
+\#define \hyperlink{timer_8c_a542df7535b53d76e88bf65fb562b1c5a}{T\+I\+M\+E\+R\+\_\+\+D\+IV}(x)~((\hyperlink{timer_8c_acf926951944b6cf370b7229ebd50dd8b}{T\+I\+M\+E\+R\+\_\+\+F\+R\+EQ}+(x)/2)/(x))
+\item 
+\#define \hyperlink{timer_8c_af2a9f923fe45bcba36e26b19886d9d81}{T\+I\+M\+E\+R\+\_\+\+M\+O\+DE}~(\hyperlink{timer_8c_a95b5a23b2d1437404a4a197c0917dd86}{I\+O\+\_\+\+T\+I\+M\+E\+R1} + 3)
+\item 
+\#define \hyperlink{timer_8c_a6a4822642d40c248435692324a818010}{T\+I\+M\+E\+R\+\_\+\+S\+E\+L0}~0x00
+\item 
+\#define \hyperlink{timer_8c_ad9659e4ad696f017ad5002e4d4e9d176}{T\+I\+M\+E\+R\+\_\+\+R\+A\+T\+E\+G\+EN}~0x04
+\item 
+\#define \hyperlink{timer_8c_a8625ef46b29b0eb120042695f9610c87}{T\+I\+M\+E\+R\+\_\+16\+B\+IT}~0x30
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{timer_8c_a49af4bce992b520d5032364d0a4eb8ee}{timerinit} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{timer.\+c@{timer.\+c}!I\+O\+\_\+\+T\+I\+M\+E\+R1@{I\+O\+\_\+\+T\+I\+M\+E\+R1}}
+\index{I\+O\+\_\+\+T\+I\+M\+E\+R1@{I\+O\+\_\+\+T\+I\+M\+E\+R1}!timer.\+c@{timer.\+c}}
+\subsubsection[{\texorpdfstring{I\+O\+\_\+\+T\+I\+M\+E\+R1}{IO_TIMER1}}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\+O\+\_\+\+T\+I\+M\+E\+R1~0x040}\hypertarget{timer_8c_a95b5a23b2d1437404a4a197c0917dd86}{}\label{timer_8c_a95b5a23b2d1437404a4a197c0917dd86}
+\index{timer.\+c@{timer.\+c}!T\+I\+M\+E\+R\+\_\+16\+B\+IT@{T\+I\+M\+E\+R\+\_\+16\+B\+IT}}
+\index{T\+I\+M\+E\+R\+\_\+16\+B\+IT@{T\+I\+M\+E\+R\+\_\+16\+B\+IT}!timer.\+c@{timer.\+c}}
+\subsubsection[{\texorpdfstring{T\+I\+M\+E\+R\+\_\+16\+B\+IT}{TIMER_16BIT}}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+I\+M\+E\+R\+\_\+16\+B\+IT~0x30}\hypertarget{timer_8c_a8625ef46b29b0eb120042695f9610c87}{}\label{timer_8c_a8625ef46b29b0eb120042695f9610c87}
+\index{timer.\+c@{timer.\+c}!T\+I\+M\+E\+R\+\_\+\+D\+IV@{T\+I\+M\+E\+R\+\_\+\+D\+IV}}
+\index{T\+I\+M\+E\+R\+\_\+\+D\+IV@{T\+I\+M\+E\+R\+\_\+\+D\+IV}!timer.\+c@{timer.\+c}}
+\subsubsection[{\texorpdfstring{T\+I\+M\+E\+R\+\_\+\+D\+IV}{TIMER_DIV}}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+I\+M\+E\+R\+\_\+\+D\+IV(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~(({\bf T\+I\+M\+E\+R\+\_\+\+F\+R\+EQ}+(x)/2)/(x))}\hypertarget{timer_8c_a542df7535b53d76e88bf65fb562b1c5a}{}\label{timer_8c_a542df7535b53d76e88bf65fb562b1c5a}
+\index{timer.\+c@{timer.\+c}!T\+I\+M\+E\+R\+\_\+\+F\+R\+EQ@{T\+I\+M\+E\+R\+\_\+\+F\+R\+EQ}}
+\index{T\+I\+M\+E\+R\+\_\+\+F\+R\+EQ@{T\+I\+M\+E\+R\+\_\+\+F\+R\+EQ}!timer.\+c@{timer.\+c}}
+\subsubsection[{\texorpdfstring{T\+I\+M\+E\+R\+\_\+\+F\+R\+EQ}{TIMER_FREQ}}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+I\+M\+E\+R\+\_\+\+F\+R\+EQ~1193182}\hypertarget{timer_8c_acf926951944b6cf370b7229ebd50dd8b}{}\label{timer_8c_acf926951944b6cf370b7229ebd50dd8b}
+\index{timer.\+c@{timer.\+c}!T\+I\+M\+E\+R\+\_\+\+M\+O\+DE@{T\+I\+M\+E\+R\+\_\+\+M\+O\+DE}}
+\index{T\+I\+M\+E\+R\+\_\+\+M\+O\+DE@{T\+I\+M\+E\+R\+\_\+\+M\+O\+DE}!timer.\+c@{timer.\+c}}
+\subsubsection[{\texorpdfstring{T\+I\+M\+E\+R\+\_\+\+M\+O\+DE}{TIMER_MODE}}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+I\+M\+E\+R\+\_\+\+M\+O\+DE~({\bf I\+O\+\_\+\+T\+I\+M\+E\+R1} + 3)}\hypertarget{timer_8c_af2a9f923fe45bcba36e26b19886d9d81}{}\label{timer_8c_af2a9f923fe45bcba36e26b19886d9d81}
+\index{timer.\+c@{timer.\+c}!T\+I\+M\+E\+R\+\_\+\+R\+A\+T\+E\+G\+EN@{T\+I\+M\+E\+R\+\_\+\+R\+A\+T\+E\+G\+EN}}
+\index{T\+I\+M\+E\+R\+\_\+\+R\+A\+T\+E\+G\+EN@{T\+I\+M\+E\+R\+\_\+\+R\+A\+T\+E\+G\+EN}!timer.\+c@{timer.\+c}}
+\subsubsection[{\texorpdfstring{T\+I\+M\+E\+R\+\_\+\+R\+A\+T\+E\+G\+EN}{TIMER_RATEGEN}}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+I\+M\+E\+R\+\_\+\+R\+A\+T\+E\+G\+EN~0x04}\hypertarget{timer_8c_ad9659e4ad696f017ad5002e4d4e9d176}{}\label{timer_8c_ad9659e4ad696f017ad5002e4d4e9d176}
+\index{timer.\+c@{timer.\+c}!T\+I\+M\+E\+R\+\_\+\+S\+E\+L0@{T\+I\+M\+E\+R\+\_\+\+S\+E\+L0}}
+\index{T\+I\+M\+E\+R\+\_\+\+S\+E\+L0@{T\+I\+M\+E\+R\+\_\+\+S\+E\+L0}!timer.\+c@{timer.\+c}}
+\subsubsection[{\texorpdfstring{T\+I\+M\+E\+R\+\_\+\+S\+E\+L0}{TIMER_SEL0}}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+I\+M\+E\+R\+\_\+\+S\+E\+L0~0x00}\hypertarget{timer_8c_a6a4822642d40c248435692324a818010}{}\label{timer_8c_a6a4822642d40c248435692324a818010}
+
+
+\subsection{Function Documentation}
+\index{timer.\+c@{timer.\+c}!timerinit@{timerinit}}
+\index{timerinit@{timerinit}!timer.\+c@{timer.\+c}}
+\subsubsection[{\texorpdfstring{timerinit(void)}{timerinit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void timerinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{timer_8c_a49af4bce992b520d5032364d0a4eb8ee}{}\label{timer_8c_a49af4bce992b520d5032364d0a4eb8ee}

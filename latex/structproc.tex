@@ -1,0 +1,86 @@
+\hypertarget{structproc}{}\section{proc Struct Reference}
+\label{structproc}\index{proc@{proc}}
+
+
+{\ttfamily \#include $<$proc.\+h$>$}
+
+
+
+Collaboration diagram for proc\+:
+% FIG 0
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} \hyperlink{structproc_a6e67042bb361124ff287af88efc33e00}{sz}
+\item 
+\hyperlink{custom__types_8h_ac131849542282b2c95dfeaf1f26dc010}{pde\+\_\+t} $\ast$ \hyperlink{structproc_ad430afc653e9eb6cee33954d5545b79d}{pgdir}
+\item 
+char $\ast$ \hyperlink{structproc_a9f556df98482bff6c9216013d7581ae4}{kstack}
+\item 
+enum \hyperlink{proc_8h_aa1ced7d2b60040fded3fa873d0c03ba7}{procstate} \hyperlink{structproc_a0f2fe91548a1382672ae26e29ca9e736}{state}
+\item 
+int \hyperlink{structproc_acf2bdf54d1f957ccbcdc987007029944}{pid}
+\item 
+struct \hyperlink{structproc}{proc} $\ast$ \hyperlink{structproc_a14ea8849701ffafba4d142725de154d4}{parent}
+\item 
+struct \hyperlink{structtrapframe}{trapframe} $\ast$ \hyperlink{structproc_a56ec07ac1e10ce42adfc8dd2a366071f}{tf}
+\item 
+struct \hyperlink{structcontext}{context} $\ast$ \hyperlink{structproc_ae0d9bffe1ad1c7d60dd2733be0a2333c}{context}
+\item 
+void $\ast$ \hyperlink{structproc_a03048a49756c2243576208ba4ec5fbd4}{chan}
+\item 
+int \hyperlink{structproc_afb4f94a3f4df9a835dbb41b0c26660a4}{killed}
+\item 
+struct \hyperlink{structfile}{file} $\ast$ \hyperlink{structproc_a4a9eb0352efe3fc097c91fccfaac50bd}{ofile} \mbox{[}\hyperlink{param_8h_a80bacbaea8dd6aecf216d85d981bcb21}{N\+O\+F\+I\+LE}\mbox{]}
+\item 
+struct \hyperlink{structinode}{inode} $\ast$ \hyperlink{structproc_a493bc338ce008a838eef521972a35257}{cwd}
+\item 
+char \hyperlink{structproc_ac04af53e17d24b90c3cbfab56d658d62}{name} \mbox{[}16\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Data Documentation}
+\index{proc@{proc}!chan@{chan}}
+\index{chan@{chan}!proc@{proc}}
+\subsubsection[{\texorpdfstring{chan}{chan}}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ proc\+::chan}\hypertarget{structproc_a03048a49756c2243576208ba4ec5fbd4}{}\label{structproc_a03048a49756c2243576208ba4ec5fbd4}
+\index{proc@{proc}!context@{context}}
+\index{context@{context}!proc@{proc}}
+\subsubsection[{\texorpdfstring{context}{context}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf context}$\ast$ proc\+::context}\hypertarget{structproc_ae0d9bffe1ad1c7d60dd2733be0a2333c}{}\label{structproc_ae0d9bffe1ad1c7d60dd2733be0a2333c}
+\index{proc@{proc}!cwd@{cwd}}
+\index{cwd@{cwd}!proc@{proc}}
+\subsubsection[{\texorpdfstring{cwd}{cwd}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf inode}$\ast$ proc\+::cwd}\hypertarget{structproc_a493bc338ce008a838eef521972a35257}{}\label{structproc_a493bc338ce008a838eef521972a35257}
+\index{proc@{proc}!killed@{killed}}
+\index{killed@{killed}!proc@{proc}}
+\subsubsection[{\texorpdfstring{killed}{killed}}]{\setlength{\rightskip}{0pt plus 5cm}int proc\+::killed}\hypertarget{structproc_afb4f94a3f4df9a835dbb41b0c26660a4}{}\label{structproc_afb4f94a3f4df9a835dbb41b0c26660a4}
+\index{proc@{proc}!kstack@{kstack}}
+\index{kstack@{kstack}!proc@{proc}}
+\subsubsection[{\texorpdfstring{kstack}{kstack}}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ proc\+::kstack}\hypertarget{structproc_a9f556df98482bff6c9216013d7581ae4}{}\label{structproc_a9f556df98482bff6c9216013d7581ae4}
+\index{proc@{proc}!name@{name}}
+\index{name@{name}!proc@{proc}}
+\subsubsection[{\texorpdfstring{name}{name}}]{\setlength{\rightskip}{0pt plus 5cm}char proc\+::name\mbox{[}16\mbox{]}}\hypertarget{structproc_ac04af53e17d24b90c3cbfab56d658d62}{}\label{structproc_ac04af53e17d24b90c3cbfab56d658d62}
+\index{proc@{proc}!ofile@{ofile}}
+\index{ofile@{ofile}!proc@{proc}}
+\subsubsection[{\texorpdfstring{ofile}{ofile}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf file}$\ast$ proc\+::ofile\mbox{[}{\bf N\+O\+F\+I\+LE}\mbox{]}}\hypertarget{structproc_a4a9eb0352efe3fc097c91fccfaac50bd}{}\label{structproc_a4a9eb0352efe3fc097c91fccfaac50bd}
+\index{proc@{proc}!parent@{parent}}
+\index{parent@{parent}!proc@{proc}}
+\subsubsection[{\texorpdfstring{parent}{parent}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf proc}$\ast$ proc\+::parent}\hypertarget{structproc_a14ea8849701ffafba4d142725de154d4}{}\label{structproc_a14ea8849701ffafba4d142725de154d4}
+\index{proc@{proc}!pgdir@{pgdir}}
+\index{pgdir@{pgdir}!proc@{proc}}
+\subsubsection[{\texorpdfstring{pgdir}{pgdir}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf pde\+\_\+t}$\ast$ proc\+::pgdir}\hypertarget{structproc_ad430afc653e9eb6cee33954d5545b79d}{}\label{structproc_ad430afc653e9eb6cee33954d5545b79d}
+\index{proc@{proc}!pid@{pid}}
+\index{pid@{pid}!proc@{proc}}
+\subsubsection[{\texorpdfstring{pid}{pid}}]{\setlength{\rightskip}{0pt plus 5cm}int proc\+::pid}\hypertarget{structproc_acf2bdf54d1f957ccbcdc987007029944}{}\label{structproc_acf2bdf54d1f957ccbcdc987007029944}
+\index{proc@{proc}!state@{state}}
+\index{state@{state}!proc@{proc}}
+\subsubsection[{\texorpdfstring{state}{state}}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf procstate} proc\+::state}\hypertarget{structproc_a0f2fe91548a1382672ae26e29ca9e736}{}\label{structproc_a0f2fe91548a1382672ae26e29ca9e736}
+\index{proc@{proc}!sz@{sz}}
+\index{sz@{sz}!proc@{proc}}
+\subsubsection[{\texorpdfstring{sz}{sz}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint} proc\+::sz}\hypertarget{structproc_a6e67042bb361124ff287af88efc33e00}{}\label{structproc_a6e67042bb361124ff287af88efc33e00}
+\index{proc@{proc}!tf@{tf}}
+\index{tf@{tf}!proc@{proc}}
+\subsubsection[{\texorpdfstring{tf}{tf}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf trapframe}$\ast$ proc\+::tf}\hypertarget{structproc_a56ec07ac1e10ce42adfc8dd2a366071f}{}\label{structproc_a56ec07ac1e10ce42adfc8dd2a366071f}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{proc_8h}{proc.\+h}\end{DoxyCompactItemize}

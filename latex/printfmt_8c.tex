@@ -1,0 +1,68 @@
+\hypertarget{printfmt_8c}{}\section{printfmt.\+c File Reference}
+\label{printfmt_8c}\index{printfmt.\+c@{printfmt.\+c}}
+{\ttfamily \#include \char`\"{}types.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}stdio.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}string.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}stdarg.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}error.\+h\char`\"{}}\\*
+Include dependency graph for printfmt.\+c\+:
+% FIG 0
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structsprintbuf}{sprintbuf}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{printfmt_8c_ad7d3bbf7612143a989ce3e9d1bfebf87}{printfmt} (void($\ast$putch)(int, void $\ast$), void $\ast$putdat, const char $\ast$fmt,...)
+\item 
+void \hyperlink{printfmt_8c_a6434f2b779b5ede2adc31ee4f7d64198}{vprintfmt} (void($\ast$putch)(int, void $\ast$), void $\ast$putdat, const char $\ast$fmt, \hyperlink{stdarg_8h_af53f622e3b6c080daeb167c1955d7ec1}{va\+\_\+list} ap)
+\item 
+int \hyperlink{printfmt_8c_a5dba43d9553078b7ce7483bb4be8552f}{vsnprintf} (char $\ast$\hyperlink{structbuf}{buf}, int n, const char $\ast$fmt, \hyperlink{stdarg_8h_af53f622e3b6c080daeb167c1955d7ec1}{va\+\_\+list} ap)
+\item 
+int \hyperlink{printfmt_8c_a07d6815758186683e9c3b0bf41deecdf}{snprintf} (char $\ast$\hyperlink{structbuf}{buf}, int n, const char $\ast$fmt,...)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{printfmt.\+c@{printfmt.\+c}!printfmt@{printfmt}}
+\index{printfmt@{printfmt}!printfmt.\+c@{printfmt.\+c}}
+\subsubsection[{\texorpdfstring{printfmt(void($\ast$putch)(int, void $\ast$), void $\ast$putdat, const char $\ast$fmt,...)}{printfmt(void(*putch)(int, void *), void *putdat, const char *fmt,...)}}]{\setlength{\rightskip}{0pt plus 5cm}void printfmt (
+\begin{DoxyParamCaption}
+\item[{void($\ast$)(int, void $\ast$)}]{putch, }
+\item[{void $\ast$}]{putdat, }
+\item[{const char $\ast$}]{fmt, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}\hypertarget{printfmt_8c_ad7d3bbf7612143a989ce3e9d1bfebf87}{}\label{printfmt_8c_ad7d3bbf7612143a989ce3e9d1bfebf87}
+\index{printfmt.\+c@{printfmt.\+c}!snprintf@{snprintf}}
+\index{snprintf@{snprintf}!printfmt.\+c@{printfmt.\+c}}
+\subsubsection[{\texorpdfstring{snprintf(char $\ast$buf, int n, const char $\ast$fmt,...)}{snprintf(char *buf, int n, const char *fmt,...)}}]{\setlength{\rightskip}{0pt plus 5cm}int snprintf (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{buf, }
+\item[{int}]{n, }
+\item[{const char $\ast$}]{fmt, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}\hypertarget{printfmt_8c_a07d6815758186683e9c3b0bf41deecdf}{}\label{printfmt_8c_a07d6815758186683e9c3b0bf41deecdf}
+\index{printfmt.\+c@{printfmt.\+c}!vprintfmt@{vprintfmt}}
+\index{vprintfmt@{vprintfmt}!printfmt.\+c@{printfmt.\+c}}
+\subsubsection[{\texorpdfstring{vprintfmt(void($\ast$putch)(int, void $\ast$), void $\ast$putdat, const char $\ast$fmt, va\+\_\+list ap)}{vprintfmt(void(*putch)(int, void *), void *putdat, const char *fmt, va_list ap)}}]{\setlength{\rightskip}{0pt plus 5cm}void vprintfmt (
+\begin{DoxyParamCaption}
+\item[{void($\ast$)(int, void $\ast$)}]{putch, }
+\item[{void $\ast$}]{putdat, }
+\item[{const char $\ast$}]{fmt, }
+\item[{{\bf va\+\_\+list}}]{ap}
+\end{DoxyParamCaption}
+)}\hypertarget{printfmt_8c_a6434f2b779b5ede2adc31ee4f7d64198}{}\label{printfmt_8c_a6434f2b779b5ede2adc31ee4f7d64198}
+\index{printfmt.\+c@{printfmt.\+c}!vsnprintf@{vsnprintf}}
+\index{vsnprintf@{vsnprintf}!printfmt.\+c@{printfmt.\+c}}
+\subsubsection[{\texorpdfstring{vsnprintf(char $\ast$buf, int n, const char $\ast$fmt, va\+\_\+list ap)}{vsnprintf(char *buf, int n, const char *fmt, va_list ap)}}]{\setlength{\rightskip}{0pt plus 5cm}int vsnprintf (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{buf, }
+\item[{int}]{n, }
+\item[{const char $\ast$}]{fmt, }
+\item[{{\bf va\+\_\+list}}]{ap}
+\end{DoxyParamCaption}
+)}\hypertarget{printfmt_8c_a5dba43d9553078b7ce7483bb4be8552f}{}\label{printfmt_8c_a5dba43d9553078b7ce7483bb4be8552f}
