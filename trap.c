@@ -110,7 +110,8 @@ trap(struct trapframe *tf)
             goto kill;
           }
 
-          char* faultpgkva = (char*)P2V(((pi - ppages_info) * PGSIZE));
+          char* faultpgkva = (char*)P2V((pi - ppages_info) * PGSIZE);
+          cprintf("Physical address of page being copied : %x\n", (pi - ppages_info) * PGSIZE);
           memmove(newpgkva, faultpgkva, PGSIZE);
 
           uint flags = PTE_FLAGS(*pte);
