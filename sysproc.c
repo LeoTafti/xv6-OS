@@ -100,13 +100,13 @@ sys_alarm(void){
     return -1;
   
   Handler func;
-  if(argptr(1, &func, 4)); //TODO : what is the size in bytes here ??
+  if(argptr(1, &func, sizeof(Handler))); //TODO : what is the size in bytes here ??
   
   uint ref = uptime();
   
   while(uptime() - ref < n); //Busy waiting
 
   func();
-  
+
   return 0;
 }
