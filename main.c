@@ -536,7 +536,7 @@ main(void)
   kmarkused((char*)KERNBASE, end);
   kmarkused(P2V(PHYSTOP), (char*)0xFFFFFFFF);
 
-	success = test_page_free_list_ext();
+	//success = test_page_free_list_ext(); //TODO : uncomment
 	success ? uartprintcstr("Test_page_free_list_ext succeded!\n") : uartprintcstr("Test_page_free_list_ext failed!\n");
 
 	success = test_page_alloc();

@@ -388,7 +388,6 @@ vcopyuvm(pde_t *pgdir, uint sz){
       panic("vcopyuvm: page not present");
     uint pa = PTE_ADDR(*pte);
     uint flags = PTE_FLAGS(*pte);
-    
     if((flags & PTE_W) || (flags & PTE_COW)){
       uint newflags = (flags & ~(PTE_W)) | PTE_COW; // Set PTE_COW to 1, PTE_W to 0
       mappages(d, (char*)i, PGSIZE, pa, newflags); //Edit child process permissions
@@ -399,8 +398,9 @@ vcopyuvm(pde_t *pgdir, uint sz){
     }
 
     //Update refcount
-    increfcount((char*)i);
+    increfcount(P2V(PTE_ADDR(*pte)));
   }
+  cprintf("xiting\n");
   return d;
 }
 

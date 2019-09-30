@@ -9,8 +9,6 @@
 #include "spinlock.h"
 #include "kalloc.h"
 
-#include <string.h> // for memcpy()
-
 // Interrupt descriptor table (shared by all CPUs).
 struct gatedesc idt[256];
 extern uint vectors[];  // in vectors.S: array of 256 entry pointers
@@ -96,14 +94,14 @@ trap(struct trapframe *tf)
       //We check to see if the faulting page had its PTE_COW bit set, and that it was a write
       struct page_info *pi;
       pte_t *pte;
-      if((pi = klookup(proc->pgdir, rcr2(), &pte)) != 0
+      if((pi = klookup(proc->pgdir, (char*)rcr2(), &pte)) != 0
           && (*pte & PTE_COW)
           && (tf->err & ERR_W)){
         if(pi->refcount == 1){ //The current process has exclusive access (fault is only due to past COW)
           //Simply rewrite permission bits
           uint newFlags = (PTE_FLAGS(*pte) & ~PTE_COW) | PTE_W;
           *pte = PTE_ADDR(*pte) | newFlags;
-          tlb_invalidate(proc->pgdir, rcr2());
+          tlb_invalidate(proc->pgdir, (char*)rcr2());
         }
 
         //Allocate a page, copy faulting page content to it, map it.
@@ -114,11 +112,11 @@ trap(struct trapframe *tf)
         }
 
         char* faultpgkva = (char*)P2V(((pi - ppages_info) * PGSIZE));
-        memcpy(newpgkva, faultpgkva, PGSIZE);
+        memmove(newpgkva, faultpgkva, PGSIZE);
 
         uint flags = PTE_FLAGS(*pte);
         struct page_info *newpgpi = &ppages_info[V2P(newpgkva) / PGSIZE];
-        if(kinsert(proc->pgdir, newpgpi, rcr2(), (flags & ~PTE_COW) | PTE_W) != 0){ //Mark the new page writable and not COW
+        if(kinsert(proc->pgdir, newpgpi, (char*)rcr2(), (flags & ~PTE_COW) | PTE_W) != 0){ //Mark the new page writable and not COW
           cprintf("COW : kinsert() failed. Killing process.\n");
           goto kill;
         }
@@ -128,15 +126,16 @@ trap(struct trapframe *tf)
       }else{
         panic("trap.c : unexpected page fault");
       }
-    }
+    }else{
 
 kill:
-    // Otherwise in user space, assume process misbehaved.
-    cprintf("pid %d %s: trap %d err %d on cpu %d "
-            "eip 0x%x addr 0x%x--kill proc\n",
-            proc->pid, proc->name, tf->trapno, tf->err, cpunum(), tf->eip,
-            rcr2());
-    proc->killed = 1;
+      // Otherwise in user space, assume process misbehaved.
+      cprintf("pid %d %s: trap %d err %d on cpu %d "
+              "eip 0x%x addr 0x%x--kill proc\n",
+              proc->pid, proc->name, tf->trapno, tf->err, cpunum(), tf->eip,
+              rcr2());
+      proc->killed = 1;
+    }
   }
 
   // Force process exit if it has been killed and is in user space.
