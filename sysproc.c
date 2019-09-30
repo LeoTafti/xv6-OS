@@ -94,19 +94,21 @@ typedef void (*Handler)(void);
 
 int
 sys_alarm(void){
-  //TODO : implement
   int n;
   if(argint(0, &n) < 0)
     return -1;
   
   Handler func;
-  if(argptr(1, &func, sizeof(Handler))); //TODO : what is the size in bytes here ??
+  if(argptr(1, (char**)&func, 100)); //TODO : what is the size in bytes here ??
   
-  uint ref = uptime();
-  
-  while(uptime() - ref < n); //Busy waiting
+  while(1){ //TODO : not sure if this is okay
+    uint ref = sys_uptime();
+    while(sys_uptime() - ref < n){
+      //TODO : yield
+    }
 
-  func();
+    func();
+  }
 
   return 0;
 }
