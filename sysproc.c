@@ -94,4 +94,5 @@ int
 sys_alarm(void){
   //TODO : implement
   cprintf("This is printed from the alarm syscall, youhouuu\n");
+  return 0;
 }
