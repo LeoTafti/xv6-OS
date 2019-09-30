@@ -7,12 +7,17 @@
 #include "x86.h"
 #include "traps.h"
 #include "spinlock.h"
+#include "kalloc.h"
+
+#include <string.h> // for memcpy()
 
 // Interrupt descriptor table (shared by all CPUs).
 struct gatedesc idt[256];
 extern uint vectors[];  // in vectors.S: array of 256 entry pointers
 struct spinlock tickslock;
 uint ticks;
+
+extern struct page_info ppages_info[];
 
 void
 tvinit(void)
@@ -80,13 +85,53 @@ trap(struct trapframe *tf)
 
   //PAGEBREAK: 13
   default:
-    if(proc == 0 || (tf->cs&3) == 0){
+    if(proc == 0 || ((tf->cs&3) == 0 && tf->trapno != T_PGFLT)){
       // In kernel, it must be our mistake.
       cprintf("unexpected trap %d from cpu %d eip %x (cr2=0x%x)\n",
               tf->trapno, cpunum(), tf->eip, rcr2());
       panic("trap");
     }
-    // In user space, assume process misbehaved.
+
+    if(tf->trapno == T_PGFLT){
+      //We check to see if the faulting page had its PTE_COW bit set, and that it was a write
+      struct page_info *pi;
+      pte_t *pte;
+      if((pi = klookup(proc->pgdir, rcr2(), &pte)) != 0
+          && (*pte & PTE_COW)
+          && (tf->err & ERR_W)){
+        if(pi->refcount == 1){ //The current process has exclusive access (fault is only due to past COW)
+          //Simply rewrite permission bits
+          uint newFlags = (PTE_FLAGS(*pte) & ~PTE_COW) | PTE_W;
+          *pte = PTE_ADDR(*pte) | newFlags;
+          tlb_invalidate(proc->pgdir, rcr2());
+        }
+
+        //Allocate a page, copy faulting page content to it, map it.
+        char* newpgkva;
+        if((newpgkva = kalloc()) == 0){
+          cprintf("COW : kalloc() failed. Killing process.\n");
+          goto kill;
+        }
+
+        char* faultpgkva = (char*)P2V(((pi - ppages_info) * PGSIZE));
+        memcpy(newpgkva, faultpgkva, PGSIZE);
+
+        uint flags = PTE_FLAGS(*pte);
+        struct page_info *newpgpi = &ppages_info[V2P(newpgkva) / PGSIZE];
+        if(kinsert(proc->pgdir, newpgpi, rcr2(), (flags & ~PTE_COW) | PTE_W) != 0){ //Mark the new page writable and not COW
+          cprintf("COW : kinsert() failed. Killing process.\n");
+          goto kill;
+        }
+
+        //Edit faulting page refcount
+        kdecref(faultpgkva);
+      }else{
+        panic("trap.c : unexpected page fault");
+      }
+    }
+
+kill:
+    // Otherwise in user space, assume process misbehaved.
     cprintf("pid %d %s: trap %d err %d on cpu %d "
             "eip 0x%x addr 0x%x--kill proc\n",
             proc->pid, proc->name, tf->trapno, tf->err, cpunum(), tf->eip,

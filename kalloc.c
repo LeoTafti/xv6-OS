@@ -79,8 +79,7 @@ kremove(pde_t *pgdir, void *va)
   pte_t *pte = walkpgdir(pgdir, va, 0);
   if(pte && (*pte & PTE_P) != 0){
     //Translate pte into kernel va
-    //TODO : magic number
-    char* kva = P2V((uint)*pte & 0xFFFFF000); // "& 0x000" clears flags, effectively setting offset to 0
+    char* kva = P2V(PTE_ADDR(*pte));
     kdecref(kva);
     memset(pte, 0, sizeof(pte_t));
     tlb_invalidate(pgdir, va);

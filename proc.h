@@ -70,3 +70,5 @@ struct proc {
 //   original data and bss
 //   fixed-size stack
 //   expandable heap
+
+#define PTE_COW 0x800

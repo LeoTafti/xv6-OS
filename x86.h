@@ -190,6 +190,8 @@ struct trapframe {
   ushort padding6;
 };
 
+#define ERR_W 2 //0b10, W bit set
+
 static __inline uint32_t read_eflags(void) __attribute__((always_inline));
 static __inline void write_eflags(uint32_t eflags) __attribute__((always_inline));
 static __inline uint32_t read_ebp(void) __attribute__((always_inline));

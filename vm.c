@@ -6,10 +6,18 @@
 #include "mmu.h"
 #include "proc.h"
 #include "elf.h"
+#include "kalloc.h"
 
 extern char data[];  // defined by kernel.ld
 pde_t *kpgdir;  // for use in scheduler()
 
+extern struct page_info ppages_info[];
+
+/**
+ * @brief Invalidates entry in page table
+ * @param pgdir (pointer to) the page table directy
+ * @param va virtual address
+ */
 void
 tlb_invalidate(pde_t *pgdir, void *va)
 {
@@ -354,6 +362,46 @@ copyuvm(pde_t *pgdir, uint sz)
 bad:
   freevm(d);
   return 0;
+}
+
+/**
+ * @brief Given a parent process's page table, create a new
+ * page table for the child and set permission bits in both tables
+ * to allow COW forking
+ * @param pgdir (pointer to) the page directory of the parent process
+ * @param sz size of the parent process (in bytes)
+ * @return (pointer to) the child page table directory, 0 (NULL) if error.
+ */
+pde_t*
+vcopyuvm(pde_t *pgdir, uint sz){
+  pde_t *d;
+  pte_t *pte;
+
+  if((d = setupkvm()) == 0){
+    return 0;
+  }
+
+  for(int i = 0; i < sz; i += PGSIZE){
+    if((pte = walkpgdir(pgdir, (void *) i, 0)) == 0)
+      panic("vcopyuvm: pte should exist");
+    if(!(*pte & PTE_P))
+      panic("vcopyuvm: page not present");
+    uint pa = PTE_ADDR(*pte);
+    uint flags = PTE_FLAGS(*pte);
+    
+    if((flags & PTE_W) || (flags & PTE_COW)){
+      uint newflags = (flags & ~(PTE_W)) | PTE_COW; // Set PTE_COW to 1, PTE_W to 0
+      mappages(d, (char*)i, PGSIZE, pa, newflags); //Edit child process permissions
+      *pte = pa | newflags;                        //Edit parent process permissions
+      tlb_invalidate(pgdir, (char*) i);            //Since we changed the entry, invalidate in the tlb
+    }else{ //Non-writable and not COW
+      mappages(d, (char*)i, PGSIZE, pa, flags);
+    }
+
+    //Update refcount
+    increfcount((char*)i);
+  }
+  return d;
 }
 
 //PAGEBREAK!
