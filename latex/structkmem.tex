@@ -1,0 +1,36 @@
+\hypertarget{structkmem}{}\section{kmem Struct Reference}
+\label{structkmem}\index{kmem@{kmem}}
+
+
+{\ttfamily \#include $<$kalloc.\+h$>$}
+
+
+
+Collaboration diagram for kmem\+:
+% FIG 0
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structspinlock}{spinlock} \hyperlink{structkmem_ab98bb7fcf1d4f52b841ff0019dd440b4}{lock}
+\item 
+int \hyperlink{structkmem_a877cadf832ccc6da9d494cff0c115959}{use\+\_\+lock}
+\item 
+struct \hyperlink{structpage__info}{page\+\_\+info} $\ast$ \hyperlink{structkmem_aad0e60274b8c0d99e8e54ef1aca231b7}{freelist}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Data Documentation}
+\index{kmem@{kmem}!freelist@{freelist}}
+\index{freelist@{freelist}!kmem@{kmem}}
+\subsubsection[{\texorpdfstring{freelist}{freelist}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf page\+\_\+info}$\ast$ kmem\+::freelist}\hypertarget{structkmem_aad0e60274b8c0d99e8e54ef1aca231b7}{}\label{structkmem_aad0e60274b8c0d99e8e54ef1aca231b7}
+\index{kmem@{kmem}!lock@{lock}}
+\index{lock@{lock}!kmem@{kmem}}
+\subsubsection[{\texorpdfstring{lock}{lock}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf spinlock} kmem\+::lock}\hypertarget{structkmem_ab98bb7fcf1d4f52b841ff0019dd440b4}{}\label{structkmem_ab98bb7fcf1d4f52b841ff0019dd440b4}
+\index{kmem@{kmem}!use\+\_\+lock@{use\+\_\+lock}}
+\index{use\+\_\+lock@{use\+\_\+lock}!kmem@{kmem}}
+\subsubsection[{\texorpdfstring{use\+\_\+lock}{use_lock}}]{\setlength{\rightskip}{0pt plus 5cm}int kmem\+::use\+\_\+lock}\hypertarget{structkmem_a877cadf832ccc6da9d494cff0c115959}{}\label{structkmem_a877cadf832ccc6da9d494cff0c115959}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{kalloc_8h}{kalloc.\+h}\end{DoxyCompactItemize}

@@ -1,0 +1,94 @@
+\hypertarget{ioapic_8c}{}\section{ioapic.\+c File Reference}
+\label{ioapic_8c}\index{ioapic.\+c@{ioapic.\+c}}
+{\ttfamily \#include \char`\"{}types.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}defs.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}traps.\+h\char`\"{}}\\*
+Include dependency graph for ioapic.\+c\+:
+% FIG 0
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structioapic}{ioapic}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{ioapic_8c_a7d40119d2e49f7d8ae65520ccad99a1e}{I\+O\+A\+P\+IC}~0x\+F\+E\+C00000
+\item 
+\#define \hyperlink{ioapic_8c_a91339a8293cb53b81407c016bc41e2b1}{R\+E\+G\+\_\+\+ID}~0x00
+\item 
+\#define \hyperlink{ioapic_8c_ac56cc95ec46071699b119b24d6d808f9}{R\+E\+G\+\_\+\+V\+ER}~0x01
+\item 
+\#define \hyperlink{ioapic_8c_ad31b206e97e5e8cc5c70f8713669b27f}{R\+E\+G\+\_\+\+T\+A\+B\+LE}~0x10
+\item 
+\#define \hyperlink{ioapic_8c_ab26e186261a82b907e024126fafbff1f}{I\+N\+T\+\_\+\+D\+I\+S\+A\+B\+L\+ED}~0x00010000
+\item 
+\#define \hyperlink{ioapic_8c_aed01298d37e73ed9737c8a6b70e67caa}{I\+N\+T\+\_\+\+L\+E\+V\+EL}~0x00008000
+\item 
+\#define \hyperlink{ioapic_8c_a516778548109f98ff313d8753d030d37}{I\+N\+T\+\_\+\+A\+C\+T\+I\+V\+E\+L\+OW}~0x00002000
+\item 
+\#define \hyperlink{ioapic_8c_a7e41b4c95cc235d58d7a45411541f9de}{I\+N\+T\+\_\+\+L\+O\+G\+I\+C\+AL}~0x00000800
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{ioapic_8c_abce023b98422f397abdb425b20c8ceec}{ioapicinit} (void)
+\item 
+void \hyperlink{ioapic_8c_a9688537a0879e9e2ac5a90184e2ef987}{ioapicenable} (int irq, int \hyperlink{lapic_8c_ad07bc98847d46ba9772ab5ad4f52e6ec}{cpunum})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+volatile struct \hyperlink{structioapic}{ioapic} $\ast$ \hyperlink{ioapic_8c_a61d7da24dba0ce35323deb8bb6cf6f91}{ioapic}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{ioapic.\+c@{ioapic.\+c}!I\+N\+T\+\_\+\+A\+C\+T\+I\+V\+E\+L\+OW@{I\+N\+T\+\_\+\+A\+C\+T\+I\+V\+E\+L\+OW}}
+\index{I\+N\+T\+\_\+\+A\+C\+T\+I\+V\+E\+L\+OW@{I\+N\+T\+\_\+\+A\+C\+T\+I\+V\+E\+L\+OW}!ioapic.\+c@{ioapic.\+c}}
+\subsubsection[{\texorpdfstring{I\+N\+T\+\_\+\+A\+C\+T\+I\+V\+E\+L\+OW}{INT_ACTIVELOW}}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\+N\+T\+\_\+\+A\+C\+T\+I\+V\+E\+L\+OW~0x00002000}\hypertarget{ioapic_8c_a516778548109f98ff313d8753d030d37}{}\label{ioapic_8c_a516778548109f98ff313d8753d030d37}
+\index{ioapic.\+c@{ioapic.\+c}!I\+N\+T\+\_\+\+D\+I\+S\+A\+B\+L\+ED@{I\+N\+T\+\_\+\+D\+I\+S\+A\+B\+L\+ED}}
+\index{I\+N\+T\+\_\+\+D\+I\+S\+A\+B\+L\+ED@{I\+N\+T\+\_\+\+D\+I\+S\+A\+B\+L\+ED}!ioapic.\+c@{ioapic.\+c}}
+\subsubsection[{\texorpdfstring{I\+N\+T\+\_\+\+D\+I\+S\+A\+B\+L\+ED}{INT_DISABLED}}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\+N\+T\+\_\+\+D\+I\+S\+A\+B\+L\+ED~0x00010000}\hypertarget{ioapic_8c_ab26e186261a82b907e024126fafbff1f}{}\label{ioapic_8c_ab26e186261a82b907e024126fafbff1f}
+\index{ioapic.\+c@{ioapic.\+c}!I\+N\+T\+\_\+\+L\+E\+V\+EL@{I\+N\+T\+\_\+\+L\+E\+V\+EL}}
+\index{I\+N\+T\+\_\+\+L\+E\+V\+EL@{I\+N\+T\+\_\+\+L\+E\+V\+EL}!ioapic.\+c@{ioapic.\+c}}
+\subsubsection[{\texorpdfstring{I\+N\+T\+\_\+\+L\+E\+V\+EL}{INT_LEVEL}}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\+N\+T\+\_\+\+L\+E\+V\+EL~0x00008000}\hypertarget{ioapic_8c_aed01298d37e73ed9737c8a6b70e67caa}{}\label{ioapic_8c_aed01298d37e73ed9737c8a6b70e67caa}
+\index{ioapic.\+c@{ioapic.\+c}!I\+N\+T\+\_\+\+L\+O\+G\+I\+C\+AL@{I\+N\+T\+\_\+\+L\+O\+G\+I\+C\+AL}}
+\index{I\+N\+T\+\_\+\+L\+O\+G\+I\+C\+AL@{I\+N\+T\+\_\+\+L\+O\+G\+I\+C\+AL}!ioapic.\+c@{ioapic.\+c}}
+\subsubsection[{\texorpdfstring{I\+N\+T\+\_\+\+L\+O\+G\+I\+C\+AL}{INT_LOGICAL}}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\+N\+T\+\_\+\+L\+O\+G\+I\+C\+AL~0x00000800}\hypertarget{ioapic_8c_a7e41b4c95cc235d58d7a45411541f9de}{}\label{ioapic_8c_a7e41b4c95cc235d58d7a45411541f9de}
+\index{ioapic.\+c@{ioapic.\+c}!I\+O\+A\+P\+IC@{I\+O\+A\+P\+IC}}
+\index{I\+O\+A\+P\+IC@{I\+O\+A\+P\+IC}!ioapic.\+c@{ioapic.\+c}}
+\subsubsection[{\texorpdfstring{I\+O\+A\+P\+IC}{IOAPIC}}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\+O\+A\+P\+IC~0x\+F\+E\+C00000}\hypertarget{ioapic_8c_a7d40119d2e49f7d8ae65520ccad99a1e}{}\label{ioapic_8c_a7d40119d2e49f7d8ae65520ccad99a1e}
+\index{ioapic.\+c@{ioapic.\+c}!R\+E\+G\+\_\+\+ID@{R\+E\+G\+\_\+\+ID}}
+\index{R\+E\+G\+\_\+\+ID@{R\+E\+G\+\_\+\+ID}!ioapic.\+c@{ioapic.\+c}}
+\subsubsection[{\texorpdfstring{R\+E\+G\+\_\+\+ID}{REG_ID}}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+E\+G\+\_\+\+ID~0x00}\hypertarget{ioapic_8c_a91339a8293cb53b81407c016bc41e2b1}{}\label{ioapic_8c_a91339a8293cb53b81407c016bc41e2b1}
+\index{ioapic.\+c@{ioapic.\+c}!R\+E\+G\+\_\+\+T\+A\+B\+LE@{R\+E\+G\+\_\+\+T\+A\+B\+LE}}
+\index{R\+E\+G\+\_\+\+T\+A\+B\+LE@{R\+E\+G\+\_\+\+T\+A\+B\+LE}!ioapic.\+c@{ioapic.\+c}}
+\subsubsection[{\texorpdfstring{R\+E\+G\+\_\+\+T\+A\+B\+LE}{REG_TABLE}}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+E\+G\+\_\+\+T\+A\+B\+LE~0x10}\hypertarget{ioapic_8c_ad31b206e97e5e8cc5c70f8713669b27f}{}\label{ioapic_8c_ad31b206e97e5e8cc5c70f8713669b27f}
+\index{ioapic.\+c@{ioapic.\+c}!R\+E\+G\+\_\+\+V\+ER@{R\+E\+G\+\_\+\+V\+ER}}
+\index{R\+E\+G\+\_\+\+V\+ER@{R\+E\+G\+\_\+\+V\+ER}!ioapic.\+c@{ioapic.\+c}}
+\subsubsection[{\texorpdfstring{R\+E\+G\+\_\+\+V\+ER}{REG_VER}}]{\setlength{\rightskip}{0pt plus 5cm}\#define R\+E\+G\+\_\+\+V\+ER~0x01}\hypertarget{ioapic_8c_ac56cc95ec46071699b119b24d6d808f9}{}\label{ioapic_8c_ac56cc95ec46071699b119b24d6d808f9}
+
+
+\subsection{Function Documentation}
+\index{ioapic.\+c@{ioapic.\+c}!ioapicenable@{ioapicenable}}
+\index{ioapicenable@{ioapicenable}!ioapic.\+c@{ioapic.\+c}}
+\subsubsection[{\texorpdfstring{ioapicenable(int irq, int cpunum)}{ioapicenable(int irq, int cpunum)}}]{\setlength{\rightskip}{0pt plus 5cm}void ioapicenable (
+\begin{DoxyParamCaption}
+\item[{int}]{irq, }
+\item[{int}]{cpunum}
+\end{DoxyParamCaption}
+)}\hypertarget{ioapic_8c_a9688537a0879e9e2ac5a90184e2ef987}{}\label{ioapic_8c_a9688537a0879e9e2ac5a90184e2ef987}
+\index{ioapic.\+c@{ioapic.\+c}!ioapicinit@{ioapicinit}}
+\index{ioapicinit@{ioapicinit}!ioapic.\+c@{ioapic.\+c}}
+\subsubsection[{\texorpdfstring{ioapicinit(void)}{ioapicinit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void ioapicinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{ioapic_8c_abce023b98422f397abdb425b20c8ceec}{}\label{ioapic_8c_abce023b98422f397abdb425b20c8ceec}
+
+
+\subsection{Variable Documentation}
+\index{ioapic.\+c@{ioapic.\+c}!ioapic@{ioapic}}
+\index{ioapic@{ioapic}!ioapic.\+c@{ioapic.\+c}}
+\subsubsection[{\texorpdfstring{ioapic}{ioapic}}]{\setlength{\rightskip}{0pt plus 5cm}volatile struct {\bf ioapic}$\ast$ {\bf ioapic}}\hypertarget{ioapic_8c_a61d7da24dba0ce35323deb8bb6cf6f91}{}\label{ioapic_8c_a61d7da24dba0ce35323deb8bb6cf6f91}

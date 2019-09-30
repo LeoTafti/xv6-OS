@@ -1,0 +1,112 @@
+\hypertarget{file_8c}{}\section{file.\+c File Reference}
+\label{file_8c}\index{file.\+c@{file.\+c}}
+{\ttfamily \#include \char`\"{}types.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}defs.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}param.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}fs.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}file.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}spinlock.\+h\char`\"{}}\\*
+Include dependency graph for file.\+c\+:
+% FIG 0
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{file_8c_a66bb5a4b304ea0f851dd999fc8195fa4}{fileinit} (void)
+\item 
+struct \hyperlink{structfile}{file} $\ast$ \hyperlink{file_8c_a69d3d2dd94efa1f1ff8d0143f4d9b786}{filealloc} (void)
+\item 
+struct \hyperlink{structfile}{file} $\ast$ \hyperlink{file_8c_a014992e93368bee9318b5e1ff575cb91}{filedup} (struct \hyperlink{structfile}{file} $\ast$f)
+\item 
+void \hyperlink{file_8c_ae557c81ab89c24219146144bb6adaa2c}{fileclose} (struct \hyperlink{structfile}{file} $\ast$f)
+\item 
+int \hyperlink{file_8c_afff8e849fa54dea2a5a27dbb97474607}{filestat} (struct \hyperlink{structfile}{file} $\ast$f, struct \hyperlink{structstat}{stat} $\ast$st)
+\item 
+int \hyperlink{file_8c_a1dc8c87c7e48bdaaf98e9c7047928f29}{fileread} (struct \hyperlink{structfile}{file} $\ast$f, char $\ast$addr, int n)
+\item 
+int \hyperlink{file_8c_ab8de757a0a9f58dcc6511ea5e46ebb88}{filewrite} (struct \hyperlink{structfile}{file} $\ast$f, char $\ast$addr, int n)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structdevsw}{devsw} \hyperlink{file_8c_aadbb32b41c0d0e9c19d6d8fa3a0a6502}{devsw} \mbox{[}\hyperlink{param_8h_aa564a41c8409694da49b0badf2bb2853}{N\+D\+EV}\mbox{]}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>struct \hyperlink{structspinlock}{spinlock} \hyperlink{file_8c_ab28e82cd5dda7d960095706a3ea20572}{lock}\\
+\>struct \hyperlink{structfile}{file} \hyperlink{file_8c_a7cfa5243b3d349a415c7500c962fe9a5}{file} \mbox{[}\hyperlink{param_8h_a8485f4e81de2537e6a0935626167a775}{NFILE}\mbox{]}\\
+\} \hyperlink{file_8c_a7e8701dc5ad036d35868a6daa9fd8244}{ftable}\\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{file.\+c@{file.\+c}!filealloc@{filealloc}}
+\index{filealloc@{filealloc}!file.\+c@{file.\+c}}
+\subsubsection[{\texorpdfstring{filealloc(void)}{filealloc(void)}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf file}$\ast$ filealloc (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{file_8c_a69d3d2dd94efa1f1ff8d0143f4d9b786}{}\label{file_8c_a69d3d2dd94efa1f1ff8d0143f4d9b786}
+\index{file.\+c@{file.\+c}!fileclose@{fileclose}}
+\index{fileclose@{fileclose}!file.\+c@{file.\+c}}
+\subsubsection[{\texorpdfstring{fileclose(struct file $\ast$f)}{fileclose(struct file *f)}}]{\setlength{\rightskip}{0pt plus 5cm}void fileclose (
+\begin{DoxyParamCaption}
+\item[{struct {\bf file} $\ast$}]{f}
+\end{DoxyParamCaption}
+)}\hypertarget{file_8c_ae557c81ab89c24219146144bb6adaa2c}{}\label{file_8c_ae557c81ab89c24219146144bb6adaa2c}
+\index{file.\+c@{file.\+c}!filedup@{filedup}}
+\index{filedup@{filedup}!file.\+c@{file.\+c}}
+\subsubsection[{\texorpdfstring{filedup(struct file $\ast$f)}{filedup(struct file *f)}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf file}$\ast$ filedup (
+\begin{DoxyParamCaption}
+\item[{struct {\bf file} $\ast$}]{f}
+\end{DoxyParamCaption}
+)}\hypertarget{file_8c_a014992e93368bee9318b5e1ff575cb91}{}\label{file_8c_a014992e93368bee9318b5e1ff575cb91}
+\index{file.\+c@{file.\+c}!fileinit@{fileinit}}
+\index{fileinit@{fileinit}!file.\+c@{file.\+c}}
+\subsubsection[{\texorpdfstring{fileinit(void)}{fileinit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void fileinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{file_8c_a66bb5a4b304ea0f851dd999fc8195fa4}{}\label{file_8c_a66bb5a4b304ea0f851dd999fc8195fa4}
+\index{file.\+c@{file.\+c}!fileread@{fileread}}
+\index{fileread@{fileread}!file.\+c@{file.\+c}}
+\subsubsection[{\texorpdfstring{fileread(struct file $\ast$f, char $\ast$addr, int n)}{fileread(struct file *f, char *addr, int n)}}]{\setlength{\rightskip}{0pt plus 5cm}int fileread (
+\begin{DoxyParamCaption}
+\item[{struct {\bf file} $\ast$}]{f, }
+\item[{char $\ast$}]{addr, }
+\item[{int}]{n}
+\end{DoxyParamCaption}
+)}\hypertarget{file_8c_a1dc8c87c7e48bdaaf98e9c7047928f29}{}\label{file_8c_a1dc8c87c7e48bdaaf98e9c7047928f29}
+\index{file.\+c@{file.\+c}!filestat@{filestat}}
+\index{filestat@{filestat}!file.\+c@{file.\+c}}
+\subsubsection[{\texorpdfstring{filestat(struct file $\ast$f, struct stat $\ast$st)}{filestat(struct file *f, struct stat *st)}}]{\setlength{\rightskip}{0pt plus 5cm}int filestat (
+\begin{DoxyParamCaption}
+\item[{struct {\bf file} $\ast$}]{f, }
+\item[{struct {\bf stat} $\ast$}]{st}
+\end{DoxyParamCaption}
+)}\hypertarget{file_8c_afff8e849fa54dea2a5a27dbb97474607}{}\label{file_8c_afff8e849fa54dea2a5a27dbb97474607}
+\index{file.\+c@{file.\+c}!filewrite@{filewrite}}
+\index{filewrite@{filewrite}!file.\+c@{file.\+c}}
+\subsubsection[{\texorpdfstring{filewrite(struct file $\ast$f, char $\ast$addr, int n)}{filewrite(struct file *f, char *addr, int n)}}]{\setlength{\rightskip}{0pt plus 5cm}int filewrite (
+\begin{DoxyParamCaption}
+\item[{struct {\bf file} $\ast$}]{f, }
+\item[{char $\ast$}]{addr, }
+\item[{int}]{n}
+\end{DoxyParamCaption}
+)}\hypertarget{file_8c_ab8de757a0a9f58dcc6511ea5e46ebb88}{}\label{file_8c_ab8de757a0a9f58dcc6511ea5e46ebb88}
+
+
+\subsection{Variable Documentation}
+\index{file.\+c@{file.\+c}!devsw@{devsw}}
+\index{devsw@{devsw}!file.\+c@{file.\+c}}
+\subsubsection[{\texorpdfstring{devsw}{devsw}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf devsw} {\bf devsw}\mbox{[}{\bf N\+D\+EV}\mbox{]}}\hypertarget{file_8c_aadbb32b41c0d0e9c19d6d8fa3a0a6502}{}\label{file_8c_aadbb32b41c0d0e9c19d6d8fa3a0a6502}
+\index{file.\+c@{file.\+c}!file@{file}}
+\index{file@{file}!file.\+c@{file.\+c}}
+\subsubsection[{\texorpdfstring{file}{file}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf file} {\bf file}\mbox{[}{\bf N\+F\+I\+LE}\mbox{]}}\hypertarget{file_8c_a7cfa5243b3d349a415c7500c962fe9a5}{}\label{file_8c_a7cfa5243b3d349a415c7500c962fe9a5}
+\index{file.\+c@{file.\+c}!ftable@{ftable}}
+\index{ftable@{ftable}!file.\+c@{file.\+c}}
+\subsubsection[{\texorpdfstring{ftable}{ftable}}]{\setlength{\rightskip}{0pt plus 5cm}struct \{ ... \}   ftable}\hypertarget{file_8c_a7e8701dc5ad036d35868a6daa9fd8244}{}\label{file_8c_a7e8701dc5ad036d35868a6daa9fd8244}
+\index{file.\+c@{file.\+c}!lock@{lock}}
+\index{lock@{lock}!file.\+c@{file.\+c}}
+\subsubsection[{\texorpdfstring{lock}{lock}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf spinlock} lock}\hypertarget{file_8c_ab28e82cd5dda7d960095706a3ea20572}{}\label{file_8c_ab28e82cd5dda7d960095706a3ea20572}

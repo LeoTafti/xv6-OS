@@ -1,0 +1,20 @@
+\hypertarget{structbackcmd}{}\section{backcmd Struct Reference}
+\label{structbackcmd}\index{backcmd@{backcmd}}
+
+
+Collaboration diagram for backcmd\+:
+% FIG 0
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int {\bfseries type}\hypertarget{structbackcmd_a38298e998fc63358cc59f1e0dcf85a38}{}\label{structbackcmd_a38298e998fc63358cc59f1e0dcf85a38}
+
+\item 
+struct \hyperlink{structcmd}{cmd} $\ast$ {\bfseries cmd}\hypertarget{structbackcmd_a74a697014e2d3a17710e530fca0e8432}{}\label{structbackcmd_a74a697014e2d3a17710e530fca0e8432}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+sh.\+c\end{DoxyCompactItemize}

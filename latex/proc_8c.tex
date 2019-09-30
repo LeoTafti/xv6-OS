@@ -1,0 +1,182 @@
+\hypertarget{proc_8c}{}\section{proc.\+c File Reference}
+\label{proc_8c}\index{proc.\+c@{proc.\+c}}
+{\ttfamily \#include \char`\"{}types.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}defs.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}param.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}memlayout.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}mmu.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}x86.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}proc.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}spinlock.\+h\char`\"{}}\\*
+Include dependency graph for proc.\+c\+:
+% FIG 0
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{proc_8c_a11c5d62d28e8121e75235d361158156e}{forkret} (void)
+\item 
+void \hyperlink{proc_8c_a6c085102b25a17b9a1a78db5a8be16f9}{trapret} (void)
+\item 
+void \hyperlink{proc_8c_a9d293f913985937ee7a266fe5ddbfc77}{pinit} (void)
+\item 
+void \hyperlink{proc_8c_a81c8a6a0cae413bc81aa223f7f7b7205}{userinit} (void)
+\item 
+int \hyperlink{proc_8c_a9c16214741f4fcd088e5eea468709328}{growproc} (int n)
+\item 
+int \hyperlink{proc_8c_acd2e1ded4bb6fce4500438bf928330f4}{fork} (void)
+\item 
+void \hyperlink{proc_8c_aaf98ef7cdde3a0dfb2e49919de3298b1}{exit} (void)
+\item 
+int \hyperlink{proc_8c_af6f31822f7e737b4e414bdac1ccb59a4}{wait} (void)
+\item 
+void \hyperlink{proc_8c_a9fa00b0be5d3c4781048861e2506eb63}{scheduler} (void)
+\item 
+void \hyperlink{proc_8c_ad788da91743c333b5bed7c4a0dd12365}{sched} (void)
+\item 
+void \hyperlink{proc_8c_a7cb51f5c2b5cad3766f19eb69c92793b}{yield} (void)
+\item 
+void \hyperlink{proc_8c_ae70cc0370342e46f6db3bec367232457}{sleep} (void $\ast$chan, struct \hyperlink{structspinlock}{spinlock} $\ast$lk)
+\item 
+void \hyperlink{proc_8c_a4a34d9f03e436cfa09b88f735f6ee952}{wakeup} (void $\ast$chan)
+\item 
+int \hyperlink{proc_8c_a650cf0caaaa8b75f653c1c92818d03a4}{kill} (int pid)
+\item 
+void \hyperlink{proc_8c_a7f185044294ebb57521c73f723990164}{procdump} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>struct \hyperlink{structspinlock}{spinlock} \hyperlink{proc_8c_ab28e82cd5dda7d960095706a3ea20572}{lock}\\
+\>struct \hyperlink{structproc}{proc} \hyperlink{proc_8c_a5780b0050ca664736fd1cc9696624ce5}{proc} \mbox{[}\hyperlink{param_8h_a810c5b751df5bb30588613ed91095129}{NPROC}\mbox{]}\\
+\} \hyperlink{proc_8c_af119fb7b095a8f6bff7e3d805371826f}{ptable}\\
+
+\end{tabbing}\item 
+int \hyperlink{proc_8c_aec016216766697de7529c7b9cb5beda9}{nextpid} = 1
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{proc.\+c@{proc.\+c}!exit@{exit}}
+\index{exit@{exit}!proc.\+c@{proc.\+c}}
+\subsubsection[{\texorpdfstring{exit(void)}{exit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void exit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{proc_8c_aaf98ef7cdde3a0dfb2e49919de3298b1}{}\label{proc_8c_aaf98ef7cdde3a0dfb2e49919de3298b1}
+\index{proc.\+c@{proc.\+c}!fork@{fork}}
+\index{fork@{fork}!proc.\+c@{proc.\+c}}
+\subsubsection[{\texorpdfstring{fork(void)}{fork(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int fork (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{proc_8c_acd2e1ded4bb6fce4500438bf928330f4}{}\label{proc_8c_acd2e1ded4bb6fce4500438bf928330f4}
+\index{proc.\+c@{proc.\+c}!forkret@{forkret}}
+\index{forkret@{forkret}!proc.\+c@{proc.\+c}}
+\subsubsection[{\texorpdfstring{forkret(void)}{forkret(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void forkret (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{proc_8c_a11c5d62d28e8121e75235d361158156e}{}\label{proc_8c_a11c5d62d28e8121e75235d361158156e}
+\index{proc.\+c@{proc.\+c}!growproc@{growproc}}
+\index{growproc@{growproc}!proc.\+c@{proc.\+c}}
+\subsubsection[{\texorpdfstring{growproc(int n)}{growproc(int n)}}]{\setlength{\rightskip}{0pt plus 5cm}int growproc (
+\begin{DoxyParamCaption}
+\item[{int}]{n}
+\end{DoxyParamCaption}
+)}\hypertarget{proc_8c_a9c16214741f4fcd088e5eea468709328}{}\label{proc_8c_a9c16214741f4fcd088e5eea468709328}
+\index{proc.\+c@{proc.\+c}!kill@{kill}}
+\index{kill@{kill}!proc.\+c@{proc.\+c}}
+\subsubsection[{\texorpdfstring{kill(int pid)}{kill(int pid)}}]{\setlength{\rightskip}{0pt plus 5cm}int kill (
+\begin{DoxyParamCaption}
+\item[{int}]{pid}
+\end{DoxyParamCaption}
+)}\hypertarget{proc_8c_a650cf0caaaa8b75f653c1c92818d03a4}{}\label{proc_8c_a650cf0caaaa8b75f653c1c92818d03a4}
+\index{proc.\+c@{proc.\+c}!pinit@{pinit}}
+\index{pinit@{pinit}!proc.\+c@{proc.\+c}}
+\subsubsection[{\texorpdfstring{pinit(void)}{pinit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void pinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{proc_8c_a9d293f913985937ee7a266fe5ddbfc77}{}\label{proc_8c_a9d293f913985937ee7a266fe5ddbfc77}
+\index{proc.\+c@{proc.\+c}!procdump@{procdump}}
+\index{procdump@{procdump}!proc.\+c@{proc.\+c}}
+\subsubsection[{\texorpdfstring{procdump(void)}{procdump(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void procdump (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{proc_8c_a7f185044294ebb57521c73f723990164}{}\label{proc_8c_a7f185044294ebb57521c73f723990164}
+\index{proc.\+c@{proc.\+c}!sched@{sched}}
+\index{sched@{sched}!proc.\+c@{proc.\+c}}
+\subsubsection[{\texorpdfstring{sched(void)}{sched(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void sched (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{proc_8c_ad788da91743c333b5bed7c4a0dd12365}{}\label{proc_8c_ad788da91743c333b5bed7c4a0dd12365}
+\index{proc.\+c@{proc.\+c}!scheduler@{scheduler}}
+\index{scheduler@{scheduler}!proc.\+c@{proc.\+c}}
+\subsubsection[{\texorpdfstring{scheduler(void)}{scheduler(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void scheduler (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{proc_8c_a9fa00b0be5d3c4781048861e2506eb63}{}\label{proc_8c_a9fa00b0be5d3c4781048861e2506eb63}
+\index{proc.\+c@{proc.\+c}!sleep@{sleep}}
+\index{sleep@{sleep}!proc.\+c@{proc.\+c}}
+\subsubsection[{\texorpdfstring{sleep(void $\ast$chan, struct spinlock $\ast$lk)}{sleep(void *chan, struct spinlock *lk)}}]{\setlength{\rightskip}{0pt plus 5cm}void sleep (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{chan, }
+\item[{struct {\bf spinlock} $\ast$}]{lk}
+\end{DoxyParamCaption}
+)}\hypertarget{proc_8c_ae70cc0370342e46f6db3bec367232457}{}\label{proc_8c_ae70cc0370342e46f6db3bec367232457}
+\index{proc.\+c@{proc.\+c}!trapret@{trapret}}
+\index{trapret@{trapret}!proc.\+c@{proc.\+c}}
+\subsubsection[{\texorpdfstring{trapret(void)}{trapret(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void trapret (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{proc_8c_a6c085102b25a17b9a1a78db5a8be16f9}{}\label{proc_8c_a6c085102b25a17b9a1a78db5a8be16f9}
+\index{proc.\+c@{proc.\+c}!userinit@{userinit}}
+\index{userinit@{userinit}!proc.\+c@{proc.\+c}}
+\subsubsection[{\texorpdfstring{userinit(void)}{userinit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void userinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{proc_8c_a81c8a6a0cae413bc81aa223f7f7b7205}{}\label{proc_8c_a81c8a6a0cae413bc81aa223f7f7b7205}
+\index{proc.\+c@{proc.\+c}!wait@{wait}}
+\index{wait@{wait}!proc.\+c@{proc.\+c}}
+\subsubsection[{\texorpdfstring{wait(void)}{wait(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int wait (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{proc_8c_af6f31822f7e737b4e414bdac1ccb59a4}{}\label{proc_8c_af6f31822f7e737b4e414bdac1ccb59a4}
+\index{proc.\+c@{proc.\+c}!wakeup@{wakeup}}
+\index{wakeup@{wakeup}!proc.\+c@{proc.\+c}}
+\subsubsection[{\texorpdfstring{wakeup(void $\ast$chan)}{wakeup(void *chan)}}]{\setlength{\rightskip}{0pt plus 5cm}void wakeup (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{chan}
+\end{DoxyParamCaption}
+)}\hypertarget{proc_8c_a4a34d9f03e436cfa09b88f735f6ee952}{}\label{proc_8c_a4a34d9f03e436cfa09b88f735f6ee952}
+\index{proc.\+c@{proc.\+c}!yield@{yield}}
+\index{yield@{yield}!proc.\+c@{proc.\+c}}
+\subsubsection[{\texorpdfstring{yield(void)}{yield(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void yield (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{proc_8c_a7cb51f5c2b5cad3766f19eb69c92793b}{}\label{proc_8c_a7cb51f5c2b5cad3766f19eb69c92793b}
+
+
+\subsection{Variable Documentation}
+\index{proc.\+c@{proc.\+c}!lock@{lock}}
+\index{lock@{lock}!proc.\+c@{proc.\+c}}
+\subsubsection[{\texorpdfstring{lock}{lock}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf spinlock} lock}\hypertarget{proc_8c_ab28e82cd5dda7d960095706a3ea20572}{}\label{proc_8c_ab28e82cd5dda7d960095706a3ea20572}
+\index{proc.\+c@{proc.\+c}!nextpid@{nextpid}}
+\index{nextpid@{nextpid}!proc.\+c@{proc.\+c}}
+\subsubsection[{\texorpdfstring{nextpid}{nextpid}}]{\setlength{\rightskip}{0pt plus 5cm}int nextpid = 1}\hypertarget{proc_8c_aec016216766697de7529c7b9cb5beda9}{}\label{proc_8c_aec016216766697de7529c7b9cb5beda9}
+\index{proc.\+c@{proc.\+c}!proc@{proc}}
+\index{proc@{proc}!proc.\+c@{proc.\+c}}
+\subsubsection[{\texorpdfstring{proc}{proc}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf proc} {\bf proc}\mbox{[}{\bf N\+P\+R\+OC}\mbox{]}}\hypertarget{proc_8c_a5780b0050ca664736fd1cc9696624ce5}{}\label{proc_8c_a5780b0050ca664736fd1cc9696624ce5}
+\index{proc.\+c@{proc.\+c}!ptable@{ptable}}
+\index{ptable@{ptable}!proc.\+c@{proc.\+c}}
+\subsubsection[{\texorpdfstring{ptable}{ptable}}]{\setlength{\rightskip}{0pt plus 5cm}struct \{ ... \}   ptable}\hypertarget{proc_8c_af119fb7b095a8f6bff7e3d805371826f}{}\label{proc_8c_af119fb7b095a8f6bff7e3d805371826f}

@@ -1,0 +1,90 @@
+\hypertarget{monitor_8c}{}\section{monitor.\+c File Reference}
+\label{monitor_8c}\index{monitor.\+c@{monitor.\+c}}
+{\ttfamily \#include \char`\"{}stdio.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}memlayout.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}x86.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}types.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}string.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}kdebug.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}monitor.\+h\char`\"{}}\\*
+Include dependency graph for monitor.\+c\+:
+% FIG 0
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structCommand}{Command}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{monitor_8c_ae984c327fbc6b5bf4fa133aa434f8564}{C\+M\+D\+B\+U\+F\+\_\+\+S\+I\+ZE}~80
+\item 
+\#define \hyperlink{monitor_8c_aa574d54049e364ff660f19bb5283459e}{N\+C\+O\+M\+M\+A\+N\+DS}~(sizeof(commands)/sizeof(commands\mbox{[}0\mbox{]}))
+\item 
+\#define \hyperlink{monitor_8c_abfa0d183e035eb9705b5faec98294d0f}{W\+H\+I\+T\+E\+S\+P\+A\+CE}~\char`\"{}\textbackslash{}t\textbackslash{}r\textbackslash{}n \char`\"{}
+\item 
+\#define \hyperlink{monitor_8c_a41101847771d39a4f0a7f9395061c629}{M\+A\+X\+A\+R\+GS}~16
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{monitor_8c_af52d9ea105e2798e5aed38dc20f56e0e}{mon\+\_\+help} (int argc, char $\ast$$\ast$\hyperlink{init_8c_abd1a2cf54950f450187ef24c1cdcac0c}{argv}, struct Trapframe $\ast$tf)
+\item 
+int \hyperlink{monitor_8c_a80189d63f08e4f10cd677f7d75bb517f}{mon\+\_\+infokern} (int argc, char $\ast$$\ast$\hyperlink{init_8c_abd1a2cf54950f450187ef24c1cdcac0c}{argv}, struct Trapframe $\ast$tf)
+\item 
+int \hyperlink{monitor_8c_a2d30c1a4b1fcc0a25ed4bc5283893163}{mon\+\_\+backtrace} (int argc, char $\ast$$\ast$\hyperlink{init_8c_abd1a2cf54950f450187ef24c1cdcac0c}{argv}, struct Trapframe $\ast$tf)
+\item 
+void \hyperlink{monitor_8c_a0d874449d03f91d7ae4c782502966ae0}{monitor} (struct Trapframe $\ast$tf)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{monitor.\+c@{monitor.\+c}!C\+M\+D\+B\+U\+F\+\_\+\+S\+I\+ZE@{C\+M\+D\+B\+U\+F\+\_\+\+S\+I\+ZE}}
+\index{C\+M\+D\+B\+U\+F\+\_\+\+S\+I\+ZE@{C\+M\+D\+B\+U\+F\+\_\+\+S\+I\+ZE}!monitor.\+c@{monitor.\+c}}
+\subsubsection[{\texorpdfstring{C\+M\+D\+B\+U\+F\+\_\+\+S\+I\+ZE}{CMDBUF_SIZE}}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\+M\+D\+B\+U\+F\+\_\+\+S\+I\+ZE~80}\hypertarget{monitor_8c_ae984c327fbc6b5bf4fa133aa434f8564}{}\label{monitor_8c_ae984c327fbc6b5bf4fa133aa434f8564}
+\index{monitor.\+c@{monitor.\+c}!M\+A\+X\+A\+R\+GS@{M\+A\+X\+A\+R\+GS}}
+\index{M\+A\+X\+A\+R\+GS@{M\+A\+X\+A\+R\+GS}!monitor.\+c@{monitor.\+c}}
+\subsubsection[{\texorpdfstring{M\+A\+X\+A\+R\+GS}{MAXARGS}}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+X\+A\+R\+GS~16}\hypertarget{monitor_8c_a41101847771d39a4f0a7f9395061c629}{}\label{monitor_8c_a41101847771d39a4f0a7f9395061c629}
+\index{monitor.\+c@{monitor.\+c}!N\+C\+O\+M\+M\+A\+N\+DS@{N\+C\+O\+M\+M\+A\+N\+DS}}
+\index{N\+C\+O\+M\+M\+A\+N\+DS@{N\+C\+O\+M\+M\+A\+N\+DS}!monitor.\+c@{monitor.\+c}}
+\subsubsection[{\texorpdfstring{N\+C\+O\+M\+M\+A\+N\+DS}{NCOMMANDS}}]{\setlength{\rightskip}{0pt plus 5cm}\#define N\+C\+O\+M\+M\+A\+N\+DS~(sizeof(commands)/sizeof(commands\mbox{[}0\mbox{]}))}\hypertarget{monitor_8c_aa574d54049e364ff660f19bb5283459e}{}\label{monitor_8c_aa574d54049e364ff660f19bb5283459e}
+\index{monitor.\+c@{monitor.\+c}!W\+H\+I\+T\+E\+S\+P\+A\+CE@{W\+H\+I\+T\+E\+S\+P\+A\+CE}}
+\index{W\+H\+I\+T\+E\+S\+P\+A\+CE@{W\+H\+I\+T\+E\+S\+P\+A\+CE}!monitor.\+c@{monitor.\+c}}
+\subsubsection[{\texorpdfstring{W\+H\+I\+T\+E\+S\+P\+A\+CE}{WHITESPACE}}]{\setlength{\rightskip}{0pt plus 5cm}\#define W\+H\+I\+T\+E\+S\+P\+A\+CE~\char`\"{}\textbackslash{}t\textbackslash{}r\textbackslash{}n \char`\"{}}\hypertarget{monitor_8c_abfa0d183e035eb9705b5faec98294d0f}{}\label{monitor_8c_abfa0d183e035eb9705b5faec98294d0f}
+
+
+\subsection{Function Documentation}
+\index{monitor.\+c@{monitor.\+c}!mon\+\_\+backtrace@{mon\+\_\+backtrace}}
+\index{mon\+\_\+backtrace@{mon\+\_\+backtrace}!monitor.\+c@{monitor.\+c}}
+\subsubsection[{\texorpdfstring{mon\+\_\+backtrace(int argc, char $\ast$$\ast$argv, struct Trapframe $\ast$tf)}{mon_backtrace(int argc, char **argv, struct Trapframe *tf)}}]{\setlength{\rightskip}{0pt plus 5cm}int mon\+\_\+backtrace (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv, }
+\item[{struct Trapframe $\ast$}]{tf}
+\end{DoxyParamCaption}
+)}\hypertarget{monitor_8c_a2d30c1a4b1fcc0a25ed4bc5283893163}{}\label{monitor_8c_a2d30c1a4b1fcc0a25ed4bc5283893163}
+\index{monitor.\+c@{monitor.\+c}!mon\+\_\+help@{mon\+\_\+help}}
+\index{mon\+\_\+help@{mon\+\_\+help}!monitor.\+c@{monitor.\+c}}
+\subsubsection[{\texorpdfstring{mon\+\_\+help(int argc, char $\ast$$\ast$argv, struct Trapframe $\ast$tf)}{mon_help(int argc, char **argv, struct Trapframe *tf)}}]{\setlength{\rightskip}{0pt plus 5cm}int mon\+\_\+help (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv, }
+\item[{struct Trapframe $\ast$}]{tf}
+\end{DoxyParamCaption}
+)}\hypertarget{monitor_8c_af52d9ea105e2798e5aed38dc20f56e0e}{}\label{monitor_8c_af52d9ea105e2798e5aed38dc20f56e0e}
+\index{monitor.\+c@{monitor.\+c}!mon\+\_\+infokern@{mon\+\_\+infokern}}
+\index{mon\+\_\+infokern@{mon\+\_\+infokern}!monitor.\+c@{monitor.\+c}}
+\subsubsection[{\texorpdfstring{mon\+\_\+infokern(int argc, char $\ast$$\ast$argv, struct Trapframe $\ast$tf)}{mon_infokern(int argc, char **argv, struct Trapframe *tf)}}]{\setlength{\rightskip}{0pt plus 5cm}int mon\+\_\+infokern (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv, }
+\item[{struct Trapframe $\ast$}]{tf}
+\end{DoxyParamCaption}
+)}\hypertarget{monitor_8c_a80189d63f08e4f10cd677f7d75bb517f}{}\label{monitor_8c_a80189d63f08e4f10cd677f7d75bb517f}
+\index{monitor.\+c@{monitor.\+c}!monitor@{monitor}}
+\index{monitor@{monitor}!monitor.\+c@{monitor.\+c}}
+\subsubsection[{\texorpdfstring{monitor(struct Trapframe $\ast$tf)}{monitor(struct Trapframe *tf)}}]{\setlength{\rightskip}{0pt plus 5cm}void monitor (
+\begin{DoxyParamCaption}
+\item[{struct Trapframe $\ast$}]{tf}
+\end{DoxyParamCaption}
+)}\hypertarget{monitor_8c_a0d874449d03f91d7ae4c782502966ae0}{}\label{monitor_8c_a0d874449d03f91d7ae4c782502966ae0}

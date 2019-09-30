@@ -1,0 +1,76 @@
+\hypertarget{pipe_8c}{}\section{pipe.\+c File Reference}
+\label{pipe_8c}\index{pipe.\+c@{pipe.\+c}}
+{\ttfamily \#include \char`\"{}types.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}defs.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}param.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}mmu.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}proc.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}fs.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}file.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}spinlock.\+h\char`\"{}}\\*
+Include dependency graph for pipe.\+c\+:
+% FIG 0
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structpipe}{pipe}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{pipe_8c_ad3dc9214a710d7a6c516cbaa2a12a1de}{P\+I\+P\+E\+S\+I\+ZE}~512
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{pipe_8c_a9d6f0c526148e6002b6776619c7563e6}{pipealloc} (struct \hyperlink{structfile}{file} $\ast$$\ast$f0, struct \hyperlink{structfile}{file} $\ast$$\ast$f1)
+\item 
+void \hyperlink{pipe_8c_a48642f54734698f6f881ee07723292cb}{pipeclose} (struct \hyperlink{structpipe}{pipe} $\ast$p, int writable)
+\item 
+int \hyperlink{pipe_8c_acfca0fab7d2c0c0dcc56359c8febe14a}{pipewrite} (struct \hyperlink{structpipe}{pipe} $\ast$p, char $\ast$addr, int n)
+\item 
+int \hyperlink{pipe_8c_ad4cce6144039b615d139f8660c60293a}{piperead} (struct \hyperlink{structpipe}{pipe} $\ast$p, char $\ast$addr, int n)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{pipe.\+c@{pipe.\+c}!P\+I\+P\+E\+S\+I\+ZE@{P\+I\+P\+E\+S\+I\+ZE}}
+\index{P\+I\+P\+E\+S\+I\+ZE@{P\+I\+P\+E\+S\+I\+ZE}!pipe.\+c@{pipe.\+c}}
+\subsubsection[{\texorpdfstring{P\+I\+P\+E\+S\+I\+ZE}{PIPESIZE}}]{\setlength{\rightskip}{0pt plus 5cm}\#define P\+I\+P\+E\+S\+I\+ZE~512}\hypertarget{pipe_8c_ad3dc9214a710d7a6c516cbaa2a12a1de}{}\label{pipe_8c_ad3dc9214a710d7a6c516cbaa2a12a1de}
+
+
+\subsection{Function Documentation}
+\index{pipe.\+c@{pipe.\+c}!pipealloc@{pipealloc}}
+\index{pipealloc@{pipealloc}!pipe.\+c@{pipe.\+c}}
+\subsubsection[{\texorpdfstring{pipealloc(struct file $\ast$$\ast$f0, struct file $\ast$$\ast$f1)}{pipealloc(struct file **f0, struct file **f1)}}]{\setlength{\rightskip}{0pt plus 5cm}int pipealloc (
+\begin{DoxyParamCaption}
+\item[{struct {\bf file} $\ast$$\ast$}]{f0, }
+\item[{struct {\bf file} $\ast$$\ast$}]{f1}
+\end{DoxyParamCaption}
+)}\hypertarget{pipe_8c_a9d6f0c526148e6002b6776619c7563e6}{}\label{pipe_8c_a9d6f0c526148e6002b6776619c7563e6}
+\index{pipe.\+c@{pipe.\+c}!pipeclose@{pipeclose}}
+\index{pipeclose@{pipeclose}!pipe.\+c@{pipe.\+c}}
+\subsubsection[{\texorpdfstring{pipeclose(struct pipe $\ast$p, int writable)}{pipeclose(struct pipe *p, int writable)}}]{\setlength{\rightskip}{0pt plus 5cm}void pipeclose (
+\begin{DoxyParamCaption}
+\item[{struct {\bf pipe} $\ast$}]{p, }
+\item[{int}]{writable}
+\end{DoxyParamCaption}
+)}\hypertarget{pipe_8c_a48642f54734698f6f881ee07723292cb}{}\label{pipe_8c_a48642f54734698f6f881ee07723292cb}
+\index{pipe.\+c@{pipe.\+c}!piperead@{piperead}}
+\index{piperead@{piperead}!pipe.\+c@{pipe.\+c}}
+\subsubsection[{\texorpdfstring{piperead(struct pipe $\ast$p, char $\ast$addr, int n)}{piperead(struct pipe *p, char *addr, int n)}}]{\setlength{\rightskip}{0pt plus 5cm}int piperead (
+\begin{DoxyParamCaption}
+\item[{struct {\bf pipe} $\ast$}]{p, }
+\item[{char $\ast$}]{addr, }
+\item[{int}]{n}
+\end{DoxyParamCaption}
+)}\hypertarget{pipe_8c_ad4cce6144039b615d139f8660c60293a}{}\label{pipe_8c_ad4cce6144039b615d139f8660c60293a}
+\index{pipe.\+c@{pipe.\+c}!pipewrite@{pipewrite}}
+\index{pipewrite@{pipewrite}!pipe.\+c@{pipe.\+c}}
+\subsubsection[{\texorpdfstring{pipewrite(struct pipe $\ast$p, char $\ast$addr, int n)}{pipewrite(struct pipe *p, char *addr, int n)}}]{\setlength{\rightskip}{0pt plus 5cm}int pipewrite (
+\begin{DoxyParamCaption}
+\item[{struct {\bf pipe} $\ast$}]{p, }
+\item[{char $\ast$}]{addr, }
+\item[{int}]{n}
+\end{DoxyParamCaption}
+)}\hypertarget{pipe_8c_acfca0fab7d2c0c0dcc56359c8febe14a}{}\label{pipe_8c_acfca0fab7d2c0c0dcc56359c8febe14a}

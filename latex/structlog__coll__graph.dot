@@ -1,0 +1,33 @@
+digraph "log"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="log",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" lock" ];
+  Node2 [label="spinlock",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structspinlock.html"];
+  Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" cpu" ];
+  Node3 [label="cpu",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structcpu.html"];
+  Node3 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" cpu" ];
+  Node4 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" gdt" ];
+  Node4 [label="segdesc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structsegdesc.html"];
+  Node5 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" scheduler" ];
+  Node5 [label="context",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structcontext.html"];
+  Node6 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" proc" ];
+  Node6 [label="proc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structproc.html"];
+  Node7 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" cwd" ];
+  Node7 [label="inode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structinode.html"];
+  Node5 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" context" ];
+  Node8 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" tf" ];
+  Node8 [label="trapframe",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structtrapframe.html"];
+  Node6 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" parent" ];
+  Node9 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" ofile" ];
+  Node9 [label="file",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structfile.html"];
+  Node7 -> Node9 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" ip" ];
+  Node10 -> Node9 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" pipe" ];
+  Node10 [label="pipe",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structpipe.html"];
+  Node2 -> Node10 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" lock" ];
+  Node11 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" ts" ];
+  Node11 [label="taskstate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structtaskstate.html"];
+  Node12 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" lh" ];
+  Node12 [label="logheader",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structlogheader.html"];
+}

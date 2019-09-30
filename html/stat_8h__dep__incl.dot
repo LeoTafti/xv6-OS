@@ -1,0 +1,48 @@
+digraph "stat.h"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="stat.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="cat.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$cat_8c.html"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="echo.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$echo_8c.html"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="forktest.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$forktest_8c.html"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="forktree.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$forktree_8c.html"];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="fs.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fs_8c.html"];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="grep.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$grep_8c.html"];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="init.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$init_8c.html"];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="kill.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$kill_8c.html"];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="ln.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ln_8c.html"];
+  Node1 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="ls.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ls_8c.html"];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="mkdir.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$mkdir_8c.html"];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="mkfs.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$mkfs_8c.html"];
+  Node1 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="printf.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$printf_8c.html"];
+  Node1 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="rm.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$rm_8c.html"];
+  Node1 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="stressfs.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$stressfs_8c.html"];
+  Node1 -> Node17 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="sysfile.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$sysfile_8c.html"];
+  Node1 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="ulib.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ulib_8c.html"];
+  Node1 -> Node19 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="umalloc.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$umalloc_8c.html"];
+  Node1 -> Node20 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="usertests.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$usertests_8c.html"];
+  Node1 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="wc.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$wc_8c.html"];
+  Node1 -> Node22 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="zombie.c",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$zombie_8c.html"];
+}

@@ -1,0 +1,78 @@
+\hypertarget{trap_8c}{}\section{trap.\+c File Reference}
+\label{trap_8c}\index{trap.\+c@{trap.\+c}}
+{\ttfamily \#include \char`\"{}types.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}defs.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}param.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}memlayout.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}mmu.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}proc.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}x86.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}traps.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}spinlock.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}kalloc.\+h\char`\"{}}\\*
+Include dependency graph for trap.\+c\+:
+% FIG 0
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{trap_8c_a9e7167b8e20e217c4af4e757f612ba6a}{tvinit} (void)
+\item 
+void \hyperlink{trap_8c_a9b6e7f6c302700cb54216ad22cbc1591}{idtinit} (void)
+\item 
+void \hyperlink{trap_8c_a372d166e36c086c91e5f5d81e5fead3a}{trap} (struct \hyperlink{structtrapframe}{trapframe} $\ast$tf)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structgatedesc}{gatedesc} \hyperlink{trap_8c_a3facbc1e1e6618fb238fc124bd9aa827}{idt} \mbox{[}256\mbox{]}
+\item 
+\hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} \hyperlink{trap_8c_a3e6e0e8b5ba8014e09de2d9aa3740486}{vectors} \mbox{[}$\,$\mbox{]}
+\item 
+struct \hyperlink{structspinlock}{spinlock} \hyperlink{trap_8c_a094a4703b62095e2fa469fab3ffea5c7}{tickslock}
+\item 
+\hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} \hyperlink{trap_8c_a7fcd6915876e066781399d7b00f1b1f0}{ticks}
+\item 
+struct \hyperlink{structpage__info}{page\+\_\+info} \hyperlink{trap_8c_af35cee95c4e6d938be3c85565192f69c}{ppages\+\_\+info} \mbox{[}$\,$\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{trap.\+c@{trap.\+c}!idtinit@{idtinit}}
+\index{idtinit@{idtinit}!trap.\+c@{trap.\+c}}
+\subsubsection[{\texorpdfstring{idtinit(void)}{idtinit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void idtinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{trap_8c_a9b6e7f6c302700cb54216ad22cbc1591}{}\label{trap_8c_a9b6e7f6c302700cb54216ad22cbc1591}
+\index{trap.\+c@{trap.\+c}!trap@{trap}}
+\index{trap@{trap}!trap.\+c@{trap.\+c}}
+\subsubsection[{\texorpdfstring{trap(struct trapframe $\ast$tf)}{trap(struct trapframe *tf)}}]{\setlength{\rightskip}{0pt plus 5cm}void trap (
+\begin{DoxyParamCaption}
+\item[{struct {\bf trapframe} $\ast$}]{tf}
+\end{DoxyParamCaption}
+)}\hypertarget{trap_8c_a372d166e36c086c91e5f5d81e5fead3a}{}\label{trap_8c_a372d166e36c086c91e5f5d81e5fead3a}
+\index{trap.\+c@{trap.\+c}!tvinit@{tvinit}}
+\index{tvinit@{tvinit}!trap.\+c@{trap.\+c}}
+\subsubsection[{\texorpdfstring{tvinit(void)}{tvinit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void tvinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{trap_8c_a9e7167b8e20e217c4af4e757f612ba6a}{}\label{trap_8c_a9e7167b8e20e217c4af4e757f612ba6a}
+
+
+\subsection{Variable Documentation}
+\index{trap.\+c@{trap.\+c}!idt@{idt}}
+\index{idt@{idt}!trap.\+c@{trap.\+c}}
+\subsubsection[{\texorpdfstring{idt}{idt}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf gatedesc} idt\mbox{[}256\mbox{]}}\hypertarget{trap_8c_a3facbc1e1e6618fb238fc124bd9aa827}{}\label{trap_8c_a3facbc1e1e6618fb238fc124bd9aa827}
+\index{trap.\+c@{trap.\+c}!ppages\+\_\+info@{ppages\+\_\+info}}
+\index{ppages\+\_\+info@{ppages\+\_\+info}!trap.\+c@{trap.\+c}}
+\subsubsection[{\texorpdfstring{ppages\+\_\+info}{ppages_info}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf page\+\_\+info} ppages\+\_\+info\mbox{[}$\,$\mbox{]}}\hypertarget{trap_8c_af35cee95c4e6d938be3c85565192f69c}{}\label{trap_8c_af35cee95c4e6d938be3c85565192f69c}
+\index{trap.\+c@{trap.\+c}!ticks@{ticks}}
+\index{ticks@{ticks}!trap.\+c@{trap.\+c}}
+\subsubsection[{\texorpdfstring{ticks}{ticks}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint} ticks}\hypertarget{trap_8c_a7fcd6915876e066781399d7b00f1b1f0}{}\label{trap_8c_a7fcd6915876e066781399d7b00f1b1f0}
+\index{trap.\+c@{trap.\+c}!tickslock@{tickslock}}
+\index{tickslock@{tickslock}!trap.\+c@{trap.\+c}}
+\subsubsection[{\texorpdfstring{tickslock}{tickslock}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf spinlock} tickslock}\hypertarget{trap_8c_a094a4703b62095e2fa469fab3ffea5c7}{}\label{trap_8c_a094a4703b62095e2fa469fab3ffea5c7}
+\index{trap.\+c@{trap.\+c}!vectors@{vectors}}
+\index{vectors@{vectors}!trap.\+c@{trap.\+c}}
+\subsubsection[{\texorpdfstring{vectors}{vectors}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint} vectors\mbox{[}$\,$\mbox{]}}\hypertarget{trap_8c_a3e6e0e8b5ba8014e09de2d9aa3740486}{}\label{trap_8c_a3e6e0e8b5ba8014e09de2d9aa3740486}

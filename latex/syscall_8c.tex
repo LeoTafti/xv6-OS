@@ -1,0 +1,267 @@
+\hypertarget{syscall_8c}{}\section{syscall.\+c File Reference}
+\label{syscall_8c}\index{syscall.\+c@{syscall.\+c}}
+{\ttfamily \#include \char`\"{}types.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}defs.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}param.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}memlayout.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}mmu.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}proc.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}x86.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}syscall.\+h\char`\"{}}\\*
+Include dependency graph for syscall.\+c\+:
+% FIG 0
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{syscall_8c_a918cadc6c55aa7ac38982659c27a3a75}{fetchint} (\hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} addr, int $\ast$ip)
+\item 
+int \hyperlink{syscall_8c_ace37b4584713ab6bda44a282a298961f}{fetchstr} (\hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} addr, char $\ast$$\ast$pp)
+\item 
+int \hyperlink{syscall_8c_ade56ef2176f85cd61e7b91b400e7d4d3}{argint} (int n, int $\ast$ip)
+\item 
+int \hyperlink{syscall_8c_a6ade9205d1f46b759cf93b60513a3421}{argptr} (int n, char $\ast$$\ast$pp, int size)
+\item 
+int \hyperlink{syscall_8c_a662eedd65f3e2165093842b80e3bc024}{argstr} (int n, char $\ast$$\ast$pp)
+\item 
+int \hyperlink{syscall_8c_ad1c5f8693cb35b9605fee09eebdda640}{sys\+\_\+chdir} (void)
+\item 
+int \hyperlink{syscall_8c_a32945488fd39bc405757177b37cd2250}{sys\+\_\+close} (void)
+\item 
+int \hyperlink{syscall_8c_a8f8b9e2d98e8b444f23a39ae8992feff}{sys\+\_\+dup} (void)
+\item 
+int \hyperlink{syscall_8c_aeaa813ddeb6a5fac3c45714c7351c526}{sys\+\_\+exec} (void)
+\item 
+int \hyperlink{syscall_8c_aee72faa31a0c32b410aba558ef1d59f2}{sys\+\_\+exit} (void)
+\item 
+int \hyperlink{syscall_8c_a3b05102e512b34446a54334f916ba5cd}{sys\+\_\+fork} (void)
+\item 
+int \hyperlink{syscall_8c_ac243c8f20f5fb2e3e257b5007af2c204}{sys\+\_\+fstat} (void)
+\item 
+int \hyperlink{syscall_8c_ac81965412a0725574b8c72afda11243e}{sys\+\_\+getpid} (void)
+\item 
+int \hyperlink{syscall_8c_ad766b54842470b464a6497bb5c514e59}{sys\+\_\+kill} (void)
+\item 
+int \hyperlink{syscall_8c_a759600870314007ac558871239122fb7}{sys\+\_\+link} (void)
+\item 
+int \hyperlink{syscall_8c_a057e5bce2de7a87ebfd2dc33967bca4a}{sys\+\_\+mkdir} (void)
+\item 
+int \hyperlink{syscall_8c_a25697aa3d828b5878d38170d724adb27}{sys\+\_\+mknod} (void)
+\item 
+int \hyperlink{syscall_8c_a74e45efc661ca17c068bc283b3842e6d}{sys\+\_\+open} (void)
+\item 
+int \hyperlink{syscall_8c_a9a70db941def46ec25939e6c2d30e399}{sys\+\_\+pipe} (void)
+\item 
+int \hyperlink{syscall_8c_a54bf714d9e898cbdcbc061b280bbfae0}{sys\+\_\+read} (void)
+\item 
+int \hyperlink{syscall_8c_ab21d46be776cf6075a997af525a1a628}{sys\+\_\+sbrk} (void)
+\item 
+int \hyperlink{syscall_8c_a59778ec9bfa6b6f2100b43fbba000573}{sys\+\_\+sleep} (void)
+\item 
+int \hyperlink{syscall_8c_ae1e58ee11d41f643929520d8c1640da7}{sys\+\_\+unlink} (void)
+\item 
+int \hyperlink{syscall_8c_ad202e06addda05ba6fe60f05d3f61913}{sys\+\_\+wait} (void)
+\item 
+int \hyperlink{syscall_8c_a687d939a9e4792af15db96f2c2f34378}{sys\+\_\+write} (void)
+\item 
+int \hyperlink{syscall_8c_aaf8553903ba8f2776247679d4db0d121}{sys\+\_\+uptime} (void)
+\item 
+void \hyperlink{syscall_8c_acd6bcafe6626fe8e7d00cacdbc3cc4f1}{syscall} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{syscall.\+c@{syscall.\+c}!argint@{argint}}
+\index{argint@{argint}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{argint(int n, int $\ast$ip)}{argint(int n, int *ip)}}]{\setlength{\rightskip}{0pt plus 5cm}int argint (
+\begin{DoxyParamCaption}
+\item[{int}]{n, }
+\item[{int $\ast$}]{ip}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_ade56ef2176f85cd61e7b91b400e7d4d3}{}\label{syscall_8c_ade56ef2176f85cd61e7b91b400e7d4d3}
+\index{syscall.\+c@{syscall.\+c}!argptr@{argptr}}
+\index{argptr@{argptr}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{argptr(int n, char $\ast$$\ast$pp, int size)}{argptr(int n, char **pp, int size)}}]{\setlength{\rightskip}{0pt plus 5cm}int argptr (
+\begin{DoxyParamCaption}
+\item[{int}]{n, }
+\item[{char $\ast$$\ast$}]{pp, }
+\item[{int}]{size}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_a6ade9205d1f46b759cf93b60513a3421}{}\label{syscall_8c_a6ade9205d1f46b759cf93b60513a3421}
+\index{syscall.\+c@{syscall.\+c}!argstr@{argstr}}
+\index{argstr@{argstr}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{argstr(int n, char $\ast$$\ast$pp)}{argstr(int n, char **pp)}}]{\setlength{\rightskip}{0pt plus 5cm}int argstr (
+\begin{DoxyParamCaption}
+\item[{int}]{n, }
+\item[{char $\ast$$\ast$}]{pp}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_a662eedd65f3e2165093842b80e3bc024}{}\label{syscall_8c_a662eedd65f3e2165093842b80e3bc024}
+\index{syscall.\+c@{syscall.\+c}!fetchint@{fetchint}}
+\index{fetchint@{fetchint}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{fetchint(uint addr, int $\ast$ip)}{fetchint(uint addr, int *ip)}}]{\setlength{\rightskip}{0pt plus 5cm}int fetchint (
+\begin{DoxyParamCaption}
+\item[{{\bf uint}}]{addr, }
+\item[{int $\ast$}]{ip}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_a918cadc6c55aa7ac38982659c27a3a75}{}\label{syscall_8c_a918cadc6c55aa7ac38982659c27a3a75}
+\index{syscall.\+c@{syscall.\+c}!fetchstr@{fetchstr}}
+\index{fetchstr@{fetchstr}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{fetchstr(uint addr, char $\ast$$\ast$pp)}{fetchstr(uint addr, char **pp)}}]{\setlength{\rightskip}{0pt plus 5cm}int fetchstr (
+\begin{DoxyParamCaption}
+\item[{{\bf uint}}]{addr, }
+\item[{char $\ast$$\ast$}]{pp}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_ace37b4584713ab6bda44a282a298961f}{}\label{syscall_8c_ace37b4584713ab6bda44a282a298961f}
+\index{syscall.\+c@{syscall.\+c}!sys\+\_\+chdir@{sys\+\_\+chdir}}
+\index{sys\+\_\+chdir@{sys\+\_\+chdir}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{sys\+\_\+chdir(void)}{sys_chdir(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int sys\+\_\+chdir (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_ad1c5f8693cb35b9605fee09eebdda640}{}\label{syscall_8c_ad1c5f8693cb35b9605fee09eebdda640}
+\index{syscall.\+c@{syscall.\+c}!sys\+\_\+close@{sys\+\_\+close}}
+\index{sys\+\_\+close@{sys\+\_\+close}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{sys\+\_\+close(void)}{sys_close(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int sys\+\_\+close (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_a32945488fd39bc405757177b37cd2250}{}\label{syscall_8c_a32945488fd39bc405757177b37cd2250}
+\index{syscall.\+c@{syscall.\+c}!sys\+\_\+dup@{sys\+\_\+dup}}
+\index{sys\+\_\+dup@{sys\+\_\+dup}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{sys\+\_\+dup(void)}{sys_dup(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int sys\+\_\+dup (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_a8f8b9e2d98e8b444f23a39ae8992feff}{}\label{syscall_8c_a8f8b9e2d98e8b444f23a39ae8992feff}
+\index{syscall.\+c@{syscall.\+c}!sys\+\_\+exec@{sys\+\_\+exec}}
+\index{sys\+\_\+exec@{sys\+\_\+exec}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{sys\+\_\+exec(void)}{sys_exec(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int sys\+\_\+exec (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_aeaa813ddeb6a5fac3c45714c7351c526}{}\label{syscall_8c_aeaa813ddeb6a5fac3c45714c7351c526}
+\index{syscall.\+c@{syscall.\+c}!sys\+\_\+exit@{sys\+\_\+exit}}
+\index{sys\+\_\+exit@{sys\+\_\+exit}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{sys\+\_\+exit(void)}{sys_exit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int sys\+\_\+exit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_aee72faa31a0c32b410aba558ef1d59f2}{}\label{syscall_8c_aee72faa31a0c32b410aba558ef1d59f2}
+\index{syscall.\+c@{syscall.\+c}!sys\+\_\+fork@{sys\+\_\+fork}}
+\index{sys\+\_\+fork@{sys\+\_\+fork}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{sys\+\_\+fork(void)}{sys_fork(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int sys\+\_\+fork (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_a3b05102e512b34446a54334f916ba5cd}{}\label{syscall_8c_a3b05102e512b34446a54334f916ba5cd}
+\index{syscall.\+c@{syscall.\+c}!sys\+\_\+fstat@{sys\+\_\+fstat}}
+\index{sys\+\_\+fstat@{sys\+\_\+fstat}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{sys\+\_\+fstat(void)}{sys_fstat(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int sys\+\_\+fstat (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_ac243c8f20f5fb2e3e257b5007af2c204}{}\label{syscall_8c_ac243c8f20f5fb2e3e257b5007af2c204}
+\index{syscall.\+c@{syscall.\+c}!sys\+\_\+getpid@{sys\+\_\+getpid}}
+\index{sys\+\_\+getpid@{sys\+\_\+getpid}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{sys\+\_\+getpid(void)}{sys_getpid(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int sys\+\_\+getpid (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_ac81965412a0725574b8c72afda11243e}{}\label{syscall_8c_ac81965412a0725574b8c72afda11243e}
+\index{syscall.\+c@{syscall.\+c}!sys\+\_\+kill@{sys\+\_\+kill}}
+\index{sys\+\_\+kill@{sys\+\_\+kill}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{sys\+\_\+kill(void)}{sys_kill(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int sys\+\_\+kill (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_ad766b54842470b464a6497bb5c514e59}{}\label{syscall_8c_ad766b54842470b464a6497bb5c514e59}
+\index{syscall.\+c@{syscall.\+c}!sys\+\_\+link@{sys\+\_\+link}}
+\index{sys\+\_\+link@{sys\+\_\+link}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{sys\+\_\+link(void)}{sys_link(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int sys\+\_\+link (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_a759600870314007ac558871239122fb7}{}\label{syscall_8c_a759600870314007ac558871239122fb7}
+\index{syscall.\+c@{syscall.\+c}!sys\+\_\+mkdir@{sys\+\_\+mkdir}}
+\index{sys\+\_\+mkdir@{sys\+\_\+mkdir}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{sys\+\_\+mkdir(void)}{sys_mkdir(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int sys\+\_\+mkdir (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_a057e5bce2de7a87ebfd2dc33967bca4a}{}\label{syscall_8c_a057e5bce2de7a87ebfd2dc33967bca4a}
+\index{syscall.\+c@{syscall.\+c}!sys\+\_\+mknod@{sys\+\_\+mknod}}
+\index{sys\+\_\+mknod@{sys\+\_\+mknod}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{sys\+\_\+mknod(void)}{sys_mknod(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int sys\+\_\+mknod (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_a25697aa3d828b5878d38170d724adb27}{}\label{syscall_8c_a25697aa3d828b5878d38170d724adb27}
+\index{syscall.\+c@{syscall.\+c}!sys\+\_\+open@{sys\+\_\+open}}
+\index{sys\+\_\+open@{sys\+\_\+open}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{sys\+\_\+open(void)}{sys_open(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int sys\+\_\+open (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_a74e45efc661ca17c068bc283b3842e6d}{}\label{syscall_8c_a74e45efc661ca17c068bc283b3842e6d}
+\index{syscall.\+c@{syscall.\+c}!sys\+\_\+pipe@{sys\+\_\+pipe}}
+\index{sys\+\_\+pipe@{sys\+\_\+pipe}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{sys\+\_\+pipe(void)}{sys_pipe(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int sys\+\_\+pipe (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_a9a70db941def46ec25939e6c2d30e399}{}\label{syscall_8c_a9a70db941def46ec25939e6c2d30e399}
+\index{syscall.\+c@{syscall.\+c}!sys\+\_\+read@{sys\+\_\+read}}
+\index{sys\+\_\+read@{sys\+\_\+read}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{sys\+\_\+read(void)}{sys_read(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int sys\+\_\+read (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_a54bf714d9e898cbdcbc061b280bbfae0}{}\label{syscall_8c_a54bf714d9e898cbdcbc061b280bbfae0}
+\index{syscall.\+c@{syscall.\+c}!sys\+\_\+sbrk@{sys\+\_\+sbrk}}
+\index{sys\+\_\+sbrk@{sys\+\_\+sbrk}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{sys\+\_\+sbrk(void)}{sys_sbrk(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int sys\+\_\+sbrk (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_ab21d46be776cf6075a997af525a1a628}{}\label{syscall_8c_ab21d46be776cf6075a997af525a1a628}
+\index{syscall.\+c@{syscall.\+c}!sys\+\_\+sleep@{sys\+\_\+sleep}}
+\index{sys\+\_\+sleep@{sys\+\_\+sleep}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{sys\+\_\+sleep(void)}{sys_sleep(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int sys\+\_\+sleep (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_a59778ec9bfa6b6f2100b43fbba000573}{}\label{syscall_8c_a59778ec9bfa6b6f2100b43fbba000573}
+\index{syscall.\+c@{syscall.\+c}!sys\+\_\+unlink@{sys\+\_\+unlink}}
+\index{sys\+\_\+unlink@{sys\+\_\+unlink}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{sys\+\_\+unlink(void)}{sys_unlink(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int sys\+\_\+unlink (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_ae1e58ee11d41f643929520d8c1640da7}{}\label{syscall_8c_ae1e58ee11d41f643929520d8c1640da7}
+\index{syscall.\+c@{syscall.\+c}!sys\+\_\+uptime@{sys\+\_\+uptime}}
+\index{sys\+\_\+uptime@{sys\+\_\+uptime}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{sys\+\_\+uptime(void)}{sys_uptime(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int sys\+\_\+uptime (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_aaf8553903ba8f2776247679d4db0d121}{}\label{syscall_8c_aaf8553903ba8f2776247679d4db0d121}
+\index{syscall.\+c@{syscall.\+c}!sys\+\_\+wait@{sys\+\_\+wait}}
+\index{sys\+\_\+wait@{sys\+\_\+wait}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{sys\+\_\+wait(void)}{sys_wait(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int sys\+\_\+wait (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_ad202e06addda05ba6fe60f05d3f61913}{}\label{syscall_8c_ad202e06addda05ba6fe60f05d3f61913}
+\index{syscall.\+c@{syscall.\+c}!sys\+\_\+write@{sys\+\_\+write}}
+\index{sys\+\_\+write@{sys\+\_\+write}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{sys\+\_\+write(void)}{sys_write(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int sys\+\_\+write (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_a687d939a9e4792af15db96f2c2f34378}{}\label{syscall_8c_a687d939a9e4792af15db96f2c2f34378}
+\index{syscall.\+c@{syscall.\+c}!syscall@{syscall}}
+\index{syscall@{syscall}!syscall.\+c@{syscall.\+c}}
+\subsubsection[{\texorpdfstring{syscall(void)}{syscall(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void syscall (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{syscall_8c_acd6bcafe6626fe8e7d00cacdbc3cc4f1}{}\label{syscall_8c_acd6bcafe6626fe8e7d00cacdbc3cc4f1}

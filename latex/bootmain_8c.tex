@@ -1,0 +1,64 @@
+\hypertarget{bootmain_8c}{}\section{bootmain.\+c File Reference}
+\label{bootmain_8c}\index{bootmain.\+c@{bootmain.\+c}}
+{\ttfamily \#include \char`\"{}types.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}elf.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}x86.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}memlayout.\+h\char`\"{}}\\*
+Include dependency graph for bootmain.\+c\+:
+% FIG 0
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{bootmain_8c_af69dd8b281718a66b3e7a65250d24419}{S\+E\+C\+T\+S\+I\+ZE}~512
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{bootmain_8c_af8097ce47ae21ccad1b0afd6f48ef62c}{readseg} (\hyperlink{custom__types_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar} $\ast$, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint})
+\item 
+void \hyperlink{bootmain_8c_a0d198d492591e1b70a8a12109408a7e4}{bootmain} (void)
+\item 
+void \hyperlink{bootmain_8c_a63222d4a07c38c198de5bd116a001935}{waitdisk} (void)
+\item 
+void \hyperlink{bootmain_8c_ae7ef59ffa082283b72c54e43b7a16351}{readsect} (void $\ast$dst, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} offset)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{bootmain.\+c@{bootmain.\+c}!S\+E\+C\+T\+S\+I\+ZE@{S\+E\+C\+T\+S\+I\+ZE}}
+\index{S\+E\+C\+T\+S\+I\+ZE@{S\+E\+C\+T\+S\+I\+ZE}!bootmain.\+c@{bootmain.\+c}}
+\subsubsection[{\texorpdfstring{S\+E\+C\+T\+S\+I\+ZE}{SECTSIZE}}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+E\+C\+T\+S\+I\+ZE~512}\hypertarget{bootmain_8c_af69dd8b281718a66b3e7a65250d24419}{}\label{bootmain_8c_af69dd8b281718a66b3e7a65250d24419}
+
+
+\subsection{Function Documentation}
+\index{bootmain.\+c@{bootmain.\+c}!bootmain@{bootmain}}
+\index{bootmain@{bootmain}!bootmain.\+c@{bootmain.\+c}}
+\subsubsection[{\texorpdfstring{bootmain(void)}{bootmain(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void bootmain (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{bootmain_8c_a0d198d492591e1b70a8a12109408a7e4}{}\label{bootmain_8c_a0d198d492591e1b70a8a12109408a7e4}
+\index{bootmain.\+c@{bootmain.\+c}!readsect@{readsect}}
+\index{readsect@{readsect}!bootmain.\+c@{bootmain.\+c}}
+\subsubsection[{\texorpdfstring{readsect(void $\ast$dst, uint offset)}{readsect(void *dst, uint offset)}}]{\setlength{\rightskip}{0pt plus 5cm}void readsect (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{dst, }
+\item[{{\bf uint}}]{offset}
+\end{DoxyParamCaption}
+)}\hypertarget{bootmain_8c_ae7ef59ffa082283b72c54e43b7a16351}{}\label{bootmain_8c_ae7ef59ffa082283b72c54e43b7a16351}
+\index{bootmain.\+c@{bootmain.\+c}!readseg@{readseg}}
+\index{readseg@{readseg}!bootmain.\+c@{bootmain.\+c}}
+\subsubsection[{\texorpdfstring{readseg(uchar $\ast$, uint, uint)}{readseg(uchar *, uint, uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void readseg (
+\begin{DoxyParamCaption}
+\item[{{\bf uchar} $\ast$}]{pa, }
+\item[{{\bf uint}}]{count, }
+\item[{{\bf uint}}]{offset}
+\end{DoxyParamCaption}
+)}\hypertarget{bootmain_8c_af8097ce47ae21ccad1b0afd6f48ef62c}{}\label{bootmain_8c_af8097ce47ae21ccad1b0afd6f48ef62c}
+\index{bootmain.\+c@{bootmain.\+c}!waitdisk@{waitdisk}}
+\index{waitdisk@{waitdisk}!bootmain.\+c@{bootmain.\+c}}
+\subsubsection[{\texorpdfstring{waitdisk(void)}{waitdisk(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void waitdisk (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{bootmain_8c_a63222d4a07c38c198de5bd116a001935}{}\label{bootmain_8c_a63222d4a07c38c198de5bd116a001935}

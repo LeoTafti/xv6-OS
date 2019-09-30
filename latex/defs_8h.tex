@@ -1,0 +1,1369 @@
+\hypertarget{defs_8h}{}\section{defs.\+h File Reference}
+\label{defs_8h}\index{defs.\+h@{defs.\+h}}
+This graph shows which files directly or indirectly include this file\+:
+% FIG 0
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{defs_8h_afacd331296c10f360da7640e0d68429f}{N\+E\+L\+EM}(x)~(sizeof(x)/sizeof((x)\mbox{[}0\mbox{]}))
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{defs_8h_a53cca0ddc98c5f1de37124eca2575a59}{binit} (void)
+\item 
+struct \hyperlink{structbuf}{buf} $\ast$ \hyperlink{defs_8h_a90c72cf2140fdf1612484117327220af}{bread} (\hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint})
+\item 
+void \hyperlink{defs_8h_aa31ec2f79e0456737a9680270bc1841b}{brelse} (struct \hyperlink{structbuf}{buf} $\ast$)
+\item 
+void \hyperlink{defs_8h_a1bfd775f14ad3dfee354ee3897ecd28d}{bwrite} (struct \hyperlink{structbuf}{buf} $\ast$)
+\item 
+void \hyperlink{defs_8h_ab508ff0f4db26fe35cd25fa648f9ee75}{consoleinit} (void)
+\item 
+int \hyperlink{defs_8h_ab5c1b009763ca6674c08b6241dad015c}{cprintf} (const char $\ast$fmt,...)
+\item 
+void \hyperlink{defs_8h_a9ec968a6fc407075634fe0e82a9c6862}{consoleintr} (int($\ast$)(void))
+\item 
+void \hyperlink{defs_8h_a45323e3f295a0d9b90929cc30a24e2aa}{panic} (char $\ast$) \hyperlink{main_8c_a08f0b7c20a38fda2383d4f70bb78dc3e}{\+\_\+\+\_\+attribute\+\_\+\+\_\+}((noreturn))
+\item 
+int \hyperlink{defs_8h_aa7b4aae4a12acd187e23396214aeca47}{exec} (char $\ast$, char $\ast$$\ast$)
+\item 
+struct \hyperlink{structfile}{file} $\ast$ \hyperlink{defs_8h_a69d3d2dd94efa1f1ff8d0143f4d9b786}{filealloc} (void)
+\item 
+void \hyperlink{defs_8h_ac865ee0b2d70f753d61d1fefef9de0f6}{fileclose} (struct \hyperlink{structfile}{file} $\ast$)
+\item 
+struct \hyperlink{structfile}{file} $\ast$ \hyperlink{defs_8h_a1063546fe0d5f45fe1a38a9b4f6b5783}{filedup} (struct \hyperlink{structfile}{file} $\ast$)
+\item 
+void \hyperlink{defs_8h_a66bb5a4b304ea0f851dd999fc8195fa4}{fileinit} (void)
+\item 
+int \hyperlink{defs_8h_a6bd1db179155944c9d1fbc89d8b7b162}{fileread} (struct \hyperlink{structfile}{file} $\ast$, char $\ast$, int n)
+\item 
+int \hyperlink{defs_8h_ac4979f97957194db01001985b1bfa84e}{filestat} (struct \hyperlink{structfile}{file} $\ast$, struct \hyperlink{structstat}{stat} $\ast$)
+\item 
+int \hyperlink{defs_8h_a90e8980df48fa900fc33de53448a2e18}{filewrite} (struct \hyperlink{structfile}{file} $\ast$, char $\ast$, int n)
+\item 
+void \hyperlink{defs_8h_aff0080b2133027be2e525ca088b40e78}{readsb} (int dev, struct \hyperlink{structsuperblock}{superblock} $\ast$\hyperlink{mkfs_8c_a0248d0bac625de5a1415f2f8c91f3343}{sb})
+\item 
+int \hyperlink{defs_8h_ae4ccea0aa02557162963e597737f665a}{dirlink} (struct \hyperlink{structinode}{inode} $\ast$, char $\ast$, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint})
+\item 
+struct \hyperlink{structinode}{inode} $\ast$ \hyperlink{defs_8h_a91ded9e61402d5e0d9f16b2a8cbff5c3}{dirlookup} (struct \hyperlink{structinode}{inode} $\ast$, char $\ast$, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} $\ast$)
+\item 
+struct \hyperlink{structinode}{inode} $\ast$ \hyperlink{defs_8h_ab4d7f391ca5219199e1b7502ac12ea85}{ialloc} (\hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}, short)
+\item 
+struct \hyperlink{structinode}{inode} $\ast$ \hyperlink{defs_8h_acdd1de79a331b8922c483434d257731d}{idup} (struct \hyperlink{structinode}{inode} $\ast$)
+\item 
+void \hyperlink{defs_8h_a301761a27cf266e0bad483272fb31a3c}{iinit} (int dev)
+\item 
+void \hyperlink{defs_8h_a29a4d743d41fe659f74b0a57fdc25012}{ilock} (struct \hyperlink{structinode}{inode} $\ast$)
+\item 
+void \hyperlink{defs_8h_a29530a0afdfe924818d8c70b6724528d}{iput} (struct \hyperlink{structinode}{inode} $\ast$)
+\item 
+void \hyperlink{defs_8h_af301c10ad8ced77a5dfb2de3a64c666c}{iunlock} (struct \hyperlink{structinode}{inode} $\ast$)
+\item 
+void \hyperlink{defs_8h_adff5bb5a1eeaf921853ec06479f8c49b}{iunlockput} (struct \hyperlink{structinode}{inode} $\ast$)
+\item 
+void \hyperlink{defs_8h_a2ee6784c123b2a2656d88b5b357f2253}{iupdate} (struct \hyperlink{structinode}{inode} $\ast$)
+\item 
+int \hyperlink{defs_8h_a0206c4090dc4bdfd8481e38057d5b2af}{namecmp} (const char $\ast$, const char $\ast$)
+\item 
+struct \hyperlink{structinode}{inode} $\ast$ \hyperlink{defs_8h_a29aa723e0b59f069c9eba588fdeb7e5a}{namei} (char $\ast$)
+\item 
+struct \hyperlink{structinode}{inode} $\ast$ \hyperlink{defs_8h_a02a47e8fb060db0a29727f29879024cc}{nameiparent} (char $\ast$, char $\ast$)
+\item 
+int \hyperlink{defs_8h_a2415273b06f31f0f2587b7325588a7e4}{readi} (struct \hyperlink{structinode}{inode} $\ast$, char $\ast$, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint})
+\item 
+void \hyperlink{defs_8h_a528f45ea5530504abc7113acc2154348}{stati} (struct \hyperlink{structinode}{inode} $\ast$, struct \hyperlink{structstat}{stat} $\ast$)
+\item 
+int \hyperlink{defs_8h_a515876d4653cefef4732806ef7f2833f}{writei} (struct \hyperlink{structinode}{inode} $\ast$, char $\ast$, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint})
+\item 
+void \hyperlink{defs_8h_aefb190a6104cb58c0bc1f8fec88d1307}{ideinit} (void)
+\item 
+void \hyperlink{defs_8h_a709693afdb9b89d848e684e7acde1f8f}{ideintr} (void)
+\item 
+void \hyperlink{defs_8h_a70985c3f5b2fb79737457b5c88f5327a}{iderw} (struct \hyperlink{structbuf}{buf} $\ast$)
+\item 
+void \hyperlink{defs_8h_a63da75c0c2f0b051f2c790aea2116b63}{ioapicenable} (int irq, int \hyperlink{structcpu}{cpu})
+\item 
+void \hyperlink{defs_8h_abce023b98422f397abdb425b20c8ceec}{ioapicinit} (void)
+\item 
+int \hyperlink{defs_8h_a654f70eb00920123570701eb561a2dc3}{kinsert} (\hyperlink{custom__types_8h_ac131849542282b2c95dfeaf1f26dc010}{pde\+\_\+t} $\ast$pgdir, struct \hyperlink{structpage__info}{page\+\_\+info} $\ast$pp, char $\ast$va, int perm)
+\begin{DoxyCompactList}\small\item\em Maps the physical page associated with pp at virtual address va Removes previous mapping, if any. Allocates a page table if needed and inserts it into pgdir. \end{DoxyCompactList}\item 
+void \hyperlink{defs_8h_a9ba746e6dc1f08b3cf2825c278d09a41}{kremove} (\hyperlink{custom__types_8h_ac131849542282b2c95dfeaf1f26dc010}{pde\+\_\+t} $\ast$pgdir, void $\ast$va)
+\begin{DoxyCompactList}\small\item\em Unmaps the physical page at virtual address va. If no page at va, does nothing. \end{DoxyCompactList}\item 
+struct \hyperlink{structpage__info}{page\+\_\+info} $\ast$ \hyperlink{defs_8h_a9541ef47936123e59217b7379357e8dd}{klookup} (\hyperlink{custom__types_8h_ac131849542282b2c95dfeaf1f26dc010}{pde\+\_\+t} $\ast$pgdir, void $\ast$va, \hyperlink{custom__types_8h_ab23e75f764f8314a83eaff23508c2ae5}{pte\+\_\+t} $\ast$$\ast$pte\+\_\+store)
+\begin{DoxyCompactList}\small\item\em Finds and returns (a pointer to the \hyperlink{structpage__info}{page\+\_\+info} of) the physical page mapped at virtual address va. If pte\+\_\+store is non-\/null, sets it to save the virtual address of the pte for the physical page. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{defs_8h_a3af104ba40b66dcec8363ac5a70907ed}{kalloc} (void)
+\item 
+void \hyperlink{defs_8h_ae79d6a7d0901b7c081cfded3f916d5bd}{kfree} (char $\ast$)
+\item 
+void \hyperlink{defs_8h_abc7a6a8cb3bcde83697a0c9a61d22d4d}{kinit1} (void $\ast$, void $\ast$)
+\item 
+void \hyperlink{defs_8h_aeb265df0f4968b40d175d9e3030d737c}{kinit2} (void $\ast$, void $\ast$)
+\item 
+void \hyperlink{defs_8h_a2f9e9c87a7ea58bdb65958e521969111}{kmarkused} (void $\ast$, void $\ast$)
+\begin{DoxyCompactList}\small\item\em Marks pages in range (vstart, vend) as used. \end{DoxyCompactList}\item 
+void \hyperlink{defs_8h_abb5413cdffa02836d5365dcaa60d2d20}{increfcount} (char $\ast$vaddr)
+\begin{DoxyCompactList}\small\item\em finds \hyperlink{structpage__info}{page\+\_\+info} from va and increments its refcount \end{DoxyCompactList}\item 
+int \hyperlink{defs_8h_a6bf5aaf3c1623fbc75279a59e7bcadda}{kdecref} (char $\ast$va)
+\begin{DoxyCompactList}\small\item\em Decrements the \hyperlink{structpage__info_aa5d70e774275d72f2ecb55bb78ae6a9e}{page\+\_\+info.\+refcount} field for corresponding phy page. Frees if refcount reaches 0. \end{DoxyCompactList}\item 
+void \hyperlink{defs_8h_af3d6113fa152781400e1e0e728c55e54}{kbdintr} (void)
+\item 
+void \hyperlink{defs_8h_a7247ece9501e31d62cffad46ec33d7af}{cmostime} (struct \hyperlink{structrtcdate}{rtcdate} $\ast$\hyperlink{console_8c_af10fa12dd785c91e29528fbdc50cf9af}{r})
+\item 
+int \hyperlink{defs_8h_ad07bc98847d46ba9772ab5ad4f52e6ec}{cpunum} (void)
+\item 
+void \hyperlink{defs_8h_a42fdd0783bbeb7cdc646d360191cdcac}{lapiceoi} (void)
+\item 
+void \hyperlink{defs_8h_a6b48a1e50acc73cb3e70a65774c87392}{lapicinit} (void)
+\item 
+void \hyperlink{defs_8h_ae46b07b96e4429fa85738ac2fe1768a0}{lapicstartap} (\hyperlink{custom__types_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar}, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint})
+\item 
+void \hyperlink{defs_8h_ada0e72e8d0a1a48090829fd03a0b76ba}{microdelay} (int)
+\item 
+void \hyperlink{defs_8h_ad5e79aaefb91f41b9ef6aeae7ecf4708}{initlog} (int dev)
+\item 
+void \hyperlink{defs_8h_a270d0050dc50965f4f851717841ad33c}{log\+\_\+write} (struct \hyperlink{structbuf}{buf} $\ast$)
+\item 
+void \hyperlink{defs_8h_a603ca98212e00d2ffdba7827ef0f1003}{begin\+\_\+op} ()
+\item 
+void \hyperlink{defs_8h_a2504e37a109f9bae5ca11fe89e4e8fa1}{end\+\_\+op} ()
+\item 
+void \hyperlink{defs_8h_a2fd0b66a17c5347541448ef906b7b2a2}{mpinit} (void)
+\item 
+void \hyperlink{defs_8h_a71fd35cd05f30866ae0ba1486415e786}{picenable} (int)
+\item 
+void \hyperlink{defs_8h_a8f19f54755d7fdec01e537228b10fbf6}{picinit} (void)
+\item 
+int \hyperlink{defs_8h_a3de41eab56ff42bea4d1ae78bbd1e472}{pipealloc} (struct \hyperlink{structfile}{file} $\ast$$\ast$, struct \hyperlink{structfile}{file} $\ast$$\ast$)
+\item 
+void \hyperlink{defs_8h_af6220973e389c74782d76ae641a5e7db}{pipeclose} (struct \hyperlink{structpipe}{pipe} $\ast$, int)
+\item 
+int \hyperlink{defs_8h_acd589a0d0d6d34b446baf33755eef519}{piperead} (struct \hyperlink{structpipe}{pipe} $\ast$, char $\ast$, int)
+\item 
+int \hyperlink{defs_8h_ae63b0db4ca2cbb2025b89d977c6535b1}{pipewrite} (struct \hyperlink{structpipe}{pipe} $\ast$, char $\ast$, int)
+\item 
+void \hyperlink{defs_8h_aaf98ef7cdde3a0dfb2e49919de3298b1}{exit} (void)
+\item 
+int \hyperlink{defs_8h_acd2e1ded4bb6fce4500438bf928330f4}{fork} (void)
+\item 
+int \hyperlink{defs_8h_acb02e9289fb8a1017c3455b137a9bccd}{growproc} (int)
+\item 
+int \hyperlink{defs_8h_ab893e9671d6bfe2b2604002a50639f21}{kill} (int)
+\item 
+void \hyperlink{defs_8h_a9d293f913985937ee7a266fe5ddbfc77}{pinit} (void)
+\item 
+void \hyperlink{defs_8h_a7f185044294ebb57521c73f723990164}{procdump} (void)
+\item 
+void \hyperlink{defs_8h_a9596021487afc9231319f22b71e4cb42}{scheduler} (void) \hyperlink{main_8c_a08f0b7c20a38fda2383d4f70bb78dc3e}{\+\_\+\+\_\+attribute\+\_\+\+\_\+}((noreturn))
+\item 
+void \hyperlink{defs_8h_ad788da91743c333b5bed7c4a0dd12365}{sched} (void)
+\item 
+void \hyperlink{defs_8h_aca4a88f06b3ebbcc04330f7ae06c8507}{sleep} (void $\ast$, struct \hyperlink{structspinlock}{spinlock} $\ast$)
+\item 
+void \hyperlink{defs_8h_a81c8a6a0cae413bc81aa223f7f7b7205}{userinit} (void)
+\item 
+int \hyperlink{defs_8h_af6f31822f7e737b4e414bdac1ccb59a4}{wait} (void)
+\item 
+void \hyperlink{defs_8h_a245b56417239f499389b2e806bd99254}{wakeup} (void $\ast$)
+\item 
+void \hyperlink{defs_8h_a7cb51f5c2b5cad3766f19eb69c92793b}{yield} (void)
+\item 
+void \hyperlink{defs_8h_a1d9e7047d3dfb57809a2541d8387705e}{swtch} (struct \hyperlink{structcontext}{context} $\ast$$\ast$, struct \hyperlink{structcontext}{context} $\ast$)
+\item 
+void \hyperlink{defs_8h_afe4ef8638f1ecb962a6e67fb086ee3b8}{acquire} (struct \hyperlink{structspinlock}{spinlock} $\ast$)
+\item 
+void \hyperlink{defs_8h_a4105de9e2969515d6c6c795c4386f69f}{getcallerpcs} (void $\ast$, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} $\ast$)
+\item 
+int \hyperlink{defs_8h_ac44b13cc76bf4040e3baf34df75ff230}{holding} (struct \hyperlink{structspinlock}{spinlock} $\ast$)
+\item 
+void \hyperlink{defs_8h_ab56d728e6966819a0260c358d3ac3419}{initlock} (struct \hyperlink{structspinlock}{spinlock} $\ast$, char $\ast$)
+\item 
+void \hyperlink{defs_8h_a4f8616948f3dbce65671f666eed1d669}{release} (struct \hyperlink{structspinlock}{spinlock} $\ast$)
+\item 
+void \hyperlink{defs_8h_a206b749d1b7768dadce61cbcde7e0f1c}{pushcli} (void)
+\item 
+void \hyperlink{defs_8h_ae3424f669269fef400ce29c3aeb43fdb}{popcli} (void)
+\item 
+int \hyperlink{defs_8h_acdb4d3f48d2fb0a834722b1107d2b284}{memcmp} (const void $\ast$, const void $\ast$, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint})
+\item 
+void $\ast$ \hyperlink{defs_8h_aa9c8577c0e9d233f85892ec2d9bfe212}{memmove} (void $\ast$, const void $\ast$, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint})
+\item 
+void $\ast$ \hyperlink{defs_8h_a9d55c9f035076ed1a90b6452770d0b62}{memset} (void $\ast$, int, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint})
+\item 
+char $\ast$ \hyperlink{defs_8h_a3e26eb6d2dbf34cf09486f4c0295ae3f}{safestrcpy} (char $\ast$, const char $\ast$, int)
+\item 
+int \hyperlink{defs_8h_a5e5172aa1be36b8210c6dfd86800b44c}{strlen} (const char $\ast$)
+\item 
+int \hyperlink{defs_8h_a27e878168063a98eae64b4273dcf33cc}{strncmp} (const char $\ast$, const char $\ast$, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint})
+\item 
+char $\ast$ \hyperlink{defs_8h_afcc0bb831ec06288e3a951e09e8d5b7d}{strncpy} (char $\ast$, const char $\ast$, int)
+\item 
+int \hyperlink{defs_8h_a75bc8d8c7ea0b4b39d4f470e18e0dba7}{argint} (int, int $\ast$)
+\item 
+int \hyperlink{defs_8h_a05c7464938c27eb91540c06ec6137f26}{argptr} (int, char $\ast$$\ast$, int)
+\item 
+int \hyperlink{defs_8h_afc00cb2e6a06b1021f3d82fa4d0eff07}{argstr} (int, char $\ast$$\ast$)
+\item 
+int \hyperlink{defs_8h_ab8c95490fad429ac2701653041f2efcf}{fetchint} (\hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}, int $\ast$)
+\item 
+int \hyperlink{defs_8h_a386d969a02c926521cf2e1816069a4dc}{fetchstr} (\hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}, char $\ast$$\ast$)
+\item 
+void \hyperlink{defs_8h_acd6bcafe6626fe8e7d00cacdbc3cc4f1}{syscall} (void)
+\item 
+void \hyperlink{defs_8h_a49af4bce992b520d5032364d0a4eb8ee}{timerinit} (void)
+\item 
+void \hyperlink{defs_8h_a9b6e7f6c302700cb54216ad22cbc1591}{idtinit} (void)
+\item 
+void \hyperlink{defs_8h_a9e7167b8e20e217c4af4e757f612ba6a}{tvinit} (void)
+\item 
+void \hyperlink{defs_8h_a79fa7b73d0d61fdd15d30768a395437d}{uartinit} (void)
+\item 
+void \hyperlink{defs_8h_aa64047002b0e84e2611ebf7dc46b7c99}{uartintr} (void)
+\item 
+void \hyperlink{defs_8h_a571626618a1f05ff6854802e936845d6}{uartputc} (int)
+\item 
+void \hyperlink{defs_8h_a740344b258e51ac73abd47aaf5294bad}{uartprintcstr} (char $\ast$)
+\item 
+void \hyperlink{defs_8h_af91405ff642773a68abda78f01892ab3}{tlb\+\_\+invalidate} (\hyperlink{custom__types_8h_ac131849542282b2c95dfeaf1f26dc010}{pde\+\_\+t} $\ast$pgdir, void $\ast$va)
+\begin{DoxyCompactList}\small\item\em Invalidates entry in page table. \end{DoxyCompactList}\item 
+void \hyperlink{defs_8h_aaf5b2814a1dbf3ef0803dff58e0a76dc}{seginit} (void)
+\item 
+void \hyperlink{defs_8h_a893bf6891e427f310b43981bf8e737ea}{kvmalloc} (void)
+\item 
+\hyperlink{custom__types_8h_ac131849542282b2c95dfeaf1f26dc010}{pde\+\_\+t} $\ast$ \hyperlink{defs_8h_aa7dbd3b5c70eb93e0e7fb8331202821d}{setupkvm} (void)
+\item 
+char $\ast$ \hyperlink{defs_8h_adcf8d57f1ee45c47df3f63a950f53143}{uva2ka} (\hyperlink{custom__types_8h_ac131849542282b2c95dfeaf1f26dc010}{pde\+\_\+t} $\ast$, char $\ast$)
+\item 
+int \hyperlink{defs_8h_a67f50b6f85756f02b5acdcb084d51b9f}{allocuvm} (\hyperlink{custom__types_8h_ac131849542282b2c95dfeaf1f26dc010}{pde\+\_\+t} $\ast$, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint})
+\item 
+int \hyperlink{defs_8h_ac45969a8875b6dc87245e0a642aa2d8d}{deallocuvm} (\hyperlink{custom__types_8h_ac131849542282b2c95dfeaf1f26dc010}{pde\+\_\+t} $\ast$, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint})
+\item 
+void \hyperlink{defs_8h_af24cf1756e19afd8be8c95d02262cf3a}{freevm} (\hyperlink{custom__types_8h_ac131849542282b2c95dfeaf1f26dc010}{pde\+\_\+t} $\ast$)
+\item 
+void \hyperlink{defs_8h_a7b3410bde4005e848e1748f2b0f0a084}{inituvm} (\hyperlink{custom__types_8h_ac131849542282b2c95dfeaf1f26dc010}{pde\+\_\+t} $\ast$, char $\ast$, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint})
+\item 
+int \hyperlink{defs_8h_a8a149272578e00e0ce70480004640679}{loaduvm} (\hyperlink{custom__types_8h_ac131849542282b2c95dfeaf1f26dc010}{pde\+\_\+t} $\ast$, char $\ast$, struct \hyperlink{structinode}{inode} $\ast$, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint})
+\item 
+\hyperlink{custom__types_8h_ac131849542282b2c95dfeaf1f26dc010}{pde\+\_\+t} $\ast$ \hyperlink{defs_8h_aaa9d4abe019ce435b9a3296be3a2e214}{copyuvm} (\hyperlink{custom__types_8h_ac131849542282b2c95dfeaf1f26dc010}{pde\+\_\+t} $\ast$, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint})
+\item 
+\hyperlink{custom__types_8h_ac131849542282b2c95dfeaf1f26dc010}{pde\+\_\+t} $\ast$ \hyperlink{defs_8h_a473c3df785e0748949c22ca6b44f8027}{vcopyuvm} (\hyperlink{custom__types_8h_ac131849542282b2c95dfeaf1f26dc010}{pde\+\_\+t} $\ast$, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint})
+\begin{DoxyCompactList}\small\item\em Given a parent process\textquotesingle{}s page table, create a new page table for the child and set permission bits in both tables to allow C\+OW forking. \end{DoxyCompactList}\item 
+void \hyperlink{defs_8h_ad43d81fa3edec39a200abd0853bc84b1}{switchuvm} (struct \hyperlink{structproc}{proc} $\ast$)
+\item 
+void \hyperlink{defs_8h_a02ca0670bc1fe12e38453082631ff360}{switchkvm} (void)
+\item 
+int \hyperlink{defs_8h_a11f5ff2e5bcd16968a88fcbb30db5a10}{copyout} (\hyperlink{custom__types_8h_ac131849542282b2c95dfeaf1f26dc010}{pde\+\_\+t} $\ast$, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint}, void $\ast$, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint})
+\item 
+void \hyperlink{defs_8h_a795e27a0cb916cfb41411ebbb9669ddf}{clearpteu} (\hyperlink{custom__types_8h_ac131849542282b2c95dfeaf1f26dc010}{pde\+\_\+t} $\ast$pgdir, char $\ast$uva)
+\item 
+int \hyperlink{defs_8h_a4d34bcf267e053a61b3df3eca736ecea}{mappages} (\hyperlink{custom__types_8h_ac131849542282b2c95dfeaf1f26dc010}{pde\+\_\+t} $\ast$pgdir, void $\ast$va, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} size, \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} pa, int perm)
+\item 
+\hyperlink{custom__types_8h_ab23e75f764f8314a83eaff23508c2ae5}{pte\+\_\+t} $\ast$ \hyperlink{defs_8h_a7c397b06cc9f0bcb099d53559dce7448}{walkpgdir} (\hyperlink{custom__types_8h_ac131849542282b2c95dfeaf1f26dc010}{pde\+\_\+t} $\ast$pgdir, const void $\ast$va, int alloc)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{custom__types_8h_a65f85814a8290f9797005d3b28e7e5fc}{uchar} \hyperlink{defs_8h_a619ae379337e3cb2397ee0b6b4fd8d6b}{ioapicid}
+\item 
+volatile \hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} $\ast$ \hyperlink{defs_8h_a4029f3e2439d5912f93543b8addd10ec}{lapic}
+\item 
+int \hyperlink{defs_8h_a46b52bd30030451d1b65291b77ba05d5}{ismp}
+\item 
+\hyperlink{custom__types_8h_a91ad9478d81a7aaf2593e8d9c3d06a14}{uint} \hyperlink{defs_8h_a7fcd6915876e066781399d7b00f1b1f0}{ticks}
+\item 
+struct \hyperlink{structspinlock}{spinlock} \hyperlink{defs_8h_a094a4703b62095e2fa469fab3ffea5c7}{tickslock}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\index{defs.\+h@{defs.\+h}!N\+E\+L\+EM@{N\+E\+L\+EM}}
+\index{N\+E\+L\+EM@{N\+E\+L\+EM}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{N\+E\+L\+EM}{NELEM}}]{\setlength{\rightskip}{0pt plus 5cm}\#define N\+E\+L\+EM(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~(sizeof(x)/sizeof((x)\mbox{[}0\mbox{]}))}\hypertarget{defs_8h_afacd331296c10f360da7640e0d68429f}{}\label{defs_8h_afacd331296c10f360da7640e0d68429f}
+
+
+\subsection{Function Documentation}
+\index{defs.\+h@{defs.\+h}!acquire@{acquire}}
+\index{acquire@{acquire}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{acquire(struct spinlock $\ast$)}{acquire(struct spinlock *)}}]{\setlength{\rightskip}{0pt plus 5cm}void acquire (
+\begin{DoxyParamCaption}
+\item[{struct {\bf spinlock} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_afe4ef8638f1ecb962a6e67fb086ee3b8}{}\label{defs_8h_afe4ef8638f1ecb962a6e67fb086ee3b8}
+\index{defs.\+h@{defs.\+h}!allocuvm@{allocuvm}}
+\index{allocuvm@{allocuvm}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{allocuvm(pde\+\_\+t $\ast$, uint, uint)}{allocuvm(pde_t *, uint, uint)}}]{\setlength{\rightskip}{0pt plus 5cm}int allocuvm (
+\begin{DoxyParamCaption}
+\item[{{\bf pde\+\_\+t} $\ast$}]{, }
+\item[{{\bf uint}}]{, }
+\item[{{\bf uint}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a67f50b6f85756f02b5acdcb084d51b9f}{}\label{defs_8h_a67f50b6f85756f02b5acdcb084d51b9f}
+\index{defs.\+h@{defs.\+h}!argint@{argint}}
+\index{argint@{argint}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{argint(int, int $\ast$)}{argint(int, int *)}}]{\setlength{\rightskip}{0pt plus 5cm}int argint (
+\begin{DoxyParamCaption}
+\item[{int}]{, }
+\item[{int $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a75bc8d8c7ea0b4b39d4f470e18e0dba7}{}\label{defs_8h_a75bc8d8c7ea0b4b39d4f470e18e0dba7}
+\index{defs.\+h@{defs.\+h}!argptr@{argptr}}
+\index{argptr@{argptr}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{argptr(int, char $\ast$$\ast$, int)}{argptr(int, char **, int)}}]{\setlength{\rightskip}{0pt plus 5cm}int argptr (
+\begin{DoxyParamCaption}
+\item[{int}]{, }
+\item[{char $\ast$$\ast$}]{, }
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a05c7464938c27eb91540c06ec6137f26}{}\label{defs_8h_a05c7464938c27eb91540c06ec6137f26}
+\index{defs.\+h@{defs.\+h}!argstr@{argstr}}
+\index{argstr@{argstr}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{argstr(int, char $\ast$$\ast$)}{argstr(int, char **)}}]{\setlength{\rightskip}{0pt plus 5cm}int argstr (
+\begin{DoxyParamCaption}
+\item[{int}]{, }
+\item[{char $\ast$$\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_afc00cb2e6a06b1021f3d82fa4d0eff07}{}\label{defs_8h_afc00cb2e6a06b1021f3d82fa4d0eff07}
+\index{defs.\+h@{defs.\+h}!begin\+\_\+op@{begin\+\_\+op}}
+\index{begin\+\_\+op@{begin\+\_\+op}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{begin\+\_\+op()}{begin_op()}}]{\setlength{\rightskip}{0pt plus 5cm}void begin\+\_\+op (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a603ca98212e00d2ffdba7827ef0f1003}{}\label{defs_8h_a603ca98212e00d2ffdba7827ef0f1003}
+\index{defs.\+h@{defs.\+h}!binit@{binit}}
+\index{binit@{binit}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{binit(void)}{binit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void binit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a53cca0ddc98c5f1de37124eca2575a59}{}\label{defs_8h_a53cca0ddc98c5f1de37124eca2575a59}
+\index{defs.\+h@{defs.\+h}!bread@{bread}}
+\index{bread@{bread}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{bread(uint, uint)}{bread(uint, uint)}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf buf}$\ast$ bread (
+\begin{DoxyParamCaption}
+\item[{{\bf uint}}]{, }
+\item[{{\bf uint}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a90c72cf2140fdf1612484117327220af}{}\label{defs_8h_a90c72cf2140fdf1612484117327220af}
+\index{defs.\+h@{defs.\+h}!brelse@{brelse}}
+\index{brelse@{brelse}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{brelse(struct buf $\ast$)}{brelse(struct buf *)}}]{\setlength{\rightskip}{0pt plus 5cm}void brelse (
+\begin{DoxyParamCaption}
+\item[{struct {\bf buf} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_aa31ec2f79e0456737a9680270bc1841b}{}\label{defs_8h_aa31ec2f79e0456737a9680270bc1841b}
+\index{defs.\+h@{defs.\+h}!bwrite@{bwrite}}
+\index{bwrite@{bwrite}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{bwrite(struct buf $\ast$)}{bwrite(struct buf *)}}]{\setlength{\rightskip}{0pt plus 5cm}void bwrite (
+\begin{DoxyParamCaption}
+\item[{struct {\bf buf} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a1bfd775f14ad3dfee354ee3897ecd28d}{}\label{defs_8h_a1bfd775f14ad3dfee354ee3897ecd28d}
+\index{defs.\+h@{defs.\+h}!clearpteu@{clearpteu}}
+\index{clearpteu@{clearpteu}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{clearpteu(pde\+\_\+t $\ast$pgdir, char $\ast$uva)}{clearpteu(pde_t *pgdir, char *uva)}}]{\setlength{\rightskip}{0pt plus 5cm}void clearpteu (
+\begin{DoxyParamCaption}
+\item[{{\bf pde\+\_\+t} $\ast$}]{pgdir, }
+\item[{char $\ast$}]{uva}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a795e27a0cb916cfb41411ebbb9669ddf}{}\label{defs_8h_a795e27a0cb916cfb41411ebbb9669ddf}
+\index{defs.\+h@{defs.\+h}!cmostime@{cmostime}}
+\index{cmostime@{cmostime}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{cmostime(struct rtcdate $\ast$r)}{cmostime(struct rtcdate *r)}}]{\setlength{\rightskip}{0pt plus 5cm}void cmostime (
+\begin{DoxyParamCaption}
+\item[{struct {\bf rtcdate} $\ast$}]{r}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a7247ece9501e31d62cffad46ec33d7af}{}\label{defs_8h_a7247ece9501e31d62cffad46ec33d7af}
+\index{defs.\+h@{defs.\+h}!consoleinit@{consoleinit}}
+\index{consoleinit@{consoleinit}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{consoleinit(void)}{consoleinit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void consoleinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_ab508ff0f4db26fe35cd25fa648f9ee75}{}\label{defs_8h_ab508ff0f4db26fe35cd25fa648f9ee75}
+\index{defs.\+h@{defs.\+h}!consoleintr@{consoleintr}}
+\index{consoleintr@{consoleintr}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{consoleintr(int($\ast$)(void))}{consoleintr(int(*)(void))}}]{\setlength{\rightskip}{0pt plus 5cm}void consoleintr (
+\begin{DoxyParamCaption}
+\item[{int($\ast$)(void)}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a9ec968a6fc407075634fe0e82a9c6862}{}\label{defs_8h_a9ec968a6fc407075634fe0e82a9c6862}
+\index{defs.\+h@{defs.\+h}!copyout@{copyout}}
+\index{copyout@{copyout}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{copyout(pde\+\_\+t $\ast$, uint, void $\ast$, uint)}{copyout(pde_t *, uint, void *, uint)}}]{\setlength{\rightskip}{0pt plus 5cm}int copyout (
+\begin{DoxyParamCaption}
+\item[{{\bf pde\+\_\+t} $\ast$}]{, }
+\item[{{\bf uint}}]{, }
+\item[{void $\ast$}]{, }
+\item[{{\bf uint}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a11f5ff2e5bcd16968a88fcbb30db5a10}{}\label{defs_8h_a11f5ff2e5bcd16968a88fcbb30db5a10}
+\index{defs.\+h@{defs.\+h}!copyuvm@{copyuvm}}
+\index{copyuvm@{copyuvm}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{copyuvm(pde\+\_\+t $\ast$, uint)}{copyuvm(pde_t *, uint)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf pde\+\_\+t}$\ast$ copyuvm (
+\begin{DoxyParamCaption}
+\item[{{\bf pde\+\_\+t} $\ast$}]{, }
+\item[{{\bf uint}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_aaa9d4abe019ce435b9a3296be3a2e214}{}\label{defs_8h_aaa9d4abe019ce435b9a3296be3a2e214}
+\index{defs.\+h@{defs.\+h}!cprintf@{cprintf}}
+\index{cprintf@{cprintf}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{cprintf(const char $\ast$fmt,...)}{cprintf(const char *fmt,...)}}]{\setlength{\rightskip}{0pt plus 5cm}int cprintf (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{fmt, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_ab5c1b009763ca6674c08b6241dad015c}{}\label{defs_8h_ab5c1b009763ca6674c08b6241dad015c}
+\index{defs.\+h@{defs.\+h}!cpunum@{cpunum}}
+\index{cpunum@{cpunum}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{cpunum(void)}{cpunum(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int cpunum (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_ad07bc98847d46ba9772ab5ad4f52e6ec}{}\label{defs_8h_ad07bc98847d46ba9772ab5ad4f52e6ec}
+\index{defs.\+h@{defs.\+h}!deallocuvm@{deallocuvm}}
+\index{deallocuvm@{deallocuvm}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{deallocuvm(pde\+\_\+t $\ast$, uint, uint)}{deallocuvm(pde_t *, uint, uint)}}]{\setlength{\rightskip}{0pt plus 5cm}int deallocuvm (
+\begin{DoxyParamCaption}
+\item[{{\bf pde\+\_\+t} $\ast$}]{, }
+\item[{{\bf uint}}]{, }
+\item[{{\bf uint}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_ac45969a8875b6dc87245e0a642aa2d8d}{}\label{defs_8h_ac45969a8875b6dc87245e0a642aa2d8d}
+\index{defs.\+h@{defs.\+h}!dirlink@{dirlink}}
+\index{dirlink@{dirlink}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{dirlink(struct inode $\ast$, char $\ast$, uint)}{dirlink(struct inode *, char *, uint)}}]{\setlength{\rightskip}{0pt plus 5cm}int dirlink (
+\begin{DoxyParamCaption}
+\item[{struct {\bf inode} $\ast$}]{, }
+\item[{char $\ast$}]{, }
+\item[{{\bf uint}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_ae4ccea0aa02557162963e597737f665a}{}\label{defs_8h_ae4ccea0aa02557162963e597737f665a}
+\index{defs.\+h@{defs.\+h}!dirlookup@{dirlookup}}
+\index{dirlookup@{dirlookup}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{dirlookup(struct inode $\ast$, char $\ast$, uint $\ast$)}{dirlookup(struct inode *, char *, uint *)}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf inode}$\ast$ dirlookup (
+\begin{DoxyParamCaption}
+\item[{struct {\bf inode} $\ast$}]{, }
+\item[{char $\ast$}]{, }
+\item[{{\bf uint} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a91ded9e61402d5e0d9f16b2a8cbff5c3}{}\label{defs_8h_a91ded9e61402d5e0d9f16b2a8cbff5c3}
+\index{defs.\+h@{defs.\+h}!end\+\_\+op@{end\+\_\+op}}
+\index{end\+\_\+op@{end\+\_\+op}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{end\+\_\+op()}{end_op()}}]{\setlength{\rightskip}{0pt plus 5cm}void end\+\_\+op (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a2504e37a109f9bae5ca11fe89e4e8fa1}{}\label{defs_8h_a2504e37a109f9bae5ca11fe89e4e8fa1}
+\index{defs.\+h@{defs.\+h}!exec@{exec}}
+\index{exec@{exec}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{exec(char $\ast$, char $\ast$$\ast$)}{exec(char *, char **)}}]{\setlength{\rightskip}{0pt plus 5cm}int exec (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{, }
+\item[{char $\ast$$\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_aa7b4aae4a12acd187e23396214aeca47}{}\label{defs_8h_aa7b4aae4a12acd187e23396214aeca47}
+\index{defs.\+h@{defs.\+h}!exit@{exit}}
+\index{exit@{exit}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{exit(void)}{exit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void exit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_aaf98ef7cdde3a0dfb2e49919de3298b1}{}\label{defs_8h_aaf98ef7cdde3a0dfb2e49919de3298b1}
+\index{defs.\+h@{defs.\+h}!fetchint@{fetchint}}
+\index{fetchint@{fetchint}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{fetchint(uint, int $\ast$)}{fetchint(uint, int *)}}]{\setlength{\rightskip}{0pt plus 5cm}int fetchint (
+\begin{DoxyParamCaption}
+\item[{{\bf uint}}]{, }
+\item[{int $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_ab8c95490fad429ac2701653041f2efcf}{}\label{defs_8h_ab8c95490fad429ac2701653041f2efcf}
+\index{defs.\+h@{defs.\+h}!fetchstr@{fetchstr}}
+\index{fetchstr@{fetchstr}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{fetchstr(uint, char $\ast$$\ast$)}{fetchstr(uint, char **)}}]{\setlength{\rightskip}{0pt plus 5cm}int fetchstr (
+\begin{DoxyParamCaption}
+\item[{{\bf uint}}]{, }
+\item[{char $\ast$$\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a386d969a02c926521cf2e1816069a4dc}{}\label{defs_8h_a386d969a02c926521cf2e1816069a4dc}
+\index{defs.\+h@{defs.\+h}!filealloc@{filealloc}}
+\index{filealloc@{filealloc}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{filealloc(void)}{filealloc(void)}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf file}$\ast$ filealloc (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a69d3d2dd94efa1f1ff8d0143f4d9b786}{}\label{defs_8h_a69d3d2dd94efa1f1ff8d0143f4d9b786}
+\index{defs.\+h@{defs.\+h}!fileclose@{fileclose}}
+\index{fileclose@{fileclose}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{fileclose(struct file $\ast$)}{fileclose(struct file *)}}]{\setlength{\rightskip}{0pt plus 5cm}void fileclose (
+\begin{DoxyParamCaption}
+\item[{struct {\bf file} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_ac865ee0b2d70f753d61d1fefef9de0f6}{}\label{defs_8h_ac865ee0b2d70f753d61d1fefef9de0f6}
+\index{defs.\+h@{defs.\+h}!filedup@{filedup}}
+\index{filedup@{filedup}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{filedup(struct file $\ast$)}{filedup(struct file *)}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf file}$\ast$ filedup (
+\begin{DoxyParamCaption}
+\item[{struct {\bf file} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a1063546fe0d5f45fe1a38a9b4f6b5783}{}\label{defs_8h_a1063546fe0d5f45fe1a38a9b4f6b5783}
+\index{defs.\+h@{defs.\+h}!fileinit@{fileinit}}
+\index{fileinit@{fileinit}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{fileinit(void)}{fileinit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void fileinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a66bb5a4b304ea0f851dd999fc8195fa4}{}\label{defs_8h_a66bb5a4b304ea0f851dd999fc8195fa4}
+\index{defs.\+h@{defs.\+h}!fileread@{fileread}}
+\index{fileread@{fileread}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{fileread(struct file $\ast$, char $\ast$, int n)}{fileread(struct file *, char *, int n)}}]{\setlength{\rightskip}{0pt plus 5cm}int fileread (
+\begin{DoxyParamCaption}
+\item[{struct {\bf file} $\ast$}]{, }
+\item[{char $\ast$}]{, }
+\item[{int}]{n}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a6bd1db179155944c9d1fbc89d8b7b162}{}\label{defs_8h_a6bd1db179155944c9d1fbc89d8b7b162}
+\index{defs.\+h@{defs.\+h}!filestat@{filestat}}
+\index{filestat@{filestat}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{filestat(struct file $\ast$, struct stat $\ast$)}{filestat(struct file *, struct stat *)}}]{\setlength{\rightskip}{0pt plus 5cm}int filestat (
+\begin{DoxyParamCaption}
+\item[{struct {\bf file} $\ast$}]{, }
+\item[{struct {\bf stat} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_ac4979f97957194db01001985b1bfa84e}{}\label{defs_8h_ac4979f97957194db01001985b1bfa84e}
+\index{defs.\+h@{defs.\+h}!filewrite@{filewrite}}
+\index{filewrite@{filewrite}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{filewrite(struct file $\ast$, char $\ast$, int n)}{filewrite(struct file *, char *, int n)}}]{\setlength{\rightskip}{0pt plus 5cm}int filewrite (
+\begin{DoxyParamCaption}
+\item[{struct {\bf file} $\ast$}]{, }
+\item[{char $\ast$}]{, }
+\item[{int}]{n}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a90e8980df48fa900fc33de53448a2e18}{}\label{defs_8h_a90e8980df48fa900fc33de53448a2e18}
+\index{defs.\+h@{defs.\+h}!fork@{fork}}
+\index{fork@{fork}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{fork(void)}{fork(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int fork (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_acd2e1ded4bb6fce4500438bf928330f4}{}\label{defs_8h_acd2e1ded4bb6fce4500438bf928330f4}
+\index{defs.\+h@{defs.\+h}!freevm@{freevm}}
+\index{freevm@{freevm}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{freevm(pde\+\_\+t $\ast$)}{freevm(pde_t *)}}]{\setlength{\rightskip}{0pt plus 5cm}void freevm (
+\begin{DoxyParamCaption}
+\item[{{\bf pde\+\_\+t} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_af24cf1756e19afd8be8c95d02262cf3a}{}\label{defs_8h_af24cf1756e19afd8be8c95d02262cf3a}
+\index{defs.\+h@{defs.\+h}!getcallerpcs@{getcallerpcs}}
+\index{getcallerpcs@{getcallerpcs}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{getcallerpcs(void $\ast$, uint $\ast$)}{getcallerpcs(void *, uint *)}}]{\setlength{\rightskip}{0pt plus 5cm}void getcallerpcs (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{, }
+\item[{{\bf uint} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a4105de9e2969515d6c6c795c4386f69f}{}\label{defs_8h_a4105de9e2969515d6c6c795c4386f69f}
+\index{defs.\+h@{defs.\+h}!growproc@{growproc}}
+\index{growproc@{growproc}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{growproc(int)}{growproc(int)}}]{\setlength{\rightskip}{0pt plus 5cm}int growproc (
+\begin{DoxyParamCaption}
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_acb02e9289fb8a1017c3455b137a9bccd}{}\label{defs_8h_acb02e9289fb8a1017c3455b137a9bccd}
+\index{defs.\+h@{defs.\+h}!holding@{holding}}
+\index{holding@{holding}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{holding(struct spinlock $\ast$)}{holding(struct spinlock *)}}]{\setlength{\rightskip}{0pt plus 5cm}int holding (
+\begin{DoxyParamCaption}
+\item[{struct {\bf spinlock} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_ac44b13cc76bf4040e3baf34df75ff230}{}\label{defs_8h_ac44b13cc76bf4040e3baf34df75ff230}
+\index{defs.\+h@{defs.\+h}!ialloc@{ialloc}}
+\index{ialloc@{ialloc}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{ialloc(uint, short)}{ialloc(uint, short)}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf inode}$\ast$ ialloc (
+\begin{DoxyParamCaption}
+\item[{{\bf uint}}]{, }
+\item[{short}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_ab4d7f391ca5219199e1b7502ac12ea85}{}\label{defs_8h_ab4d7f391ca5219199e1b7502ac12ea85}
+\index{defs.\+h@{defs.\+h}!ideinit@{ideinit}}
+\index{ideinit@{ideinit}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{ideinit(void)}{ideinit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void ideinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_aefb190a6104cb58c0bc1f8fec88d1307}{}\label{defs_8h_aefb190a6104cb58c0bc1f8fec88d1307}
+\index{defs.\+h@{defs.\+h}!ideintr@{ideintr}}
+\index{ideintr@{ideintr}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{ideintr(void)}{ideintr(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void ideintr (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a709693afdb9b89d848e684e7acde1f8f}{}\label{defs_8h_a709693afdb9b89d848e684e7acde1f8f}
+\index{defs.\+h@{defs.\+h}!iderw@{iderw}}
+\index{iderw@{iderw}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{iderw(struct buf $\ast$)}{iderw(struct buf *)}}]{\setlength{\rightskip}{0pt plus 5cm}void iderw (
+\begin{DoxyParamCaption}
+\item[{struct {\bf buf} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a70985c3f5b2fb79737457b5c88f5327a}{}\label{defs_8h_a70985c3f5b2fb79737457b5c88f5327a}
+\index{defs.\+h@{defs.\+h}!idtinit@{idtinit}}
+\index{idtinit@{idtinit}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{idtinit(void)}{idtinit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void idtinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a9b6e7f6c302700cb54216ad22cbc1591}{}\label{defs_8h_a9b6e7f6c302700cb54216ad22cbc1591}
+\index{defs.\+h@{defs.\+h}!idup@{idup}}
+\index{idup@{idup}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{idup(struct inode $\ast$)}{idup(struct inode *)}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf inode}$\ast$ idup (
+\begin{DoxyParamCaption}
+\item[{struct {\bf inode} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_acdd1de79a331b8922c483434d257731d}{}\label{defs_8h_acdd1de79a331b8922c483434d257731d}
+\index{defs.\+h@{defs.\+h}!iinit@{iinit}}
+\index{iinit@{iinit}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{iinit(int dev)}{iinit(int dev)}}]{\setlength{\rightskip}{0pt plus 5cm}void iinit (
+\begin{DoxyParamCaption}
+\item[{int}]{dev}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a301761a27cf266e0bad483272fb31a3c}{}\label{defs_8h_a301761a27cf266e0bad483272fb31a3c}
+\index{defs.\+h@{defs.\+h}!ilock@{ilock}}
+\index{ilock@{ilock}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{ilock(struct inode $\ast$)}{ilock(struct inode *)}}]{\setlength{\rightskip}{0pt plus 5cm}void ilock (
+\begin{DoxyParamCaption}
+\item[{struct {\bf inode} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a29a4d743d41fe659f74b0a57fdc25012}{}\label{defs_8h_a29a4d743d41fe659f74b0a57fdc25012}
+\index{defs.\+h@{defs.\+h}!increfcount@{increfcount}}
+\index{increfcount@{increfcount}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{increfcount(char $\ast$vaddr)}{increfcount(char *vaddr)}}]{\setlength{\rightskip}{0pt plus 5cm}void increfcount (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{va}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_abb5413cdffa02836d5365dcaa60d2d20}{}\label{defs_8h_abb5413cdffa02836d5365dcaa60d2d20}
+
+
+finds \hyperlink{structpage__info}{page\+\_\+info} from va and increments its refcount 
+
+
+\begin{DoxyParams}{Parameters}
+{\em va} & (kernel) virtual address of the page, must be page alined \\
+\hline
+\end{DoxyParams}
+\index{defs.\+h@{defs.\+h}!initlock@{initlock}}
+\index{initlock@{initlock}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{initlock(struct spinlock $\ast$, char $\ast$)}{initlock(struct spinlock *, char *)}}]{\setlength{\rightskip}{0pt plus 5cm}void initlock (
+\begin{DoxyParamCaption}
+\item[{struct {\bf spinlock} $\ast$}]{, }
+\item[{char $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_ab56d728e6966819a0260c358d3ac3419}{}\label{defs_8h_ab56d728e6966819a0260c358d3ac3419}
+\index{defs.\+h@{defs.\+h}!initlog@{initlog}}
+\index{initlog@{initlog}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{initlog(int dev)}{initlog(int dev)}}]{\setlength{\rightskip}{0pt plus 5cm}void initlog (
+\begin{DoxyParamCaption}
+\item[{int}]{dev}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_ad5e79aaefb91f41b9ef6aeae7ecf4708}{}\label{defs_8h_ad5e79aaefb91f41b9ef6aeae7ecf4708}
+\index{defs.\+h@{defs.\+h}!inituvm@{inituvm}}
+\index{inituvm@{inituvm}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{inituvm(pde\+\_\+t $\ast$, char $\ast$, uint)}{inituvm(pde_t *, char *, uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void inituvm (
+\begin{DoxyParamCaption}
+\item[{{\bf pde\+\_\+t} $\ast$}]{, }
+\item[{char $\ast$}]{, }
+\item[{{\bf uint}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a7b3410bde4005e848e1748f2b0f0a084}{}\label{defs_8h_a7b3410bde4005e848e1748f2b0f0a084}
+\index{defs.\+h@{defs.\+h}!ioapicenable@{ioapicenable}}
+\index{ioapicenable@{ioapicenable}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{ioapicenable(int irq, int cpu)}{ioapicenable(int irq, int cpu)}}]{\setlength{\rightskip}{0pt plus 5cm}void ioapicenable (
+\begin{DoxyParamCaption}
+\item[{int}]{irq, }
+\item[{int}]{cpu}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a63da75c0c2f0b051f2c790aea2116b63}{}\label{defs_8h_a63da75c0c2f0b051f2c790aea2116b63}
+\index{defs.\+h@{defs.\+h}!ioapicinit@{ioapicinit}}
+\index{ioapicinit@{ioapicinit}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{ioapicinit(void)}{ioapicinit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void ioapicinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_abce023b98422f397abdb425b20c8ceec}{}\label{defs_8h_abce023b98422f397abdb425b20c8ceec}
+\index{defs.\+h@{defs.\+h}!iput@{iput}}
+\index{iput@{iput}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{iput(struct inode $\ast$)}{iput(struct inode *)}}]{\setlength{\rightskip}{0pt plus 5cm}void iput (
+\begin{DoxyParamCaption}
+\item[{struct {\bf inode} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a29530a0afdfe924818d8c70b6724528d}{}\label{defs_8h_a29530a0afdfe924818d8c70b6724528d}
+\index{defs.\+h@{defs.\+h}!iunlock@{iunlock}}
+\index{iunlock@{iunlock}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{iunlock(struct inode $\ast$)}{iunlock(struct inode *)}}]{\setlength{\rightskip}{0pt plus 5cm}void iunlock (
+\begin{DoxyParamCaption}
+\item[{struct {\bf inode} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_af301c10ad8ced77a5dfb2de3a64c666c}{}\label{defs_8h_af301c10ad8ced77a5dfb2de3a64c666c}
+\index{defs.\+h@{defs.\+h}!iunlockput@{iunlockput}}
+\index{iunlockput@{iunlockput}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{iunlockput(struct inode $\ast$)}{iunlockput(struct inode *)}}]{\setlength{\rightskip}{0pt plus 5cm}void iunlockput (
+\begin{DoxyParamCaption}
+\item[{struct {\bf inode} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_adff5bb5a1eeaf921853ec06479f8c49b}{}\label{defs_8h_adff5bb5a1eeaf921853ec06479f8c49b}
+\index{defs.\+h@{defs.\+h}!iupdate@{iupdate}}
+\index{iupdate@{iupdate}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{iupdate(struct inode $\ast$)}{iupdate(struct inode *)}}]{\setlength{\rightskip}{0pt plus 5cm}void iupdate (
+\begin{DoxyParamCaption}
+\item[{struct {\bf inode} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a2ee6784c123b2a2656d88b5b357f2253}{}\label{defs_8h_a2ee6784c123b2a2656d88b5b357f2253}
+\index{defs.\+h@{defs.\+h}!kalloc@{kalloc}}
+\index{kalloc@{kalloc}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{kalloc(void)}{kalloc(void)}}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ kalloc (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a3af104ba40b66dcec8363ac5a70907ed}{}\label{defs_8h_a3af104ba40b66dcec8363ac5a70907ed}
+\index{defs.\+h@{defs.\+h}!kbdintr@{kbdintr}}
+\index{kbdintr@{kbdintr}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{kbdintr(void)}{kbdintr(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void kbdintr (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_af3d6113fa152781400e1e0e728c55e54}{}\label{defs_8h_af3d6113fa152781400e1e0e728c55e54}
+\index{defs.\+h@{defs.\+h}!kdecref@{kdecref}}
+\index{kdecref@{kdecref}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{kdecref(char $\ast$va)}{kdecref(char *va)}}]{\setlength{\rightskip}{0pt plus 5cm}int kdecref (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{va}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a6bf5aaf3c1623fbc75279a59e7bcadda}{}\label{defs_8h_a6bf5aaf3c1623fbc75279a59e7bcadda}
+
+
+Decrements the \hyperlink{structpage__info_aa5d70e774275d72f2ecb55bb78ae6a9e}{page\+\_\+info.\+refcount} field for corresponding phy page. Frees if refcount reaches 0. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em va} & (kernel) virtual address of the page, must be page allined \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if page was freed, 0 otherwise 
+\end{DoxyReturn}
+\index{defs.\+h@{defs.\+h}!kfree@{kfree}}
+\index{kfree@{kfree}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{kfree(char $\ast$)}{kfree(char *)}}]{\setlength{\rightskip}{0pt plus 5cm}void kfree (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_ae79d6a7d0901b7c081cfded3f916d5bd}{}\label{defs_8h_ae79d6a7d0901b7c081cfded3f916d5bd}
+\index{defs.\+h@{defs.\+h}!kill@{kill}}
+\index{kill@{kill}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{kill(int)}{kill(int)}}]{\setlength{\rightskip}{0pt plus 5cm}int kill (
+\begin{DoxyParamCaption}
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_ab893e9671d6bfe2b2604002a50639f21}{}\label{defs_8h_ab893e9671d6bfe2b2604002a50639f21}
+\index{defs.\+h@{defs.\+h}!kinit1@{kinit1}}
+\index{kinit1@{kinit1}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{kinit1(void $\ast$, void $\ast$)}{kinit1(void *, void *)}}]{\setlength{\rightskip}{0pt plus 5cm}void kinit1 (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{, }
+\item[{void $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_abc7a6a8cb3bcde83697a0c9a61d22d4d}{}\label{defs_8h_abc7a6a8cb3bcde83697a0c9a61d22d4d}
+\index{defs.\+h@{defs.\+h}!kinit2@{kinit2}}
+\index{kinit2@{kinit2}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{kinit2(void $\ast$, void $\ast$)}{kinit2(void *, void *)}}]{\setlength{\rightskip}{0pt plus 5cm}void kinit2 (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{, }
+\item[{void $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_aeb265df0f4968b40d175d9e3030d737c}{}\label{defs_8h_aeb265df0f4968b40d175d9e3030d737c}
+\index{defs.\+h@{defs.\+h}!kinsert@{kinsert}}
+\index{kinsert@{kinsert}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{kinsert(pde\+\_\+t $\ast$pgdir, struct page\+\_\+info $\ast$pp, char $\ast$va, int perm)}{kinsert(pde_t *pgdir, struct page_info *pp, char *va, int perm)}}]{\setlength{\rightskip}{0pt plus 5cm}int kinsert (
+\begin{DoxyParamCaption}
+\item[{{\bf pde\+\_\+t} $\ast$}]{pgdir, }
+\item[{struct {\bf page\+\_\+info} $\ast$}]{pp, }
+\item[{char $\ast$}]{va, }
+\item[{int}]{perm}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a654f70eb00920123570701eb561a2dc3}{}\label{defs_8h_a654f70eb00920123570701eb561a2dc3}
+
+
+Maps the physical page associated with pp at virtual address va Removes previous mapping, if any. Allocates a page table if needed and inserts it into pgdir. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pgdir} & (pointer to) the page directory \\
+\hline
+{\em pp} & (pointer to) the \hyperlink{structpage__info}{page\+\_\+info} of the physical page to map \\
+\hline
+{\em va} & virtual address where to map the page \\
+\hline
+{\em perm} & permission bits \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+-\/1 if page table could not be allocated, 0 otherwise 
+\end{DoxyReturn}
+\index{defs.\+h@{defs.\+h}!klookup@{klookup}}
+\index{klookup@{klookup}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{klookup(pde\+\_\+t $\ast$pgdir, void $\ast$va, pte\+\_\+t $\ast$$\ast$pte\+\_\+store)}{klookup(pde_t *pgdir, void *va, pte_t **pte_store)}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf page\+\_\+info}$\ast$ klookup (
+\begin{DoxyParamCaption}
+\item[{{\bf pde\+\_\+t} $\ast$}]{pgdir, }
+\item[{void $\ast$}]{va, }
+\item[{{\bf pte\+\_\+t} $\ast$$\ast$}]{pte\+\_\+store}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a9541ef47936123e59217b7379357e8dd}{}\label{defs_8h_a9541ef47936123e59217b7379357e8dd}
+
+
+Finds and returns (a pointer to the \hyperlink{structpage__info}{page\+\_\+info} of) the physical page mapped at virtual address va. If pte\+\_\+store is non-\/null, sets it to save the virtual address of the pte for the physical page. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pgdir} & (pointer to) the page directory \\
+\hline
+{\em va} & virtual address \\
+\hline
+{\em pte\+\_\+store} & (pointer to) a pte entry address \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(a pointer to) the \hyperlink{structpage__info}{page\+\_\+info} of the mapped physical page (if any), N\+U\+LL otherwise 
+\end{DoxyReturn}
+\index{defs.\+h@{defs.\+h}!kmarkused@{kmarkused}}
+\index{kmarkused@{kmarkused}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{kmarkused(void $\ast$, void $\ast$)}{kmarkused(void *, void *)}}]{\setlength{\rightskip}{0pt plus 5cm}void kmarkused (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{vstart, }
+\item[{void $\ast$}]{vend}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a2f9e9c87a7ea58bdb65958e521969111}{}\label{defs_8h_a2f9e9c87a7ea58bdb65958e521969111}
+
+
+Marks pages in range (vstart, vend) as used. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vstart} & virtual address (low), not necessarily page aligned \\
+\hline
+{\em vend} & virtual address (high), not necessarily page aligned \\
+\hline
+\end{DoxyParams}
+\index{defs.\+h@{defs.\+h}!kremove@{kremove}}
+\index{kremove@{kremove}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{kremove(pde\+\_\+t $\ast$pgdir, void $\ast$va)}{kremove(pde_t *pgdir, void *va)}}]{\setlength{\rightskip}{0pt plus 5cm}void kremove (
+\begin{DoxyParamCaption}
+\item[{{\bf pde\+\_\+t} $\ast$}]{pgdir, }
+\item[{void $\ast$}]{va}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a9ba746e6dc1f08b3cf2825c278d09a41}{}\label{defs_8h_a9ba746e6dc1f08b3cf2825c278d09a41}
+
+
+Unmaps the physical page at virtual address va. If no page at va, does nothing. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pgdir} & (pointer to) the page directory \\
+\hline
+{\em va} & virtual address \\
+\hline
+\end{DoxyParams}
+\index{defs.\+h@{defs.\+h}!kvmalloc@{kvmalloc}}
+\index{kvmalloc@{kvmalloc}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{kvmalloc(void)}{kvmalloc(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void kvmalloc (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a893bf6891e427f310b43981bf8e737ea}{}\label{defs_8h_a893bf6891e427f310b43981bf8e737ea}
+\index{defs.\+h@{defs.\+h}!lapiceoi@{lapiceoi}}
+\index{lapiceoi@{lapiceoi}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{lapiceoi(void)}{lapiceoi(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void lapiceoi (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a42fdd0783bbeb7cdc646d360191cdcac}{}\label{defs_8h_a42fdd0783bbeb7cdc646d360191cdcac}
+\index{defs.\+h@{defs.\+h}!lapicinit@{lapicinit}}
+\index{lapicinit@{lapicinit}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{lapicinit(void)}{lapicinit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void lapicinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a6b48a1e50acc73cb3e70a65774c87392}{}\label{defs_8h_a6b48a1e50acc73cb3e70a65774c87392}
+\index{defs.\+h@{defs.\+h}!lapicstartap@{lapicstartap}}
+\index{lapicstartap@{lapicstartap}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{lapicstartap(uchar, uint)}{lapicstartap(uchar, uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void lapicstartap (
+\begin{DoxyParamCaption}
+\item[{{\bf uchar}}]{, }
+\item[{{\bf uint}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_ae46b07b96e4429fa85738ac2fe1768a0}{}\label{defs_8h_ae46b07b96e4429fa85738ac2fe1768a0}
+\index{defs.\+h@{defs.\+h}!loaduvm@{loaduvm}}
+\index{loaduvm@{loaduvm}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{loaduvm(pde\+\_\+t $\ast$, char $\ast$, struct inode $\ast$, uint, uint)}{loaduvm(pde_t *, char *, struct inode *, uint, uint)}}]{\setlength{\rightskip}{0pt plus 5cm}int loaduvm (
+\begin{DoxyParamCaption}
+\item[{{\bf pde\+\_\+t} $\ast$}]{, }
+\item[{char $\ast$}]{, }
+\item[{struct {\bf inode} $\ast$}]{, }
+\item[{{\bf uint}}]{, }
+\item[{{\bf uint}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a8a149272578e00e0ce70480004640679}{}\label{defs_8h_a8a149272578e00e0ce70480004640679}
+\index{defs.\+h@{defs.\+h}!log\+\_\+write@{log\+\_\+write}}
+\index{log\+\_\+write@{log\+\_\+write}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{log\+\_\+write(struct buf $\ast$)}{log_write(struct buf *)}}]{\setlength{\rightskip}{0pt plus 5cm}void log\+\_\+write (
+\begin{DoxyParamCaption}
+\item[{struct {\bf buf} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a270d0050dc50965f4f851717841ad33c}{}\label{defs_8h_a270d0050dc50965f4f851717841ad33c}
+\index{defs.\+h@{defs.\+h}!mappages@{mappages}}
+\index{mappages@{mappages}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{mappages(pde\+\_\+t $\ast$pgdir, void $\ast$va, uint size, uint pa, int perm)}{mappages(pde_t *pgdir, void *va, uint size, uint pa, int perm)}}]{\setlength{\rightskip}{0pt plus 5cm}int mappages (
+\begin{DoxyParamCaption}
+\item[{{\bf pde\+\_\+t} $\ast$}]{pgdir, }
+\item[{void $\ast$}]{va, }
+\item[{{\bf uint}}]{size, }
+\item[{{\bf uint}}]{pa, }
+\item[{int}]{perm}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a4d34bcf267e053a61b3df3eca736ecea}{}\label{defs_8h_a4d34bcf267e053a61b3df3eca736ecea}
+\index{defs.\+h@{defs.\+h}!memcmp@{memcmp}}
+\index{memcmp@{memcmp}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{memcmp(const void $\ast$, const void $\ast$, uint)}{memcmp(const void *, const void *, uint)}}]{\setlength{\rightskip}{0pt plus 5cm}int memcmp (
+\begin{DoxyParamCaption}
+\item[{const void $\ast$}]{, }
+\item[{const void $\ast$}]{, }
+\item[{{\bf uint}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_acdb4d3f48d2fb0a834722b1107d2b284}{}\label{defs_8h_acdb4d3f48d2fb0a834722b1107d2b284}
+\index{defs.\+h@{defs.\+h}!memmove@{memmove}}
+\index{memmove@{memmove}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{memmove(void $\ast$, const void $\ast$, uint)}{memmove(void *, const void *, uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ memmove (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{, }
+\item[{const void $\ast$}]{, }
+\item[{{\bf uint}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_aa9c8577c0e9d233f85892ec2d9bfe212}{}\label{defs_8h_aa9c8577c0e9d233f85892ec2d9bfe212}
+\index{defs.\+h@{defs.\+h}!memset@{memset}}
+\index{memset@{memset}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{memset(void $\ast$, int, uint)}{memset(void *, int, uint)}}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ memset (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{, }
+\item[{int}]{, }
+\item[{{\bf uint}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a9d55c9f035076ed1a90b6452770d0b62}{}\label{defs_8h_a9d55c9f035076ed1a90b6452770d0b62}
+\index{defs.\+h@{defs.\+h}!microdelay@{microdelay}}
+\index{microdelay@{microdelay}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{microdelay(int)}{microdelay(int)}}]{\setlength{\rightskip}{0pt plus 5cm}void microdelay (
+\begin{DoxyParamCaption}
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_ada0e72e8d0a1a48090829fd03a0b76ba}{}\label{defs_8h_ada0e72e8d0a1a48090829fd03a0b76ba}
+\index{defs.\+h@{defs.\+h}!mpinit@{mpinit}}
+\index{mpinit@{mpinit}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{mpinit(void)}{mpinit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void mpinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a2fd0b66a17c5347541448ef906b7b2a2}{}\label{defs_8h_a2fd0b66a17c5347541448ef906b7b2a2}
+\index{defs.\+h@{defs.\+h}!namecmp@{namecmp}}
+\index{namecmp@{namecmp}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{namecmp(const char $\ast$, const char $\ast$)}{namecmp(const char *, const char *)}}]{\setlength{\rightskip}{0pt plus 5cm}int namecmp (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{, }
+\item[{const char $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a0206c4090dc4bdfd8481e38057d5b2af}{}\label{defs_8h_a0206c4090dc4bdfd8481e38057d5b2af}
+\index{defs.\+h@{defs.\+h}!namei@{namei}}
+\index{namei@{namei}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{namei(char $\ast$)}{namei(char *)}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf inode}$\ast$ namei (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a29aa723e0b59f069c9eba588fdeb7e5a}{}\label{defs_8h_a29aa723e0b59f069c9eba588fdeb7e5a}
+\index{defs.\+h@{defs.\+h}!nameiparent@{nameiparent}}
+\index{nameiparent@{nameiparent}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{nameiparent(char $\ast$, char $\ast$)}{nameiparent(char *, char *)}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf inode}$\ast$ nameiparent (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{, }
+\item[{char $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a02a47e8fb060db0a29727f29879024cc}{}\label{defs_8h_a02a47e8fb060db0a29727f29879024cc}
+\index{defs.\+h@{defs.\+h}!panic@{panic}}
+\index{panic@{panic}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{panic(char $\ast$) \+\_\+\+\_\+attribute\+\_\+\+\_\+((noreturn))}{panic(char *) __attribute__((noreturn))}}]{\setlength{\rightskip}{0pt plus 5cm}void panic (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a45323e3f295a0d9b90929cc30a24e2aa}{}\label{defs_8h_a45323e3f295a0d9b90929cc30a24e2aa}
+\index{defs.\+h@{defs.\+h}!picenable@{picenable}}
+\index{picenable@{picenable}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{picenable(int)}{picenable(int)}}]{\setlength{\rightskip}{0pt plus 5cm}void picenable (
+\begin{DoxyParamCaption}
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a71fd35cd05f30866ae0ba1486415e786}{}\label{defs_8h_a71fd35cd05f30866ae0ba1486415e786}
+\index{defs.\+h@{defs.\+h}!picinit@{picinit}}
+\index{picinit@{picinit}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{picinit(void)}{picinit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void picinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a8f19f54755d7fdec01e537228b10fbf6}{}\label{defs_8h_a8f19f54755d7fdec01e537228b10fbf6}
+\index{defs.\+h@{defs.\+h}!pinit@{pinit}}
+\index{pinit@{pinit}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{pinit(void)}{pinit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void pinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a9d293f913985937ee7a266fe5ddbfc77}{}\label{defs_8h_a9d293f913985937ee7a266fe5ddbfc77}
+\index{defs.\+h@{defs.\+h}!pipealloc@{pipealloc}}
+\index{pipealloc@{pipealloc}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{pipealloc(struct file $\ast$$\ast$, struct file $\ast$$\ast$)}{pipealloc(struct file **, struct file **)}}]{\setlength{\rightskip}{0pt plus 5cm}int pipealloc (
+\begin{DoxyParamCaption}
+\item[{struct {\bf file} $\ast$$\ast$}]{, }
+\item[{struct {\bf file} $\ast$$\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a3de41eab56ff42bea4d1ae78bbd1e472}{}\label{defs_8h_a3de41eab56ff42bea4d1ae78bbd1e472}
+\index{defs.\+h@{defs.\+h}!pipeclose@{pipeclose}}
+\index{pipeclose@{pipeclose}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{pipeclose(struct pipe $\ast$, int)}{pipeclose(struct pipe *, int)}}]{\setlength{\rightskip}{0pt plus 5cm}void pipeclose (
+\begin{DoxyParamCaption}
+\item[{struct {\bf pipe} $\ast$}]{, }
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_af6220973e389c74782d76ae641a5e7db}{}\label{defs_8h_af6220973e389c74782d76ae641a5e7db}
+\index{defs.\+h@{defs.\+h}!piperead@{piperead}}
+\index{piperead@{piperead}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{piperead(struct pipe $\ast$, char $\ast$, int)}{piperead(struct pipe *, char *, int)}}]{\setlength{\rightskip}{0pt plus 5cm}int piperead (
+\begin{DoxyParamCaption}
+\item[{struct {\bf pipe} $\ast$}]{, }
+\item[{char $\ast$}]{, }
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_acd589a0d0d6d34b446baf33755eef519}{}\label{defs_8h_acd589a0d0d6d34b446baf33755eef519}
+\index{defs.\+h@{defs.\+h}!pipewrite@{pipewrite}}
+\index{pipewrite@{pipewrite}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{pipewrite(struct pipe $\ast$, char $\ast$, int)}{pipewrite(struct pipe *, char *, int)}}]{\setlength{\rightskip}{0pt plus 5cm}int pipewrite (
+\begin{DoxyParamCaption}
+\item[{struct {\bf pipe} $\ast$}]{, }
+\item[{char $\ast$}]{, }
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_ae63b0db4ca2cbb2025b89d977c6535b1}{}\label{defs_8h_ae63b0db4ca2cbb2025b89d977c6535b1}
+\index{defs.\+h@{defs.\+h}!popcli@{popcli}}
+\index{popcli@{popcli}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{popcli(void)}{popcli(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void popcli (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_ae3424f669269fef400ce29c3aeb43fdb}{}\label{defs_8h_ae3424f669269fef400ce29c3aeb43fdb}
+\index{defs.\+h@{defs.\+h}!procdump@{procdump}}
+\index{procdump@{procdump}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{procdump(void)}{procdump(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void procdump (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a7f185044294ebb57521c73f723990164}{}\label{defs_8h_a7f185044294ebb57521c73f723990164}
+\index{defs.\+h@{defs.\+h}!pushcli@{pushcli}}
+\index{pushcli@{pushcli}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{pushcli(void)}{pushcli(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void pushcli (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a206b749d1b7768dadce61cbcde7e0f1c}{}\label{defs_8h_a206b749d1b7768dadce61cbcde7e0f1c}
+\index{defs.\+h@{defs.\+h}!readi@{readi}}
+\index{readi@{readi}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{readi(struct inode $\ast$, char $\ast$, uint, uint)}{readi(struct inode *, char *, uint, uint)}}]{\setlength{\rightskip}{0pt plus 5cm}int readi (
+\begin{DoxyParamCaption}
+\item[{struct {\bf inode} $\ast$}]{, }
+\item[{char $\ast$}]{, }
+\item[{{\bf uint}}]{, }
+\item[{{\bf uint}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a2415273b06f31f0f2587b7325588a7e4}{}\label{defs_8h_a2415273b06f31f0f2587b7325588a7e4}
+\index{defs.\+h@{defs.\+h}!readsb@{readsb}}
+\index{readsb@{readsb}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{readsb(int dev, struct superblock $\ast$sb)}{readsb(int dev, struct superblock *sb)}}]{\setlength{\rightskip}{0pt plus 5cm}void readsb (
+\begin{DoxyParamCaption}
+\item[{int}]{dev, }
+\item[{struct {\bf superblock} $\ast$}]{sb}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_aff0080b2133027be2e525ca088b40e78}{}\label{defs_8h_aff0080b2133027be2e525ca088b40e78}
+\index{defs.\+h@{defs.\+h}!release@{release}}
+\index{release@{release}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{release(struct spinlock $\ast$)}{release(struct spinlock *)}}]{\setlength{\rightskip}{0pt plus 5cm}void release (
+\begin{DoxyParamCaption}
+\item[{struct {\bf spinlock} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a4f8616948f3dbce65671f666eed1d669}{}\label{defs_8h_a4f8616948f3dbce65671f666eed1d669}
+\index{defs.\+h@{defs.\+h}!safestrcpy@{safestrcpy}}
+\index{safestrcpy@{safestrcpy}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{safestrcpy(char $\ast$, const char $\ast$, int)}{safestrcpy(char *, const char *, int)}}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ safestrcpy (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{, }
+\item[{const char $\ast$}]{, }
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a3e26eb6d2dbf34cf09486f4c0295ae3f}{}\label{defs_8h_a3e26eb6d2dbf34cf09486f4c0295ae3f}
+\index{defs.\+h@{defs.\+h}!sched@{sched}}
+\index{sched@{sched}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{sched(void)}{sched(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void sched (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_ad788da91743c333b5bed7c4a0dd12365}{}\label{defs_8h_ad788da91743c333b5bed7c4a0dd12365}
+\index{defs.\+h@{defs.\+h}!scheduler@{scheduler}}
+\index{scheduler@{scheduler}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{scheduler(void) \+\_\+\+\_\+attribute\+\_\+\+\_\+((noreturn))}{scheduler(void) __attribute__((noreturn))}}]{\setlength{\rightskip}{0pt plus 5cm}void scheduler (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a9596021487afc9231319f22b71e4cb42}{}\label{defs_8h_a9596021487afc9231319f22b71e4cb42}
+\index{defs.\+h@{defs.\+h}!seginit@{seginit}}
+\index{seginit@{seginit}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{seginit(void)}{seginit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void seginit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_aaf5b2814a1dbf3ef0803dff58e0a76dc}{}\label{defs_8h_aaf5b2814a1dbf3ef0803dff58e0a76dc}
+\index{defs.\+h@{defs.\+h}!setupkvm@{setupkvm}}
+\index{setupkvm@{setupkvm}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{setupkvm(void)}{setupkvm(void)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf pde\+\_\+t}$\ast$ setupkvm (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_aa7dbd3b5c70eb93e0e7fb8331202821d}{}\label{defs_8h_aa7dbd3b5c70eb93e0e7fb8331202821d}
+\index{defs.\+h@{defs.\+h}!sleep@{sleep}}
+\index{sleep@{sleep}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{sleep(void $\ast$, struct spinlock $\ast$)}{sleep(void *, struct spinlock *)}}]{\setlength{\rightskip}{0pt plus 5cm}void sleep (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{, }
+\item[{struct {\bf spinlock} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_aca4a88f06b3ebbcc04330f7ae06c8507}{}\label{defs_8h_aca4a88f06b3ebbcc04330f7ae06c8507}
+\index{defs.\+h@{defs.\+h}!stati@{stati}}
+\index{stati@{stati}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{stati(struct inode $\ast$, struct stat $\ast$)}{stati(struct inode *, struct stat *)}}]{\setlength{\rightskip}{0pt plus 5cm}void stati (
+\begin{DoxyParamCaption}
+\item[{struct {\bf inode} $\ast$}]{, }
+\item[{struct {\bf stat} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a528f45ea5530504abc7113acc2154348}{}\label{defs_8h_a528f45ea5530504abc7113acc2154348}
+\index{defs.\+h@{defs.\+h}!strlen@{strlen}}
+\index{strlen@{strlen}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{strlen(const char $\ast$)}{strlen(const char *)}}]{\setlength{\rightskip}{0pt plus 5cm}int strlen (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a5e5172aa1be36b8210c6dfd86800b44c}{}\label{defs_8h_a5e5172aa1be36b8210c6dfd86800b44c}
+\index{defs.\+h@{defs.\+h}!strncmp@{strncmp}}
+\index{strncmp@{strncmp}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{strncmp(const char $\ast$, const char $\ast$, uint)}{strncmp(const char *, const char *, uint)}}]{\setlength{\rightskip}{0pt plus 5cm}int strncmp (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{, }
+\item[{const char $\ast$}]{, }
+\item[{{\bf uint}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a27e878168063a98eae64b4273dcf33cc}{}\label{defs_8h_a27e878168063a98eae64b4273dcf33cc}
+\index{defs.\+h@{defs.\+h}!strncpy@{strncpy}}
+\index{strncpy@{strncpy}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{strncpy(char $\ast$, const char $\ast$, int)}{strncpy(char *, const char *, int)}}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ strncpy (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{, }
+\item[{const char $\ast$}]{, }
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_afcc0bb831ec06288e3a951e09e8d5b7d}{}\label{defs_8h_afcc0bb831ec06288e3a951e09e8d5b7d}
+\index{defs.\+h@{defs.\+h}!switchkvm@{switchkvm}}
+\index{switchkvm@{switchkvm}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{switchkvm(void)}{switchkvm(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void switchkvm (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a02ca0670bc1fe12e38453082631ff360}{}\label{defs_8h_a02ca0670bc1fe12e38453082631ff360}
+\index{defs.\+h@{defs.\+h}!switchuvm@{switchuvm}}
+\index{switchuvm@{switchuvm}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{switchuvm(struct proc $\ast$)}{switchuvm(struct proc *)}}]{\setlength{\rightskip}{0pt plus 5cm}void switchuvm (
+\begin{DoxyParamCaption}
+\item[{struct {\bf proc} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_ad43d81fa3edec39a200abd0853bc84b1}{}\label{defs_8h_ad43d81fa3edec39a200abd0853bc84b1}
+\index{defs.\+h@{defs.\+h}!swtch@{swtch}}
+\index{swtch@{swtch}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{swtch(struct context $\ast$$\ast$, struct context $\ast$)}{swtch(struct context **, struct context *)}}]{\setlength{\rightskip}{0pt plus 5cm}void swtch (
+\begin{DoxyParamCaption}
+\item[{struct {\bf context} $\ast$$\ast$}]{, }
+\item[{struct {\bf context} $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a1d9e7047d3dfb57809a2541d8387705e}{}\label{defs_8h_a1d9e7047d3dfb57809a2541d8387705e}
+\index{defs.\+h@{defs.\+h}!syscall@{syscall}}
+\index{syscall@{syscall}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{syscall(void)}{syscall(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void syscall (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_acd6bcafe6626fe8e7d00cacdbc3cc4f1}{}\label{defs_8h_acd6bcafe6626fe8e7d00cacdbc3cc4f1}
+\index{defs.\+h@{defs.\+h}!timerinit@{timerinit}}
+\index{timerinit@{timerinit}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{timerinit(void)}{timerinit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void timerinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a49af4bce992b520d5032364d0a4eb8ee}{}\label{defs_8h_a49af4bce992b520d5032364d0a4eb8ee}
+\index{defs.\+h@{defs.\+h}!tlb\+\_\+invalidate@{tlb\+\_\+invalidate}}
+\index{tlb\+\_\+invalidate@{tlb\+\_\+invalidate}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{tlb\+\_\+invalidate(pde\+\_\+t $\ast$pgdir, void $\ast$va)}{tlb_invalidate(pde_t *pgdir, void *va)}}]{\setlength{\rightskip}{0pt plus 5cm}void tlb\+\_\+invalidate (
+\begin{DoxyParamCaption}
+\item[{{\bf pde\+\_\+t} $\ast$}]{pgdir, }
+\item[{void $\ast$}]{va}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_af91405ff642773a68abda78f01892ab3}{}\label{defs_8h_af91405ff642773a68abda78f01892ab3}
+
+
+Invalidates entry in page table. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pgdir} & (pointer to) the page table directy \\
+\hline
+{\em va} & virtual address \\
+\hline
+\end{DoxyParams}
+\index{defs.\+h@{defs.\+h}!tvinit@{tvinit}}
+\index{tvinit@{tvinit}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{tvinit(void)}{tvinit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void tvinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a9e7167b8e20e217c4af4e757f612ba6a}{}\label{defs_8h_a9e7167b8e20e217c4af4e757f612ba6a}
+\index{defs.\+h@{defs.\+h}!uartinit@{uartinit}}
+\index{uartinit@{uartinit}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{uartinit(void)}{uartinit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void uartinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a79fa7b73d0d61fdd15d30768a395437d}{}\label{defs_8h_a79fa7b73d0d61fdd15d30768a395437d}
+\index{defs.\+h@{defs.\+h}!uartintr@{uartintr}}
+\index{uartintr@{uartintr}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{uartintr(void)}{uartintr(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void uartintr (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_aa64047002b0e84e2611ebf7dc46b7c99}{}\label{defs_8h_aa64047002b0e84e2611ebf7dc46b7c99}
+\index{defs.\+h@{defs.\+h}!uartprintcstr@{uartprintcstr}}
+\index{uartprintcstr@{uartprintcstr}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{uartprintcstr(char $\ast$)}{uartprintcstr(char *)}}]{\setlength{\rightskip}{0pt plus 5cm}void uartprintcstr (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a740344b258e51ac73abd47aaf5294bad}{}\label{defs_8h_a740344b258e51ac73abd47aaf5294bad}
+\index{defs.\+h@{defs.\+h}!uartputc@{uartputc}}
+\index{uartputc@{uartputc}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{uartputc(int)}{uartputc(int)}}]{\setlength{\rightskip}{0pt plus 5cm}void uartputc (
+\begin{DoxyParamCaption}
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a571626618a1f05ff6854802e936845d6}{}\label{defs_8h_a571626618a1f05ff6854802e936845d6}
+\index{defs.\+h@{defs.\+h}!userinit@{userinit}}
+\index{userinit@{userinit}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{userinit(void)}{userinit(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void userinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a81c8a6a0cae413bc81aa223f7f7b7205}{}\label{defs_8h_a81c8a6a0cae413bc81aa223f7f7b7205}
+\index{defs.\+h@{defs.\+h}!uva2ka@{uva2ka}}
+\index{uva2ka@{uva2ka}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{uva2ka(pde\+\_\+t $\ast$, char $\ast$)}{uva2ka(pde_t *, char *)}}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ uva2ka (
+\begin{DoxyParamCaption}
+\item[{{\bf pde\+\_\+t} $\ast$}]{, }
+\item[{char $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_adcf8d57f1ee45c47df3f63a950f53143}{}\label{defs_8h_adcf8d57f1ee45c47df3f63a950f53143}
+\index{defs.\+h@{defs.\+h}!vcopyuvm@{vcopyuvm}}
+\index{vcopyuvm@{vcopyuvm}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{vcopyuvm(pde\+\_\+t $\ast$, uint)}{vcopyuvm(pde_t *, uint)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf pde\+\_\+t}$\ast$ vcopyuvm (
+\begin{DoxyParamCaption}
+\item[{{\bf pde\+\_\+t} $\ast$}]{pgdir, }
+\item[{{\bf uint}}]{sz}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a473c3df785e0748949c22ca6b44f8027}{}\label{defs_8h_a473c3df785e0748949c22ca6b44f8027}
+
+
+Given a parent process\textquotesingle{}s page table, create a new page table for the child and set permission bits in both tables to allow C\+OW forking. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pgdir} & (pointer to) the page directory of the parent process \\
+\hline
+{\em sz} & size of the parent process (in bytes) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(pointer to) the child page table directory, 0 (N\+U\+LL) if error. 
+\end{DoxyReturn}
+\index{defs.\+h@{defs.\+h}!wait@{wait}}
+\index{wait@{wait}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{wait(void)}{wait(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int wait (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_af6f31822f7e737b4e414bdac1ccb59a4}{}\label{defs_8h_af6f31822f7e737b4e414bdac1ccb59a4}
+\index{defs.\+h@{defs.\+h}!wakeup@{wakeup}}
+\index{wakeup@{wakeup}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{wakeup(void $\ast$)}{wakeup(void *)}}]{\setlength{\rightskip}{0pt plus 5cm}void wakeup (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a245b56417239f499389b2e806bd99254}{}\label{defs_8h_a245b56417239f499389b2e806bd99254}
+\index{defs.\+h@{defs.\+h}!walkpgdir@{walkpgdir}}
+\index{walkpgdir@{walkpgdir}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{walkpgdir(pde\+\_\+t $\ast$pgdir, const void $\ast$va, int alloc)}{walkpgdir(pde_t *pgdir, const void *va, int alloc)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf pte\+\_\+t}$\ast$ walkpgdir (
+\begin{DoxyParamCaption}
+\item[{{\bf pde\+\_\+t} $\ast$}]{pgdir, }
+\item[{const void $\ast$}]{va, }
+\item[{int}]{alloc}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a7c397b06cc9f0bcb099d53559dce7448}{}\label{defs_8h_a7c397b06cc9f0bcb099d53559dce7448}
+\index{defs.\+h@{defs.\+h}!writei@{writei}}
+\index{writei@{writei}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{writei(struct inode $\ast$, char $\ast$, uint, uint)}{writei(struct inode *, char *, uint, uint)}}]{\setlength{\rightskip}{0pt plus 5cm}int writei (
+\begin{DoxyParamCaption}
+\item[{struct {\bf inode} $\ast$}]{, }
+\item[{char $\ast$}]{, }
+\item[{{\bf uint}}]{, }
+\item[{{\bf uint}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a515876d4653cefef4732806ef7f2833f}{}\label{defs_8h_a515876d4653cefef4732806ef7f2833f}
+\index{defs.\+h@{defs.\+h}!yield@{yield}}
+\index{yield@{yield}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{yield(void)}{yield(void)}}]{\setlength{\rightskip}{0pt plus 5cm}void yield (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{defs_8h_a7cb51f5c2b5cad3766f19eb69c92793b}{}\label{defs_8h_a7cb51f5c2b5cad3766f19eb69c92793b}
+
+
+\subsection{Variable Documentation}
+\index{defs.\+h@{defs.\+h}!ioapicid@{ioapicid}}
+\index{ioapicid@{ioapicid}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{ioapicid}{ioapicid}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uchar} ioapicid}\hypertarget{defs_8h_a619ae379337e3cb2397ee0b6b4fd8d6b}{}\label{defs_8h_a619ae379337e3cb2397ee0b6b4fd8d6b}
+\index{defs.\+h@{defs.\+h}!ismp@{ismp}}
+\index{ismp@{ismp}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{ismp}{ismp}}]{\setlength{\rightskip}{0pt plus 5cm}int ismp}\hypertarget{defs_8h_a46b52bd30030451d1b65291b77ba05d5}{}\label{defs_8h_a46b52bd30030451d1b65291b77ba05d5}
+\index{defs.\+h@{defs.\+h}!lapic@{lapic}}
+\index{lapic@{lapic}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{lapic}{lapic}}]{\setlength{\rightskip}{0pt plus 5cm}volatile {\bf uint}$\ast$ lapic}\hypertarget{defs_8h_a4029f3e2439d5912f93543b8addd10ec}{}\label{defs_8h_a4029f3e2439d5912f93543b8addd10ec}
+\index{defs.\+h@{defs.\+h}!ticks@{ticks}}
+\index{ticks@{ticks}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{ticks}{ticks}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf uint} ticks}\hypertarget{defs_8h_a7fcd6915876e066781399d7b00f1b1f0}{}\label{defs_8h_a7fcd6915876e066781399d7b00f1b1f0}
+\index{defs.\+h@{defs.\+h}!tickslock@{tickslock}}
+\index{tickslock@{tickslock}!defs.\+h@{defs.\+h}}
+\subsubsection[{\texorpdfstring{tickslock}{tickslock}}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf spinlock} tickslock}\hypertarget{defs_8h_a094a4703b62095e2fa469fab3ffea5c7}{}\label{defs_8h_a094a4703b62095e2fa469fab3ffea5c7}

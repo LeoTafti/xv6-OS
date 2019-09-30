@@ -1,0 +1,24 @@
+var searchData=
+[
+  ['s',['s',['../structsegdesc.html#aacc67bb0857f0c77c1f8a5c9b8a1ac09',1,'segdesc::s()'],['../structgatedesc.html#a54d731df342be3a775cc847a3dab1a53',1,'gatedesc::s()'],['../unionheader.html#a3d684c1d6a9465b92eb26550d38ce659',1,'header::s()']]],
+  ['sb',['sb',['../fs_8c.html#a0248d0bac625de5a1415f2f8c91f3343',1,'sb():&#160;fs.c'],['../mkfs_8c.html#a0248d0bac625de5a1415f2f8c91f3343',1,'sb():&#160;mkfs.c']]],
+  ['scheduler',['scheduler',['../structcpu.html#aaa1510fdf8a2230c033d04e13e4fdd9e',1,'cpu']]],
+  ['second',['second',['../structrtcdate.html#affc39128483c500d77d1a012fe045664',1,'rtcdate']]],
+  ['shentsize',['shentsize',['../structelfhdr.html#aeedc5375e3f67e8dda6351e0e80b8e02',1,'elfhdr']]],
+  ['shnum',['shnum',['../structelfhdr.html#aebf9526933b9f0502bdbafacce3734c1',1,'elfhdr']]],
+  ['shoff',['shoff',['../structelfhdr.html#a465ccdf83d0e26d129d723a493a6e764',1,'elfhdr']]],
+  ['shstrndx',['shstrndx',['../structelfhdr.html#a84f3d7712c99bfea3f4be42728dc0a0e',1,'elfhdr']]],
+  ['signature',['signature',['../structmp.html#af2bfc400b8e6edae4c0e6ff437a2a1f4',1,'mp::signature()'],['../structmpconf.html#a7bf26b6b2b09d4265ffcbdb362bc5c8b',1,'mpconf::signature()'],['../structmpproc.html#a2e18fc2c01b252da2c0d671fdce95eb5',1,'mpproc::signature()']]],
+  ['size',['size',['../structinode.html#a918af769c48a8ca8afac057bf83d12de',1,'inode::size()'],['../structsuperblock.html#a7c6e4d6da139ecee74eb7816d5d44fa6',1,'superblock::size()'],['../structdinode.html#a990ad8ddf5f8c051fbbe95cf550d2164',1,'dinode::size()'],['../structlog.html#a2257e716d4b77efd0524286cf5772a41',1,'log::size()'],['../structstat.html#a4ac15b64dd4d787c59a8a687d79adb35',1,'stat::size()'],['../unionheader.html#a70db454b20b4a40995532b7ea029a527',1,'header::size()']]],
+  ['specrev',['specrev',['../structmp.html#a0be99b736e3c6fb1f405944868674063',1,'mp']]],
+  ['ss',['ss',['../structtaskstate.html#afdd8f3985ac7ae69fc67c19d65653f12',1,'taskstate::ss()'],['../structtrapframe.html#aa9c9b52b242d4f42fe4252e26b655bf6',1,'trapframe::ss()']]],
+  ['ss0',['ss0',['../structtaskstate.html#a574e97ea3fd87f314da88afec3c6f574',1,'taskstate']]],
+  ['ss1',['ss1',['../structtaskstate.html#ac70c36414956cfee04c733a5b530d8ef',1,'taskstate']]],
+  ['ss2',['ss2',['../structtaskstate.html#a573d8f57ef11630e782d8b7c924f28ce',1,'taskstate']]],
+  ['start',['start',['../structlog.html#a28d847dd722497fa3497b14f68267618',1,'log']]],
+  ['started',['started',['../structcpu.html#a869f6e0e1dbf69de0bdb3546f981847f',1,'cpu']]],
+  ['state',['state',['../structproc.html#a0f2fe91548a1382672ae26e29ca9e736',1,'proc']]],
+  ['stdout',['stdout',['../usertests_8c.html#adc9da8a05ab98e52153fe99402f93613',1,'usertests.c']]],
+  ['symbols',['symbols',['../sh_8c.html#ab385d981fc73a48a1b732173200f46e5',1,'sh.c']]],
+  ['sz',['sz',['../structproc.html#a6e67042bb361124ff287af88efc33e00',1,'proc']]]
+];
