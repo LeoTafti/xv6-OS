@@ -98,10 +98,15 @@ sys_alarm(void){
   void (*h)();
   if(argptr(1, (char**)&h, 1) < 0)
     return -1;
+  void (*hw)();
+  if(argptr(2, (char**)&hw, 1) < 0)
+    return -1;
+  
   
   proc->ticks = n;
   proc->ticksrem = n;
   proc->handler = h;
+  proc->handlerwr = hw;
 
   return 0;
 }

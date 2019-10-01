@@ -70,6 +70,7 @@ found:
 
   p->ticks = -1;
   p->handler = (void*)0;
+  p->handlerwr = (void*)0;
 
   return p;
 }

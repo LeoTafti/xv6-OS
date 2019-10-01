@@ -60,15 +60,15 @@ trap(struct trapframe *tf)
       if(proc->ticksrem <= 0) { //Counter reached 0
         proc->ticksrem = proc->ticks; //Reset the counter
 
-        tf->esp -= 16;
-        ((char*)(tf->esp))[0] = tf->eip;  //Save tf->eip on the stack to resume to where we left off later
-        ((char*)(tf->esp))[4] = tf->edx;  //Save caller-saved registers
-        ((char*)(tf->esp))[8] = tf->ecx;
-        ((char*)(tf->esp))[12] = tf->eax;
-        ((char*)(tf->esp))[16] = (uint)proc->handler;
+        tf->esp -= 20;
+        *(uint*)(tf->esp) = tf->eip;  //Save tf->eip on the stack to resume to where we left off later
+        
+        *(uint*)(tf->esp+4) = (uint)proc->handler; //Handler
+        *(uint*)(tf->esp+8) = tf->edx;  //Caller-saved registers
+        *(uint*)(tf->esp+12) = tf->ecx;
+        *(uint*)(tf->esp+16) = tf->eax;
 
-        //tf->eip = (uint)proc->handler;)/Set eip to our handler
-        tf->eip = (uint)callrestore;
+        tf->eip = (uint)proc->handlerwr; //Set eip to our handler wrapper
 
         proc->tf = tf;
       }
