@@ -68,6 +68,9 @@ found:
   memset(p->context, 0, sizeof *p->context);
   p->context->eip = (uint)forkret;
 
+  p->ticks = -1;
+  p->handler = (void*)0;
+
   return p;
 }
 

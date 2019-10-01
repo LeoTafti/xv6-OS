@@ -54,6 +54,17 @@ trap(struct trapframe *tf)
       wakeup(&ticks);
       release(&tickslock);
     }
+
+    if(proc != 0 && (tf->cs & 3) == 3 && proc->ticks >= 0) {
+      proc->ticksrem--;
+      if(proc->ticksrem <= 0) {
+        proc->ticksrem = proc->ticks; //Reset the counter
+        
+        //TODO : Set up the stack s.t. we return to the handler on trapret.
+        cprintf("Will be calling handler here.\n");
+      }
+    }
+
     lapiceoi();
     break;
   case T_IRQ0 + IRQ_IDE:

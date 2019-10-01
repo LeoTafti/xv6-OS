@@ -48,6 +48,8 @@ struct context {
 
 enum procstate { UNUSED, EMBRYO, SLEEPING, RUNNABLE, RUNNING, ZOMBIE };
 
+typedef void (*Handler)(void);
+
 // Per-process state
 struct proc {
   uint sz;                     // Size of process memory (bytes)
@@ -63,6 +65,9 @@ struct proc {
   struct file *ofile[NOFILE];  // Open files
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
+  uint ticks;                  // Interval (in ticks) for the alarm at which we want to call the handler. If < 0 (-1), inactive.
+  uint ticksrem;               // Number of ticks remaining until next call to handler.
+  Handler handler              // Handler function for alarm
 };
 
 // Process memory is laid out contiguously, low addresses first:

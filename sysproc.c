@@ -90,25 +90,18 @@ sys_uptime(void)
   return xticks;
 }
 
-typedef void (*Handler)(void);
-
 int
 sys_alarm(void){
   int n;
   if(argint(0, &n) < 0)
     return -1;
+  Handler h;
+  if(argptr(1, (char**)&h, 1) < 0)
+    return -1;
   
-  Handler func;
-  if(argptr(1, (char**)&func, 100)); //TODO : what is the size in bytes here ??
-  
-  while(1){ //TODO : not sure if this is okay
-    uint ref = sys_uptime();
-    while(sys_uptime() - ref < n){
-      //TODO : yield
-    }
-
-    func();
-  }
+  proc->ticks = n;
+  proc->ticksrem = n;
+  proc->handler = h;
 
   return 0;
 }
