@@ -1,0 +1,1 @@
+void callrestore(void (*handler)(), uint eax, uint ecx, uint edx);

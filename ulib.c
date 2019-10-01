@@ -3,6 +3,7 @@
 #include "fcntl.h"
 #include "user.h"
 #include "x86.h"
+#include "ulib.h"
 
 char*
 strcpy(char *s, char *t)
