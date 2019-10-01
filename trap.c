@@ -55,15 +55,15 @@ trap(struct trapframe *tf)
       release(&tickslock);
     }
 
-    if(proc != 0 && (tf->cs & 3) == 3 && proc->ticks >= 0) {
+    if(proc != 0 && (tf->cs & 3) == 3) {
       proc->ticksrem--;
-      if(proc->ticksrem <= 0) {
+      if(proc->ticksrem <= 0) { //Counter reached 0
         proc->ticksrem = proc->ticks; //Reset the counter
-        
-        //TODO : Set up the stack s.t. we return to the handler on trapret.
-        cprintf("Will be calling handler here.\n");
-        ((char*)(tf->ebp))[0] = proc->handler;
-        ((char*)(tf->eip))[0] = rcr2();
+
+        tf->esp -= 4;
+        *(char*)(tf->esp) = tf->eip;  //Save tf->eip on the stack to resume to where we left off later
+        tf->eip = (uint)proc->handler;//Set eip to our handler
+        proc->tf = tf;
       }
     }
 
