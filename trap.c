@@ -7,6 +7,7 @@
 #include "x86.h"
 #include "traps.h"
 #include "spinlock.h"
+#include "user.h"
 
 // Interrupt descriptor table (shared by all CPUs).
 struct gatedesc idt[256];
@@ -62,12 +63,13 @@ trap(struct trapframe *tf)
 
         tf->esp -= 16;
         ((char*)(tf->esp))[0] = tf->eip;  //Save tf->eip on the stack to resume to where we left off later
-        ((char*)(tf->esp))[4] = tf->eax;  //Save caller-saved registers
+        ((char*)(tf->esp))[4] = tf->edx;  //Save caller-saved registers
         ((char*)(tf->esp))[8] = tf->ecx;
-        ((char*)(tf->esp))[12] = tf->edx;
-        //((char*)(tf->esp))[16] = (uint)proc->handler;
+        ((char*)(tf->esp))[12] = tf->eax;
+        ((char*)(tf->esp))[16] = (uint)proc->handler;
 
-        tf->eip = (uint)proc->handler;//Set eip to our handler
+        //tf->eip = (uint)proc->handler;)/Set eip to our handler
+        tf->eip = (uint)callrestore;
 
         proc->tf = tf;
       }
