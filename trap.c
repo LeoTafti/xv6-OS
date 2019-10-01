@@ -62,6 +62,8 @@ trap(struct trapframe *tf)
         
         //TODO : Set up the stack s.t. we return to the handler on trapret.
         cprintf("Will be calling handler here.\n");
+        ((char*)(tf->ebp))[0] = proc->handler;
+        ((char*)(tf->eip))[0] = rcr2();
       }
     }
 
