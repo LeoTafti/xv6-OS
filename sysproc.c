@@ -95,7 +95,7 @@ sys_alarm(void){
   int n;
   if(argint(0, &n) < 0)
     return -1;
-  Handler h;
+  void (*h)();
   if(argptr(1, (char**)&h, 1) < 0)
     return -1;
   

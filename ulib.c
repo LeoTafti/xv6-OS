@@ -3,7 +3,6 @@
 #include "fcntl.h"
 #include "user.h"
 #include "x86.h"
-#include "proc.h"
 
 char*
 strcpy(char *s, char *t)
@@ -106,7 +105,7 @@ memmove(void *vdst, void *vsrc, int n)
 }
 
 void
-callrestore(Handler h, uint eax, uint ecx, uint edx){
+callrestore(void (*h)(), uint eax, uint ecx, uint edx){
   h();
   __asm__ __volatile__ (
     "movl %0, %%eax;"\
