@@ -139,3 +139,16 @@ syscall(void)
     proc->tf->eax = -1;
   }
 }
+
+void
+callrestore(void (*h)(), uint eax, uint ecx, uint edx){
+  h();
+  __asm__ __volatile__ (
+    "movl %0, %%eax;"\
+    "movl %1, %%exc;"\
+    "movl %2, %%edx;"
+    :
+    :"r" (eax), "r" (ecx), "r" (edx)
+    :"eax"
+  );
+}
