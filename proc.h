@@ -66,7 +66,7 @@ struct proc {
   uint ticks;                  // Interval (in ticks) for the alarm at which we want to call the handler. If < 0 (-1), inactive.
   uint ticksrem;               // Number of ticks remaining until next call to handler.
   void (*handler)();           // Handler function for alarm
-  void (*handlerwr)();         // Handler wrapper, to be used to restore registers
+  void (*handlerwr)(void (*)(), uint, uint, uint); // Handler wrapper, to be used to restore registers
 };
 
 // Process memory is laid out contiguously, low addresses first:
