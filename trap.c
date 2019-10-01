@@ -60,9 +60,15 @@ trap(struct trapframe *tf)
       if(proc->ticksrem <= 0) { //Counter reached 0
         proc->ticksrem = proc->ticks; //Reset the counter
 
-        tf->esp -= 4;
-        *(char*)(tf->esp) = tf->eip;  //Save tf->eip on the stack to resume to where we left off later
+        tf->esp -= 16;
+        ((char*)(tf->esp))[0] = tf->eip;  //Save tf->eip on the stack to resume to where we left off later
+        ((char*)(tf->esp))[4] = tf->eax;  //Save caller-saved registers
+        ((char*)(tf->esp))[8] = tf->ecx;
+        ((char*)(tf->esp))[12] = tf->edx;
+        //((char*)(tf->esp))[16] = (uint)proc->handler;
+
         tf->eip = (uint)proc->handler;//Set eip to our handler
+
         proc->tf = tf;
       }
     }
