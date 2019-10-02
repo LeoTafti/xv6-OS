@@ -26,7 +26,9 @@ periodic()
 
 void
 callrestore(void (*h)(), uint eax, uint ecx, uint edx){
+  alarm_in_handler = 1;
   h();
+  alarm_in_handler = 0;
   __asm__ __volatile__ (
     "movl %0, %%eax;"\
     "movl %1, %%ecx;"\

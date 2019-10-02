@@ -55,7 +55,7 @@ trap(struct trapframe *tf)
       release(&tickslock);
     }
 
-    if(proc != 0 && (tf->cs & 3) == 3) {
+    if(proc != 0 && (tf->cs & 3) == 3 && alarm_in_handler == 0) {
       proc->ticksrem--;
       if(proc->ticksrem <= 0) { //Counter reached 0
         proc->ticksrem = proc->ticks; //Reset the counter
