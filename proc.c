@@ -6,6 +6,7 @@
 #include "x86.h"
 #include "proc.h"
 #include "spinlock.h"
+#include "sched.h"
 
 struct {
   struct spinlock lock;
@@ -67,6 +68,8 @@ found:
   p->context = (struct context*)sp;
   memset(p->context, 0, sizeof *p->context);
   p->context->eip = (uint)forkret;
+
+  p->scheduler = SCHED_RR;
 
   return p;
 }
