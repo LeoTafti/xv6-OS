@@ -1,10 +1,11 @@
 #include "types.h"
 #include "user.h"
 
-const int NB_CHILDREN = 2;
-const int OCCUPY_LEN = 10000;
-const int NB_CHUNKS = 10;
-const int CHUNK_LEN = OCCUPY_LEN / NB_CHUNKS;
+
+#define NB_CHILDREN 2
+#define OCCUPY_LEN 10000
+#define NB_CHUNKS 10
+#define CHUNK_LEN (OCCUPY_LEN / NB_CHUNKS)
 
 void occupy(int pid){
     for(int i = 0; i < OCCUPY_LEN; i++){
