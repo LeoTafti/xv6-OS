@@ -305,6 +305,7 @@ scheduler(void)
 /**
  * @brief Finds the next process with policy SCHED_RR to run and sets
  * the given pointer to it.
+ * @note Assumes that ptable.lock is already held
  * @param schedp a pointer to the next process to run. Null (0) if none found
  */
 void
