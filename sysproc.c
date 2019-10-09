@@ -93,5 +93,9 @@ sys_uptime(void)
 int
 sys_setscheduler(void)
 {
+  int scheduler;
+  if(argint(0, &scheduler) < 0)
+    return -1;
   
+  proc->scheduler = scheduler;
 }
