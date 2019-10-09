@@ -309,7 +309,8 @@ scheduler(void)
  * @param schedp a pointer to the next process to run. Null (0) if none found
  */
 void
-rr_scheduler(struct proc **schedp){
+rr_scheduler(struct proc **schedp)
+{
   struct proc *p = (void*)0;
   // Loop over process table looking for process with scheduler policy SCHED_RR to run.
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
