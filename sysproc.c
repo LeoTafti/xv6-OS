@@ -98,4 +98,5 @@ sys_setscheduler(void)
     return -1;
   
   proc->scheduler = scheduler;
+  return 0;
 }
