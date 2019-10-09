@@ -1,3 +1,4 @@
+#include "types.h"
 #include "user.h"
 
 const int NB_CHILDREN = 2;
