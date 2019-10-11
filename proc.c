@@ -307,12 +307,14 @@ rr_scheduler_lab3(void)
   }
 }
 
+/**
+ * @brief Switch execution to given process.
+ * @note It is the process's job to release ptable.lock and then reacquire it before jumping back to us
+ * @param p the process to run
+ */
 void
 runproc_lab3(struct proc *p)
 {
-  // Switch to chosen process.  It is the process's job
-  // to release ptable.lock and then reacquire it
-  // before jumping back to us.
   proc = p;
   switchuvm(p);
   p->state = RUNNING;

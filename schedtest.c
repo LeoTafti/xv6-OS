@@ -10,7 +10,7 @@
 
 void occupy(int id){
     for(int i = 0; i < OCCUPY_LEN; i++){
-        if(i % CHUNK_LEN == 0){
+        if(i % CHUNK_LEN == 0){ //print some feedback on progress
             printf(1, "process : %d – done %d / %d\n", id, i/CHUNK_LEN + 1, NB_CHUNKS);
         }
     }
