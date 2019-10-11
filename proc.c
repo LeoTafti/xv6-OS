@@ -72,7 +72,7 @@ found:
   p->context->eip = (uint)forkret;
 
   p->scheduler = SCHED_RR;
-  p->fifo_next = (void*)0;
+  p->next = (void*)0;
 
   return p;
 }
@@ -317,11 +317,11 @@ struct proc* dequeue(){
     return (void*)0;
 
   //Update linked list
-  if(p->fifo_next == (void*)0) // Only proc in queue
+  if(p->next == (void*)0) // Only proc in queue
     ptable.fifo_tail = (void*)0;
 
-  ptable.fifo_head = ptable.fifo_head->fifo_next;
-  p->fifo_next = (void*)0;
+  ptable.fifo_head = ptable.fifo_head->next;
+  p->next = (void*)0;
 
   return p;
 }
@@ -332,7 +332,7 @@ void enqueue(struct proc *p){
   if(ptable.fifo_tail == (void*)0){ //Empty queue
     ptable.fifo_head = p;
   }else{
-    ptable.fifo_tail->fifo_next = p;
+    ptable.fifo_tail->next = p;
   }
 
   ptable.fifo_tail = p;
@@ -342,26 +342,26 @@ void enqueue(struct proc *p){
 //TODO : assumes p is in the queue
 void remove(struct proc *p){
   //Since we don't have a doubly linked list, we need to find the previous proc by going through the list
-  struct proc *prev, *next;
+  struct proc *prev, *nxt;
   prev = (void*)0;
-  next = ptable.fifo_head;
-  while(next != p){
-    prev = next;
-    next = next->fifo_next;
+  nxt = ptable.fifo_head;
+  while(nxt != p){
+    prev = nxt;
+    nxt = nxt->next;
   }
 
   if(ptable.fifo_head == p){
-    ptable.fifo_head = p->fifo_next;
+    ptable.fifo_head = p->next;
   }
   if(ptable.fifo_tail == p){
     ptable.fifo_tail = prev;
   }
 
   if(prev){
-    prev->fifo_next = p->fifo_next;
+    prev->next = p->next;
   }
 
-  p->fifo_next = (void*)0;
+  p->next = (void*)0;
 }
 
 /**
