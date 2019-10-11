@@ -14,7 +14,6 @@ void occupy(int id){
             printf(1, "process : %d – done %d / %d\n", id, i/CHUNK_LEN + 1, NB_CHUNKS);
         }
     }
-    printf(1, "–––\n");
 }
 
 int main(void){

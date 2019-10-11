@@ -274,13 +274,13 @@ wait(void)
 void
 scheduler(void)
 {
-  struct proc *schedp; //The process shceduled to run next.
   for(;;){
     // Enable interrupts on this processor.
     sti();
 
     acquire(&ptable.lock);
-    rr_scheduler(&schedp);
+
+    rr_scheduler_lab3();
 
     release(&ptable.lock);
 
@@ -294,9 +294,9 @@ scheduler(void)
  * @param schedp a pointer to the next process to run. Null (0) if none found
  */
 void
-rr_scheduler_lab3()
+rr_scheduler_lab3(void)
 {
-  struct proc *p = (void*)0;
+  struct proc *p;
   // Loop over process table looking for process with scheduler policy SCHED_RR to run.
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
     if(p->state != RUNNABLE || p->scheduler != SCHED_RR)
@@ -304,8 +304,6 @@ rr_scheduler_lab3()
     
     //Found.
     runproc_lab3(p);
-
-    return;
   }
 }
 
