@@ -281,21 +281,6 @@ scheduler(void)
 
     acquire(&ptable.lock);
     rr_scheduler(&schedp);
-    
-    if(schedp){
-      // Switch to chosen process.  It is the process's job
-      // to release ptable.lock and then reacquire it
-      // before jumping back to us.
-      proc = schedp;
-      switchuvm(schedp);
-      schedp->state = RUNNING;
-      swtch(&cpu->scheduler, schedp->context);
-      switchkvm();
-
-      // Process is done running for now.
-      // It should have changed its p->state before coming back.
-      proc = 0;
-    }
 
     release(&ptable.lock);
 
@@ -309,7 +294,7 @@ scheduler(void)
  * @param schedp a pointer to the next process to run. Null (0) if none found
  */
 void
-rr_scheduler(struct proc **schedp)
+rr_scheduler_lab3()
 {
   struct proc *p = (void*)0;
   // Loop over process table looking for process with scheduler policy SCHED_RR to run.
@@ -317,10 +302,28 @@ rr_scheduler(struct proc **schedp)
     if(p->state != RUNNABLE || p->scheduler != SCHED_RR)
       continue;
     
-    //Found. Set schedp and return
-    *schedp = p;
+    //Found.
+    runproc_lab3(p);
+
     return;
   }
+}
+
+void
+runproc_lab3(struct proc *p)
+{
+  // Switch to chosen process.  It is the process's job
+  // to release ptable.lock and then reacquire it
+  // before jumping back to us.
+  proc = p;
+  switchuvm(p);
+  p->state = RUNNING;
+  swtch(&cpu->scheduler, p->context);
+  switchkvm();
+
+  // Process is done running for now.
+  // It should have changed its p->state before coming back.
+  proc = 0;
 }
 
 // Enter scheduler.  Must hold only ptable.lock
