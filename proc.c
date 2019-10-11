@@ -11,8 +11,10 @@
 struct {
   struct spinlock lock;
   struct proc proc[NPROC];
-  struct proc *fifo_head; //oldest
-  struct proc *fifo_tail; //most recent
+  struct proc *fifo_head; //highest priority, oldest
+  struct proc *fifo_tail; //lowest priority, newest
+  struct proc *rr_head; //highest priority
+  struct proc *rr_tail; //lowest prioirty
 } ptable;
 
 static struct proc *initproc;
@@ -310,51 +312,78 @@ rr_scheduler_lab3(void)
   }
 }
 
+void setqueueptrs(struct proc ***head, struct proc ***tail, int policy){
+  switch (policy)
+  {
+  case SCHED_RR:
+    *head = &ptable.rr_head;
+    *tail = &ptable.rr_tail;
+    break;
+  case SCHED_FIFO:
+    *head = &ptable.fifo_head;
+    *tail = &ptable.fifo_tail;
+    break;
+  default:
+    panic("Unexpected policy");
+    break;
+  }
+}
+
 //TODO : doc
-struct proc* dequeue(){
+//TODO : enqueue assume that the proc isn't already present in queue
+void enqueue(struct proc *p, int policy){
+  struct proc **head, **tail;
+  setqueueptrs(&head, &tail, policy);
+
+  if(*tail == (void*)0){ //Empty queue
+    *head = p;
+  }else{
+    (*tail)->next = p;
+  }
+
+  *tail = p;
+}
+
+//TODO : doc
+//TODO : dequeue assume that the proc is already present in queue
+struct proc* dequeue(int policy){
+  struct proc **head, **tail;
+  setqueueptrs(&head, &tail, policy);
+
   struct proc* p;
-  if((p = ptable.fifo_head) == (void*)0) // Empty queue
+  if((p = *head) == (void*)0) // Empty queue
     return (void*)0;
 
   //Update linked list
   if(p->next == (void*)0) // Only proc in queue
-    ptable.fifo_tail = (void*)0;
+    *tail = (void*)0;
 
-  ptable.fifo_head = ptable.fifo_head->next;
+  *head = (*head)->next;
   p->next = (void*)0;
 
   return p;
 }
 
 //TODO : doc
-//TODO : enqueue resp. dequeue assume that the proc isn't resp. is present in queue
-void enqueue(struct proc *p){
-  if(ptable.fifo_tail == (void*)0){ //Empty queue
-    ptable.fifo_head = p;
-  }else{
-    ptable.fifo_tail->next = p;
-  }
-
-  ptable.fifo_tail = p;
-}
-
-//TODO : doc
 //TODO : assumes p is in the queue
-void remove(struct proc *p){
+void remove(struct proc *p, int policy){
+  struct proc **head, **tail;
+  setqueueptrs(&head, &tail, policy);
+
   //Since we don't have a doubly linked list, we need to find the previous proc by going through the list
   struct proc *prev, *nxt;
   prev = (void*)0;
-  nxt = ptable.fifo_head;
+  nxt = (*head);
   while(nxt != p){
     prev = nxt;
     nxt = nxt->next;
   }
 
-  if(ptable.fifo_head == p){
-    ptable.fifo_head = p->next;
+  if((*head) == p){
+    *head = p->next;
   }
-  if(ptable.fifo_tail == p){
-    ptable.fifo_tail = prev;
+  if(*tail == p){
+    *tail = prev;
   }
 
   if(prev){
