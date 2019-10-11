@@ -329,12 +329,13 @@ struct proc* dequeue(){
 //TODO : doc
 //TODO : enqueue resp. dequeue assume that the proc isn't resp. is present in queue
 void enqueue(struct proc *p){
-  if(ptable.fifo_head == (void*)0){ //Empty queue
-    ptable.fifo_tail = p;
+  if(ptable.fifo_tail == (void*)0){ //Empty queue
+    ptable.fifo_head = p;
+  }else{
+    ptable.fifo_tail->fifo_next = p;
   }
 
-  p->fifo_next = ptable.fifo_head;
-  ptable.fifo_head = p;
+  ptable.fifo_tail = p;
 }
 
 //TODO : doc
@@ -401,7 +402,11 @@ runproc_lab3(struct proc *p)
 //TODO : doc
 void setscheduler_lab3(int new_policy){
   acquire(&ptable.lock);
-  if(proc->scheduler == SCHED_FIFO && new_policy != SCHED_FIFO){ //If already SCHED_FIFO, will keep its position in the queue
+
+  //Remove process from the FIFO queue if necessary.
+  //If already SCHED_FIFO, will keep its position in the queue.
+  //Note that if it is the currently running process, it has already been removed from the queue.
+  if(proc->scheduler == SCHED_FIFO && new_policy != SCHED_FIFO && proc->state != RUNNING){
     remove(proc);
   }
 

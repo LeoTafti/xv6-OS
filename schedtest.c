@@ -3,10 +3,10 @@
 #include "sched.h"
 
 
-#define NB_FORKS 4
+#define NB_FORKS 6
 #define OCCUPY_LEN 20000000
 
-#define NB_CHUNKS 10
+#define NB_CHUNKS 4
 #define CHUNK_LEN (OCCUPY_LEN / NB_CHUNKS)
 
 void occupy(int id){
@@ -18,6 +18,7 @@ void occupy(int id){
 }
 
 int main(void){
+    setscheduler(SCHED_FIFO); //We don't want the parent to be preempted until it has forked all children
     int pid, i;
     for(i = 0; i < NB_FORKS; i++){
         if(fork() == 0){ //fork() returns 0 in child proc
@@ -27,7 +28,9 @@ int main(void){
             exit();
         }
     }
-
+    
+    printf(1, "Parent done creating children\n");
+    setscheduler(SCHED_RR); //Now the parent can be preempted
     for(i = 0; i < NB_FORKS; i++) //Wait for each child
         wait();
 
