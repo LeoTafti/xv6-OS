@@ -3,7 +3,7 @@
 #include "sched.h"
 
 
-#define NB_FORKS 6
+#define NB_FORKS 4
 #define OCCUPY_LEN 20000000
 
 #define NB_CHUNKS 4
@@ -22,14 +22,18 @@ int main(void){
     int pid, i;
     for(i = 0; i < NB_FORKS; i++){
         if(fork() == 0){ //fork() returns 0 in child proc
-            if(i%2 == 1) //Change the policy from SCHED_RR (default) to SCHED_FIFO for every other child process
-              setscheduler(SCHED_FIFO);
+            
+            //By first setting every process to SCHED_FIFO then unsetting every other process,
+            //we make sure that the first process to get to occupy() will be a FIFO one
+            setscheduler(SCHED_FIFO);
+            if(i%2 == 1) 
+              setscheduler(SCHED_RR);
+
             occupy(i);
             exit();
         }
     }
     
-    printf(1, "Parent done creating children\n");
     setscheduler(SCHED_RR); //Now the parent can be preempted
     for(i = 0; i < NB_FORKS; i++) //Wait for each child
         wait();
