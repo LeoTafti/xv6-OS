@@ -282,7 +282,7 @@ scheduler(void)
 
     acquire(&ptable.lock);
     
-    if(!fifo_scheduler_lab3){ //FIFO tasks take priority over RR
+    if(!fifo_scheduler_lab3()){ //FIFO tasks take priority over RR
       rr_scheduler_lab3();
     }
 
@@ -371,7 +371,7 @@ int
 fifo_scheduler_lab3(void)
 {
   struct proc *p;
-  if((p = dequeue) == (void*)0)
+  if((p = dequeue()) == (void*)0)
     return -1;
 
   runproc_lab3(p); //TODO : This might block ? (not sure I understand fully)
