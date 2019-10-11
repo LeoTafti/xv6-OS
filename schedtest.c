@@ -1,5 +1,6 @@
 #include "types.h"
 #include "user.h"
+#include "sched.h"
 
 
 #define NB_FORKS 4
@@ -20,6 +21,8 @@ int main(void){
     int pid, i;
     for(i = 0; i < NB_FORKS; i++){
         if(fork() == 0){ //fork() returns 0 in child proc
+            if(i%2 == 1) //Change the policy from SCHED_RR (default) to SCHED_FIFO for every other child process
+              setscheduler(SCHED_FIFO);
             occupy(i);
             exit();
         }
