@@ -93,10 +93,11 @@ sys_uptime(void)
 int
 sys_setscheduler(void)
 {
-  int scheduler;
-  if(argint(0, &scheduler) < 0)
+  int policy;
+  if(argint(0, &policy) < 0)
     return -1;
   
-  proc->scheduler = scheduler;
+  setscheduler_lab3(policy);
+
   return 0;
 }

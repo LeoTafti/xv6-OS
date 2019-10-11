@@ -11,6 +11,8 @@
 struct {
   struct spinlock lock;
   struct proc proc[NPROC];
+  struct proc *fifo_head; //oldest
+  struct proc *fifo_tail; //most recent
 } ptable;
 
 static struct proc *initproc;
@@ -279,8 +281,10 @@ scheduler(void)
     sti();
 
     acquire(&ptable.lock);
-
-    rr_scheduler_lab3();
+    
+    if(!fifo_scheduler_lab3){ //FIFO tasks take priority over RR
+      rr_scheduler_lab3();
+    }
 
     release(&ptable.lock);
 
@@ -288,10 +292,8 @@ scheduler(void)
 }
 
 /**
- * @brief Finds the next process with policy SCHED_RR to run and sets
- * the given pointer to it.
+ * @brief Finds the next process with policy SCHED_RR to run and runs it
  * @note Assumes that ptable.lock is already held
- * @param schedp a pointer to the next process to run. Null (0) if none found
  */
 void
 rr_scheduler_lab3(void)
@@ -305,6 +307,75 @@ rr_scheduler_lab3(void)
     //Found.
     runproc_lab3(p);
   }
+}
+
+//TODO : doc
+struct proc* dequeue(){
+  struct proc* p;
+  if((p = ptable.fifo_head) == (void*)0) // Empty queue
+    return (void*)0;
+
+  //Update linked list
+  if(p->fifo_next == (void*)0) // Only proc in queue
+    ptable.fifo_tail = (void*)0;
+
+  ptable.fifo_head = ptable.fifo_head->fifo_next;
+  p->fifo_next = (void*)0;
+
+  return p;
+}
+
+//TODO : doc
+//TODO : enqueue resp. dequeue assume that the proc isn't resp. is present in queue
+void enqueue(struct proc *p){
+  if(ptable.fifo_head == (void*)0){ //Empty queue
+    ptable.fifo_tail = p;
+  }
+
+  p->fifo_next = ptable.fifo_head;
+  ptable.fifo_head = p;
+}
+
+//TODO : doc
+//TODO : assumes p is in the queue
+void remove(struct proc *p){
+  //Since we don't have a doubly linked list, we need to find the previous proc by going through the list
+  struct proc *prev, *next;
+  prev = (void*)0;
+  next = ptable.fifo_head;
+  while(next != p){
+    prev = next;
+    next = next->fifo_next;
+  }
+
+  if(ptable.fifo_head == p){
+    ptable.fifo_head = p->fifo_next;
+  }
+  if(ptable.fifo_tail == p){
+    ptable.fifo_tail = prev;
+  }
+
+  if(prev){
+    prev->fifo_next = p->fifo_next;
+  }
+
+  p->fifo_next = (void*)0;
+}
+
+/**
+ * @brief Finds the next process with policy SCHED_FIFO to run and runs it
+ * @note Assumes that ptable.lock is already held
+ * @return -1 if no runnable FIFO process found, 0 otherwise
+ */
+int
+fifo_scheduler_lab3(void)
+{
+  struct proc *p;
+  if((p = dequeue) == (void*)0)
+    return -1;
+
+  runproc_lab3(p); //TODO : This might block ? (not sure I understand fully)
+  return 0;
 }
 
 /**
@@ -324,6 +395,19 @@ runproc_lab3(struct proc *p)
   // Process is done running for now.
   // It should have changed its p->state before coming back.
   proc = 0;
+}
+
+//TODO : doc
+void setscheduler_lab3(int new_policy){
+  if(proc->scheduler == SCHED_FIFO && new_policy != SCHED_FIFO){ //If already SCHED_FIFO, will keep its position in the queue
+    remove(proc);
+  }
+
+  if(new_policy == SCHED_FIFO){
+    enqueue(proc);
+  }
+
+  proc->scheduler = new_policy;
 }
 
 // Enter scheduler.  Must hold only ptable.lock
