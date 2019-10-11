@@ -399,6 +399,7 @@ runproc_lab3(struct proc *p)
 
 //TODO : doc
 void setscheduler_lab3(int new_policy){
+  acquire(&ptable.lock);
   if(proc->scheduler == SCHED_FIFO && new_policy != SCHED_FIFO){ //If already SCHED_FIFO, will keep its position in the queue
     remove(proc);
   }
@@ -408,6 +409,9 @@ void setscheduler_lab3(int new_policy){
   }
 
   proc->scheduler = new_policy;
+  release(&ptable.lock);
+
+  yield(); //Will cause the scheduler to be called again, and thus preempt the current running process if necessary
 }
 
 // Enter scheduler.  Must hold only ptable.lock
