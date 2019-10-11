@@ -402,7 +402,7 @@ int
 fifo_scheduler_lab3(void)
 {
   struct proc *p;
-  if((p = dequeue()) == (void*)0)
+  if((p = dequeue(SCHED_FIFO)) == (void*)0)
     return -1;
 
   runproc_lab3(p); //TODO : This might block ? (not sure I understand fully)
@@ -436,11 +436,11 @@ void setscheduler_lab3(int new_policy){
   //If already SCHED_FIFO, will keep its position in the queue.
   //Note that if it is the currently running process, it has already been removed from the queue.
   if(proc->scheduler == SCHED_FIFO && new_policy != SCHED_FIFO && proc->state != RUNNING){
-    remove(proc);
+    remove(proc, SCHED_FIFO);
   }
 
   if(new_policy == SCHED_FIFO){
-    enqueue(proc);
+    enqueue(proc, SCHED_FIFO);
   }
 
   proc->scheduler = new_policy;
