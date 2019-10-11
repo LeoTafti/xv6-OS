@@ -72,6 +72,7 @@ found:
   p->context->eip = (uint)forkret;
 
   p->scheduler = SCHED_RR;
+  p->fifo_next = (void*)0;
 
   return p;
 }
