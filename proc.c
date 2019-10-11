@@ -282,7 +282,7 @@ scheduler(void)
 
     acquire(&ptable.lock);
     
-    if(!fifo_scheduler_lab3()){ //FIFO tasks take priority over RR
+    if(fifo_scheduler_lab3() < 0){ //FIFO tasks take priority over RR
       rr_scheduler_lab3();
     }
 
