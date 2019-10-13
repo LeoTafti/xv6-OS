@@ -39,5 +39,6 @@ int main(void){
     for(i = 0; i < NB_FORKS; i++) //Wait for each child
         wait();
 
+    printf(1, "Parent exiting\n");
     exit();
 }
