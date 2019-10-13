@@ -33,7 +33,7 @@ pinit(void)
 
 void enqueue(struct proc *p, int policy); //TODO : clean up
 int find(struct proc *p, struct proc **prev, struct proc** head);
-void findandremove(struct proc *p, int policy);
+//void findandremove(struct proc *p, int policy);
 
 //PAGEBREAK: 32
 // Look in the process table for an UNUSED proc.
@@ -227,10 +227,13 @@ exit(void)
   }
 
   // Remove the process from its scheduling priority list
-  findandremove(p, p->scheduler);
+  //TODO : don't need it (?)
+  //cprintf("finandremove from exit\n");
+  //findandremove(proc, proc->scheduler);
 
   // Jump into the scheduler, never to return.
   proc->state = ZOMBIE;
+  cprintf("Exit jumps to sched\n");
   sched();
   panic("zombie exit");
 }
@@ -294,7 +297,6 @@ scheduler(void)
     sti();
 
     acquire(&ptable.lock);
-    
     if(scheduler_lab3(SCHED_FIFO) < 0){ //FIFO tasks take priority over RR
       scheduler_lab3(SCHED_RR);
     }
@@ -422,6 +424,7 @@ void remove(struct proc *p, struct proc *prev, struct proc** head, struct proc**
 
 //TODO : doc
 //TODO : assumes p is in the queue. If not, silently does nothing.
+//TODO : Probably not needed !
 void findandremove(struct proc *p, int policy){
   struct proc **head, **tail;
   setqueueptrs(&head, &tail, policy);
@@ -429,6 +432,7 @@ void findandremove(struct proc *p, int policy){
   
   struct proc *prev;
   if(find(p, &prev, head) != -1){ //Since we don't have a doubly linked list, we need to find the previous proc by going through the list
+    cprintf("Really removing\n");
     remove(p, prev, head, tail);
   }
 }
@@ -475,10 +479,9 @@ scheduler_lab3(int policy){
 void setscheduler_lab3(int new_policy, int new_plvl){
   acquire(&ptable.lock);
   
-  int old_policy = proc->scheduler;
-
+  //int old_policy = proc->scheduler;
   //Remove process from the old queue if necessary.
-  findandremove(proc, old_policy);
+  //findandremove(proc, old_policy); //TODO : not needed (?)
 
   //Update proc fields.
   proc->priority = new_plvl;
