@@ -225,6 +225,9 @@ exit(void)
     }
   }
 
+  // Remove the process from its scheduling priority list
+  findandremove(p, p->scheduler);
+
   // Jump into the scheduler, never to return.
   proc->state = ZOMBIE;
   sched();
