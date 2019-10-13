@@ -298,7 +298,7 @@ scheduler(void)
 /**
  * @brief Finds the next process with given policy to run and runs it
  * @param policy the scheduler policy, either SCHED_RR or SCHED_FIFO
- * @note Assumes that ptable.lock is already held
+ * @note Assumes that ptable.lock is already held 
  * @return -1 if no runnable process with given policy found, 0 otherwise
  */
 int
