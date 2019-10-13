@@ -364,6 +364,8 @@ struct proc* findrunnable(struct proc **prev, struct proc** head){
   return nxt;
 }
 
+void remove(struct proc *p, struct proc *prev, struct proc** head, struct proc** tail); //TODO : cleanup
+
 //TODO : doc
 struct proc* dequeue(int policy){
   struct proc **head, **tail;
