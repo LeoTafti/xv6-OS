@@ -295,22 +295,6 @@ scheduler(void)
   }
 }
 
-/**
- * @brief Finds the next process with given policy to run and runs it
- * @param policy the scheduler policy, either SCHED_RR or SCHED_FIFO
- * @note Assumes that ptable.lock is already held 
- * @return -1 if no runnable process with given policy found, 0 otherwise
- */
-int
-scheduler_lab3(int policy){
-  struct proc *p;
-  if((p = dequeue(policy)) == (void*)0)
-    return -1;
-
-  runproc_lab3(p);
-  return 0;
-}
-
 void setqueueptrs(struct proc ***head, struct proc ***tail, int policy){
   switch (policy)
   {
@@ -424,6 +408,22 @@ runproc_lab3(struct proc *p)
   // Process is done running for now.
   // It should have changed its p->state before coming back.
   proc = 0;
+}
+
+/**
+ * @brief Finds the next process with given policy to run and runs it
+ * @param policy the scheduler policy, either SCHED_RR or SCHED_FIFO
+ * @note Assumes that ptable.lock is already held 
+ * @return -1 if no runnable process with given policy found, 0 otherwise
+ */
+int
+scheduler_lab3(int policy){
+  struct proc *p;
+  if((p = dequeue(policy)) == (void*)0)
+    return -1;
+
+  runproc_lab3(p);
+  return 0;
 }
 
 //TODO : doc
