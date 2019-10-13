@@ -32,6 +32,7 @@ pinit(void)
 }
 
 void enqueue(struct proc *p, int policy); //TODO : clean up
+int find(struct proc *p, struct proc **prev, struct proc** head);
 
 //PAGEBREAK: 32
 // Look in the process table for an UNUSED proc.
@@ -79,6 +80,7 @@ found:
   p->next = (void*)0;
   p->priority = PRTY_DFLT;
 
+  cprintf("Calling enqueue from allocproc\n");
   enqueue(p, p->scheduler); //TODO : comment
 
   return p;
@@ -323,27 +325,27 @@ void enqueue(struct proc *p, int policy){
   struct proc **head, **tail;
   setqueueptrs(&head, &tail, policy);
 
-  if(*tail == (void*)0){ //Empty queue
-    *head = p;
-    *tail = p;
-  }else{
+    //TODO : indent
     //Insert p in the right place to respect both priority (and fifo, if it applies)
     struct proc *prev, *nxt;
     prev = (void*)0;
     nxt = (*head);
-    while(nxt->priority >= p->priority){
+    while(nxt != (void*)0 && nxt->priority >= p->priority){
       prev = nxt;
       nxt = nxt->next;
     }
 
-    //Insert p between prev and nxt
-    if(prev)
+    if(nxt == (void*)0)  //Rewire tail
+      *tail = p;
+
+    if(prev == (void*)0) //Rewire head
+      *head = p;
+    else
       prev->next = p;
-    else //Insert at head
-      (*head) = p;
       
     p->next = nxt;
-  }
+
+    cprintf("policy %d --- prev %p, p %p, nxt %p\n", policy, prev, p, nxt);
 }
 
 //TODO : doc
@@ -352,7 +354,7 @@ struct proc* findrunnable(struct proc **prev, struct proc** head){
 
   *prev = (void*)0;
   nxt = (*head);
-  while(nxt->state != RUNNABLE && nxt != (void*)0){
+  while(nxt != (void*)0 && nxt->state != RUNNABLE){
     *prev = nxt;
     nxt = nxt->next;
   }
@@ -377,6 +379,8 @@ struct proc* dequeue(int policy){
     return (void*)0;
 
   remove(p, prev, head, tail);
+
+  //cprintf("Dequeue exit, policy %d, process %p\n", policy, p);
 
   return p;
 }
@@ -425,8 +429,9 @@ void findandremove(struct proc *p, int policy){
 
   
   struct proc *prev;
-  if(find(p, &prev, head) != -1) //Since we don't have a doubly linked list, we need to find the previous proc by going through the list
+  if(find(p, &prev, head) != -1){ //Since we don't have a doubly linked list, we need to find the previous proc by going through the list
     remove(p, prev, head, tail);
+  }
 }
 
 /**
@@ -461,12 +466,16 @@ scheduler_lab3(int policy){
     return -1;
 
   runproc_lab3(p);
+  
+  cprintf("Calling enqueue from scheduler_lab3\n");
+  enqueue(p, p->scheduler);
   return 0;
 }
 
-//TODO : doc
+//TODO : docff
 //If called with the same params as already set for the process, will still remove and reinsert (possibly changing fifo order)
 void setscheduler_lab3(int new_policy, int new_plvl){
+  cprintf("setscheduler called from proc %p\n", proc);
   acquire(&ptable.lock);
   
   int old_policy = proc->scheduler;
@@ -474,12 +483,17 @@ void setscheduler_lab3(int new_policy, int new_plvl){
   //Remove process from the old queue if necessary.
   findandremove(proc, old_policy);
 
+  //cprintf("coucou1\n");
+
   //Update proc fields.
   proc->priority = new_plvl;
   proc->scheduler = new_policy;
 
   //Insert in corresp. priority queue
+  cprintf("Calling enqueue from setscheduler\n");
   enqueue(proc, new_policy);
+
+  //cprintf("Done enqueueing for policy %d\n", new_policy);
 
   release(&ptable.lock);
 

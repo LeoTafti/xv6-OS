@@ -23,6 +23,7 @@ int main(void){
     for(i = 0; i < NB_FORKS; i++){
         if(fork() == 0){ //fork() returns 0 in child proc
             
+            printf(1, "child %i\n", i);
             //By first setting every process to SCHED_FIFO then unsetting every other process,
             //we make sure that the first process to get to occupy() will be a FIFO one
             setscheduler(SCHED_FIFO, 0);
@@ -33,8 +34,11 @@ int main(void){
             exit();
         }
     }
+
+    printf(1, "Parent done creating children\n");
     
     setscheduler(SCHED_RR, 0); //Now the parent can be preempted
+    printf(1, "Am I comming back ?");
     for(i = 0; i < NB_FORKS; i++) //Wait for each child
         wait();
 
