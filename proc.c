@@ -347,40 +347,60 @@ void enqueue(struct proc *p, int policy){
 }
 
 //TODO : doc
-//TODO : dequeue assume that the proc is already present in queue
+struct proc* findrunnable(struct proc **prev, struct proc** head){
+  struct proc *nxt;
+
+  *prev = (void*)0;
+  nxt = (*head);
+  while(nxt->state != RUNNABLE && nxt != (void*)0){
+    *prev = nxt;
+    nxt = nxt->next;
+  }
+
+  if(nxt == (void*)0){ //Not found
+    *prev = (void*)0;
+  }
+
+  return nxt;
+}
+
+//TODO : doc
 struct proc* dequeue(int policy){
   struct proc **head, **tail;
   setqueueptrs(&head, &tail, policy);
 
-  struct proc* p;
-  if((p = *head) == (void*)0) // Empty queue
+  struct proc *p, *prev;
+
+  if((p = findrunnable(&prev, head)) == (void*)0)
     return (void*)0;
 
-  //Update linked list
-  if(p->next == (void*)0) // Only proc in queue
-    *tail = (void*)0;
-
-  *head = (*head)->next;
-  p->next = (void*)0;
+  remove(p, prev, head, tail);
 
   return p;
 }
 
 //TODO : doc
-//TODO : assumes p is in the queue
-void remove(struct proc *p, int policy){
-  struct proc **head, **tail;
-  setqueueptrs(&head, &tail, policy);
+//Searched for proc in linkedlist pointed at by head. Sets prev if found.
+//Return -1 (not found) or 0 (found)
+int find(struct proc *p, struct proc **prev, struct proc** head){
+  struct proc *nxt;
 
-  //Since we don't have a doubly linked list, we need to find the previous proc by going through the list
-  struct proc *prev, *nxt;
-  prev = (void*)0;
+  *prev = (void*)0;
   nxt = (*head);
-  while(nxt != p){
-    prev = nxt;
+  while(nxt != p && nxt != (void*)0){
+    *prev = nxt;
     nxt = nxt->next;
   }
 
+  if(nxt == (void*)0){ //Not found
+    *prev = (void*)0; //(In case caller doesn't look at return value)
+    return -1;
+  }
+  return 0;
+}
+
+//TODO : doc
+void remove(struct proc *p, struct proc *prev, struct proc** head, struct proc** tail){
   if((*head) == p){
     *head = p->next;
   }
@@ -393,6 +413,18 @@ void remove(struct proc *p, int policy){
   }
 
   p->next = (void*)0;
+}
+
+//TODO : doc
+//TODO : assumes p is in the queue. If not, silently does nothing.
+void findandremove(struct proc *p, int policy){
+  struct proc **head, **tail;
+  setqueueptrs(&head, &tail, policy);
+
+  
+  struct proc *prev;
+  if(find(p, &prev, head) != -1) //Since we don't have a doubly linked list, we need to find the previous proc by going through the list
+    remove(p, prev, head, tail);
 }
 
 /**
@@ -438,10 +470,7 @@ void setscheduler_lab3(int new_policy, int new_plvl){
   int old_policy = proc->scheduler;
 
   //Remove process from the old queue if necessary.
-  //Note that if it is the currently running process, it has already been removed from the queue.
-  if(proc->state != RUNNING){
-    remove(proc, old_policy);
-  }
+  findandremove(proc, old_policy);
 
   //Update proc fields.
   proc->priority = new_plvl;
