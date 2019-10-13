@@ -80,7 +80,7 @@ found:
   p->next = (void*)0;
   p->priority = PRTY_DFLT;
 
-  enqueue(p, p->scheduler); //TODO : comment
+  enqueue(p, p->scheduler);
 
   return p;
 }
@@ -300,6 +300,7 @@ scheduler(void)
   }
 }
 
+//TODO : doc
 void setqueueptrs(struct proc ***head, struct proc ***tail, int policy){
   switch (policy)
   {
@@ -324,25 +325,24 @@ void enqueue(struct proc *p, int policy){
   struct proc **head, **tail;
   setqueueptrs(&head, &tail, policy);
 
-    //TODO : indent
-    //Insert p in the right place to respect both priority (and fifo, if it applies)
-    struct proc *prev, *nxt;
-    prev = (void*)0;
-    nxt = (*head);
-    while(nxt != (void*)0 && nxt->priority >= p->priority){
-      prev = nxt;
-      nxt = nxt->next;
-    }
+  //Insert p in the right place to respect priority (and fifo behavior, if it applies)
+  struct proc *prev, *nxt;
+  prev = (void*)0;
+  nxt = (*head);
+  while(nxt != (void*)0 && nxt->priority >= p->priority){
+    prev = nxt;
+    nxt = nxt->next;
+  }
 
-    if(nxt == (void*)0)  //Rewire tail
-      *tail = p;
+  if(nxt == (void*)0)  //Rewire tail
+    *tail = p;
 
-    if(prev == (void*)0) //Rewire head
-      *head = p;
-    else
-      prev->next = p;
-      
-    p->next = nxt;
+  if(prev == (void*)0) //Rewire head
+    *head = p;
+  else
+    prev->next = p;
+    
+  p->next = nxt;
 }
 
 //TODO : doc
@@ -466,7 +466,7 @@ scheduler_lab3(int policy){
   return 0;
 }
 
-//TODO : docff
+//TODO : doc
 //If called with the same params as already set for the process, will still remove and reinsert (possibly changing fifo order)
 void setscheduler_lab3(int new_policy, int new_plvl){
   acquire(&ptable.lock);
