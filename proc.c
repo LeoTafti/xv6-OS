@@ -33,6 +33,7 @@ pinit(void)
 
 void enqueue(struct proc *p, int policy); //TODO : clean up
 int find(struct proc *p, struct proc **prev, struct proc** head);
+void findandremove(struct proc *p, int policy);
 
 //PAGEBREAK: 32
 // Look in the process table for an UNUSED proc.
