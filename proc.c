@@ -32,8 +32,6 @@ pinit(void)
 }
 
 void enqueue(struct proc *p, int policy); //TODO : clean up
-int find(struct proc *p, struct proc **prev, struct proc** head);
-//void findandremove(struct proc *p, int policy);
 void print_list(int policy){
   char* list_name = ((policy == SCHED_FIFO) ? "fifo list" : "rr list");
   struct proc* nxt = ((policy == SCHED_FIFO) ? ptable.fifo_head : ptable.rr_head);
@@ -242,16 +240,9 @@ exit(void)
     }
   }
 
-  // Remove the process from its scheduling priority list
-  //TODO : don't need it (?)
-  //cprintf("finandremove from exit\n");
-  //findandremove(proc, proc->scheduler);
-
   // Jump into the scheduler, never to return.
   proc->state = ZOMBIE;
 
-  print_list(SCHED_FIFO);
-  print_list(SCHED_RR);
   sched();
   panic("zombie exit");
 }
@@ -387,43 +378,6 @@ struct proc* findrunnable(struct proc **prev, struct proc** head){
   return nxt;
 }
 
-void remove(struct proc *p, struct proc *prev, struct proc** head, struct proc** tail); //TODO : cleanup
-
-//TODO : doc
-struct proc* dequeue(int policy){
-  struct proc **head, **tail;
-  setqueueptrs(&head, &tail, policy);
-
-  struct proc *p, *prev;
-
-  if((p = findrunnable(&prev, head)) == (void*)0)
-    return (void*)0;
-
-  remove(p, prev, head, tail);
-
-  return p;
-}
-
-//TODO : doc
-//Searched for proc in linkedlist pointed at by head. Sets prev if found.
-//Return -1 (not found) or 0 (found)
-int find(struct proc *p, struct proc **prev, struct proc** head){
-  struct proc *nxt;
-
-  *prev = (void*)0;
-  nxt = (*head);
-  while(nxt != p && nxt != (void*)0){
-    *prev = nxt;
-    nxt = nxt->next;
-  }
-
-  if(nxt == (void*)0){ //Not found
-    *prev = (void*)0; //(In case caller doesn't look at return value)
-    return -1;
-  }
-  return 0;
-}
-
 //TODO : doc
 void remove(struct proc *p, struct proc *prev, struct proc** head, struct proc** tail){
   if((*head) == p){
@@ -441,18 +395,18 @@ void remove(struct proc *p, struct proc *prev, struct proc** head, struct proc**
 }
 
 //TODO : doc
-//TODO : assumes p is in the queue. If not, silently does nothing.
-//TODO : Probably not needed !
-void findandremove(struct proc *p, int policy){
+struct proc* dequeue(int policy){
   struct proc **head, **tail;
   setqueueptrs(&head, &tail, policy);
 
-  
-  struct proc *prev;
-  if(find(p, &prev, head) != -1){ //Since we don't have a doubly linked list, we need to find the previous proc by going through the list
-    cprintf("Really removing\n");
-    remove(p, prev, head, tail);
-  }
+  struct proc *p, *prev;
+
+  if((p = findrunnable(&prev, head)) == (void*)0)
+    return (void*)0;
+
+  remove(p, prev, head, tail);
+
+  return p;
 }
 
 /**
@@ -497,11 +451,6 @@ scheduler_lab3(int policy){
 //If called with the same params as already set for the process, will still remove and reinsert (possibly changing fifo order)
 void setscheduler_lab3(int new_policy, int new_plvl){
   acquire(&ptable.lock);
-  
-  //int old_policy = proc->scheduler;
-  //Remove process from the old queue if necessary.
-  //TODO : not useful, since we remove before running and reinsert after
-  //findandremove(proc, old_policy);
 
   //Update proc fields.
   proc->priority = new_plvl;
@@ -509,6 +458,10 @@ void setscheduler_lab3(int new_policy, int new_plvl){
 
   //Insert in corresp. priority queue
   enqueue(proc, new_policy);
+  
+  //print_list(SCHED_FIFO);
+  //print_list(SCHED_RR);
+  //cprintf("\n");
 
   release(&ptable.lock);
 
