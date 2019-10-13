@@ -90,14 +90,17 @@ sys_uptime(void)
   return xticks;
 }
 
+//TODO : doc
 int
 sys_setscheduler(void)
 {
-  int policy;
+  int policy, plvl;
   if(argint(0, &policy) < 0)
     return -1;
+  if(argint(1, &plvl) < 0)
+    return -1;
   
-  setscheduler_lab3(policy);
+  setscheduler_lab3(policy, plvl);
 
   return 0;
 }

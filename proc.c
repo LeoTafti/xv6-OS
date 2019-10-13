@@ -75,6 +75,7 @@ found:
 
   p->scheduler = SCHED_RR;
   p->next = (void*)0;
+  p->priority = PRTY_DFLT;
 
   return p;
 }
@@ -285,8 +286,8 @@ scheduler(void)
 
     acquire(&ptable.lock);
     
-    if(fifo_scheduler_lab3() < 0){ //FIFO tasks take priority over RR
-      rr_scheduler_lab3();
+    if(scheduler_lab3(SCHED_FIFO) < 0){ //FIFO tasks take priority over RR
+      scheduler_lab3(SCHED_RR);
     }
 
     release(&ptable.lock);
@@ -295,21 +296,19 @@ scheduler(void)
 }
 
 /**
- * @brief Finds the next process with policy SCHED_RR to run and runs it
+ * @brief Finds the next process with given policy to run and runs it
+ * @param policy the scheduler policy, either SCHED_RR or SCHED_FIFO
  * @note Assumes that ptable.lock is already held
+ * @return -1 if no runnable process with given policy found, 0 otherwise
  */
-void
-rr_scheduler_lab3(void)
-{
+int
+scheduler_lab3(int policy){
   struct proc *p;
-  // Loop over process table looking for process with scheduler policy SCHED_RR to run.
-  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-    if(p->state != RUNNABLE || p->scheduler != SCHED_RR)
-      continue;
-    
-    //Found.
-    runproc_lab3(p);
-  }
+  if((p = dequeue(policy)) == (void*)0)
+    return -1;
+
+  runproc_lab3(p);
+  return 0;
 }
 
 void setqueueptrs(struct proc ***head, struct proc ***tail, int policy){
@@ -331,17 +330,32 @@ void setqueueptrs(struct proc ***head, struct proc ***tail, int policy){
 
 //TODO : doc
 //TODO : enqueue assume that the proc isn't already present in queue
+// enqueue also asumes that p->priority has already been set
 void enqueue(struct proc *p, int policy){
   struct proc **head, **tail;
   setqueueptrs(&head, &tail, policy);
 
   if(*tail == (void*)0){ //Empty queue
     *head = p;
+    *tail = p;
   }else{
-    (*tail)->next = p;
-  }
+    //Insert p in the right place to respect both priority (and fifo, if it applies)
+    struct proc *prev, *nxt;
+    prev = (void*)0;
+    nxt = (*head);
+    while(nxt->priority >= p->priority){
+      prev = nxt;
+      nxt = nxt->next;
+    }
 
-  *tail = p;
+    //Insert p between prev and nxt
+    if(prev)
+      prev->next = p;
+    else //Insert at head
+      (*head) = p;
+      
+    p->next = nxt;
+  }
 }
 
 //TODO : doc
@@ -394,22 +408,6 @@ void remove(struct proc *p, int policy){
 }
 
 /**
- * @brief Finds the next process with policy SCHED_FIFO to run and runs it
- * @note Assumes that ptable.lock is already held
- * @return -1 if no runnable FIFO process found, 0 otherwise
- */
-int
-fifo_scheduler_lab3(void)
-{
-  struct proc *p;
-  if((p = dequeue()) == (void*)0)
-    return -1;
-
-  runproc_lab3(p); //TODO : This might block ? (not sure I understand fully)
-  return 0;
-}
-
-/**
  * @brief Switch execution to given process.
  * @note It is the process's job to release ptable.lock and then reacquire it before jumping back to us
  * @param p the process to run
@@ -429,21 +427,25 @@ runproc_lab3(struct proc *p)
 }
 
 //TODO : doc
-void setscheduler_lab3(int new_policy){
+//If called with the same params as already set for the process, will still remove and reinsert (possibly changing fifo order)
+void setscheduler_lab3(int new_policy, int new_plvl){
   acquire(&ptable.lock);
+  
+  int old_policy = proc->scheduler;
 
-  //Remove process from the FIFO queue if necessary.
-  //If already SCHED_FIFO, will keep its position in the queue.
+  //Remove process from the old queue if necessary.
   //Note that if it is the currently running process, it has already been removed from the queue.
-  if(proc->scheduler == SCHED_FIFO && new_policy != SCHED_FIFO && proc->state != RUNNING){
-    remove(proc);
+  if(proc->state != RUNNING){
+    remove(proc, old_policy);
   }
 
-  if(new_policy == SCHED_FIFO){
-    enqueue(proc);
-  }
-
+  //Update proc fields.
+  proc->priority = new_plvl;
   proc->scheduler = new_policy;
+
+  //Insert in corresp. priority queue
+  enqueue(proc, new_policy);
+
   release(&ptable.lock);
 
   yield(); //Will cause the scheduler to be called again, and thus preempt the current running process if necessary
