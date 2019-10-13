@@ -31,6 +31,8 @@ pinit(void)
   initlock(&ptable.lock, "ptable");
 }
 
+void enqueue(struct proc *p, int policy); //TODO : clean up
+
 //PAGEBREAK: 32
 // Look in the process table for an UNUSED proc.
 // If found, change state to EMBRYO and initialize
@@ -76,6 +78,8 @@ found:
   p->scheduler = SCHED_RR;
   p->next = (void*)0;
   p->priority = PRTY_DFLT;
+
+  enqueue(p, p->scheduler); //TODO : comment
 
   return p;
 }
