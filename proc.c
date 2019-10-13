@@ -503,7 +503,8 @@ void setscheduler_lab3(int new_policy, int new_plvl){
   
   //int old_policy = proc->scheduler;
   //Remove process from the old queue if necessary.
-  //findandremove(proc, old_policy); //TODO : not needed (?)
+  //TODO : not useful, since we remove before running and reinsert after
+  //findandremove(proc, old_policy);
 
   //Update proc fields.
   proc->priority = new_plvl;
