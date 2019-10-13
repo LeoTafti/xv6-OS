@@ -97,7 +97,6 @@ found:
   p->next = (void*)0;
   p->priority = PRTY_DFLT;
 
-  cprintf("enqueue from allocproc\n");
   enqueue(p, p->scheduler);
 
   return p;
@@ -250,7 +249,7 @@ exit(void)
 
   // Jump into the scheduler, never to return.
   proc->state = ZOMBIE;
-  cprintf("Exit jumps to sched, proc : %p\n", proc);
+
   print_list(SCHED_FIFO);
   print_list(SCHED_RR);
   sched();
@@ -400,7 +399,6 @@ struct proc* dequeue(int policy){
   if((p = findrunnable(&prev, head)) == (void*)0)
     return (void*)0;
 
-  cprintf("Remove call from dequeue fro proc %p\n", p);
   remove(p, prev, head, tail);
 
   return p;
@@ -490,7 +488,6 @@ scheduler_lab3(int policy){
 
   runproc_lab3(p);
   
-  //cprintf("enqueue from scheduler_lab3\n");
   if(p->state != ZOMBIE)
     enqueue(p, p->scheduler);
   return 0;
@@ -511,7 +508,6 @@ void setscheduler_lab3(int new_policy, int new_plvl){
   proc->scheduler = new_policy;
 
   //Insert in corresp. priority queue
-  cprintf("enqueue from setscheduler_lab3\n");
   enqueue(proc, new_policy);
 
   release(&ptable.lock);
