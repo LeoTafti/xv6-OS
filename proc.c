@@ -34,6 +34,22 @@ pinit(void)
 void enqueue(struct proc *p, int policy); //TODO : clean up
 int find(struct proc *p, struct proc **prev, struct proc** head);
 //void findandremove(struct proc *p, int policy);
+void print_list(int policy){
+  char* list_name = ((policy == SCHED_FIFO) ? "fifo list" : "rr list");
+  struct proc* nxt = ((policy == SCHED_FIFO) ? ptable.fifo_head : ptable.rr_head);
+  cprintf("%s : ", list_name);
+
+  while(nxt != (void*)0){
+    cprintf("%p", nxt);
+    nxt = nxt->next;
+    if(nxt)
+      cprintf(" -> ");
+  }
+
+  cprintf("\n");
+
+}
+
 
 //PAGEBREAK: 32
 // Look in the process table for an UNUSED proc.
@@ -81,6 +97,7 @@ found:
   p->next = (void*)0;
   p->priority = PRTY_DFLT;
 
+  cprintf("enqueue from allocproc\n");
   enqueue(p, p->scheduler);
 
   return p;
@@ -233,7 +250,9 @@ exit(void)
 
   // Jump into the scheduler, never to return.
   proc->state = ZOMBIE;
-  cprintf("Exit jumps to sched\n");
+  cprintf("Exit jumps to sched, proc : %p\n", proc);
+  print_list(SCHED_FIFO);
+  print_list(SCHED_RR);
   sched();
   panic("zombie exit");
 }
@@ -381,6 +400,7 @@ struct proc* dequeue(int policy){
   if((p = findrunnable(&prev, head)) == (void*)0)
     return (void*)0;
 
+  cprintf("Remove call from dequeue fro proc %p\n", p);
   remove(p, prev, head, tail);
 
   return p;
@@ -470,7 +490,9 @@ scheduler_lab3(int policy){
 
   runproc_lab3(p);
   
-  enqueue(p, p->scheduler);
+  //cprintf("enqueue from scheduler_lab3\n");
+  if(p->state != ZOMBIE)
+    enqueue(p, p->scheduler);
   return 0;
 }
 
@@ -488,6 +510,7 @@ void setscheduler_lab3(int new_policy, int new_plvl){
   proc->scheduler = new_policy;
 
   //Insert in corresp. priority queue
+  cprintf("enqueue from setscheduler_lab3\n");
   enqueue(proc, new_policy);
 
   release(&ptable.lock);
