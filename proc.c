@@ -80,7 +80,6 @@ found:
   p->next = (void*)0;
   p->priority = PRTY_DFLT;
 
-  cprintf("Calling enqueue from allocproc\n");
   enqueue(p, p->scheduler); //TODO : comment
 
   return p;
@@ -344,8 +343,6 @@ void enqueue(struct proc *p, int policy){
       prev->next = p;
       
     p->next = nxt;
-
-    cprintf("policy %d --- prev %p, p %p, nxt %p\n", policy, prev, p, nxt);
 }
 
 //TODO : doc
@@ -379,8 +376,6 @@ struct proc* dequeue(int policy){
     return (void*)0;
 
   remove(p, prev, head, tail);
-
-  //cprintf("Dequeue exit, policy %d, process %p\n", policy, p);
 
   return p;
 }
@@ -467,7 +462,6 @@ scheduler_lab3(int policy){
 
   runproc_lab3(p);
   
-  cprintf("Calling enqueue from scheduler_lab3\n");
   enqueue(p, p->scheduler);
   return 0;
 }
@@ -475,7 +469,6 @@ scheduler_lab3(int policy){
 //TODO : docff
 //If called with the same params as already set for the process, will still remove and reinsert (possibly changing fifo order)
 void setscheduler_lab3(int new_policy, int new_plvl){
-  cprintf("setscheduler called from proc %p\n", proc);
   acquire(&ptable.lock);
   
   int old_policy = proc->scheduler;
@@ -483,17 +476,12 @@ void setscheduler_lab3(int new_policy, int new_plvl){
   //Remove process from the old queue if necessary.
   findandremove(proc, old_policy);
 
-  //cprintf("coucou1\n");
-
   //Update proc fields.
   proc->priority = new_plvl;
   proc->scheduler = new_policy;
 
   //Insert in corresp. priority queue
-  cprintf("Calling enqueue from setscheduler\n");
   enqueue(proc, new_policy);
-
-  //cprintf("Done enqueueing for policy %d\n", new_policy);
 
   release(&ptable.lock);
 
