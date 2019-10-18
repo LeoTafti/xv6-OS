@@ -97,6 +97,14 @@ mythread(void)
     printf(1, "my thread 0x%x\n", (int) current_thread);
     thread_yield();
   }
+
+  //Block on I/O
+  printf("About to block.\n");
+  char buf[10];
+  read(0, buf, 10); //Read 10 bytes from stdin. Will block until 10 bytes given.
+  printf("Not reaching here due to blocking I/O\n");
+
+
   printf(1, "my thread: exit\n");
   current_thread->state = FREE;
   thread_schedule();
@@ -107,7 +115,6 @@ int
 main(int argc, char *argv[]) 
 {
   thread_init();
-  thread_create(mythread);
   thread_create(mythread);
   thread_schedule();
   return 0;
