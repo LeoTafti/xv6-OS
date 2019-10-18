@@ -90,7 +90,13 @@ sys_uptime(void)
   return xticks;
 }
 
-//TODO : doc
+/**
+ * @brief System call to set the scheduler and priority level of the currently running process
+ * @note Gets arguments and calls setscheduler_lab3, which does the actual work
+ * @param policy (int) the new scheduling policy
+ * @param plvl (int) the new priority level
+ * @return an error code, -1 if error, 0 otherwise.
+ */
 int
 sys_setscheduler(void)
 {
