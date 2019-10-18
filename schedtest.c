@@ -11,6 +11,10 @@
 
 #define SLEEP_LEN 100
 
+/**
+ * @brief Keeps running process busy by looping for a long time. Prints status regularly.
+ * @param id and identification number for the process
+ */
 void occupy(int id){
     for(int i = 0; i < OCCUPY_LEN; i++){
         if(i % CHUNK_LEN == 0){ //print some feedback on progress
