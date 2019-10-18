@@ -116,3 +116,9 @@ sys_getcpu(void)
 {
   return cpunum();
 }
+
+int
+sys_clone(void)
+{
+  
+}
