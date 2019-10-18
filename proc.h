@@ -75,8 +75,9 @@ struct proc {
 //   expandable heap
 
 
-void runproc(struct proc *);
-int scheduler_lab3(int);
-void enqueue(struct proc *p, int policy);
+int          scheduler_lab3(int);
+void         runproc(struct proc *);
+void         enqueue(struct proc *p, int policy);
 struct proc* dequeue(int policy);
-void remove(struct proc *p, struct proc *prev, struct proc** head, struct proc** tail);
+struct proc* findrunnable(struct proc **prev, struct proc** head);
+void         remove(struct proc *p, struct proc *prev, struct proc** head, struct proc** tail);
