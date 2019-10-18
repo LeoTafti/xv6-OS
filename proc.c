@@ -207,7 +207,7 @@ fork(void)
  * @return child process id if called by parent, 0 if called by the child process, -1 in case of error
  */
 int clone_lab3(void *stack, int size){
-  int pid;
+  int i, pid;
   struct proc *np;
 
   acquire(&ptable.lock);
