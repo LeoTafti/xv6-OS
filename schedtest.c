@@ -9,6 +9,8 @@
 #define NB_CHUNKS 2
 #define CHUNK_LEN (OCCUPY_LEN / NB_CHUNKS)
 
+#define SLEEP_LEN 100
+
 void occupy(int id){
     for(int i = 0; i < OCCUPY_LEN; i++){
         if(i % CHUNK_LEN == 0){ //print some feedback on progress
@@ -19,15 +21,37 @@ void occupy(int id){
 
 int main(void){
     setscheduler(SCHED_FIFO, NB_FORKS + 1); //We don't want the parent to be preempted until it has forked all children
+    
     int pid, i;
     for(i = 0; i < NB_FORKS; i++){
         if(fork() == 0){ //fork() returns 0 in child proc
-            //By first setting every process to SCHED_FIFO then unsetting every other process,
-            //we make sure that the first process to get to occupy() will be a FIFO one
-            setscheduler(SCHED_FIFO, 0);
-            if(i%2 == 1) 
-              setscheduler(SCHED_RR, 0);
+            
+            switch (i)
+            {
+            case 0:
+                setscheduler(SCHED_FIFO, 3);
+                sleep(SLEEP_LEN);
+                break;
+            case 1:
+                setscheduler(SCHED_FIFO, 4);
+                sleep(SLEEP_LEN);
+                break;
+            case 2:
+            case 3:
+                setscheduler(SCHED_RR, 3);
+                sleep(SLEEP_LEN);
+                break;
+            case 4:
+            case 5:
+                setscheduler(SCHED_RR, 2);
+                sleep(SLEEP_LEN);
+                break;
+            default:
+                break;
+            }
 
+            
+            //We should get there only after each child process has gone through the above (not guaranteed, but works)
             occupy(i);
             exit();
         }
