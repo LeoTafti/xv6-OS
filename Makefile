@@ -185,6 +185,7 @@ UPROGS=\
 	_zombie\
 	_forktree\
 	_uthread\
+	_kthread\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)
