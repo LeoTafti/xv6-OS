@@ -30,25 +30,23 @@ int main(void){
             {
             case 0:
                 setscheduler(SCHED_FIFO, 3);
-                sleep(SLEEP_LEN);
                 break;
             case 1:
                 setscheduler(SCHED_FIFO, 4);
-                sleep(SLEEP_LEN);
                 break;
             case 2:
             case 3:
                 setscheduler(SCHED_RR, 3);
-                sleep(SLEEP_LEN);
                 break;
             case 4:
             case 5:
                 setscheduler(SCHED_RR, 2);
-                sleep(SLEEP_LEN);
                 break;
             default:
                 break;
             }
+
+            sleep(SLEEP_LEN);
 
             
             //We should get there only after each child process has gone through the above (not guaranteed, but works)
