@@ -292,6 +292,8 @@ exit(void)
   // Parent might be sleeping in wait().
   wakeup1(proc->parent);
 
+  cprintf("Do I reach this line ? pid = %d\n", proc->pid);
+
   // Pass abandoned children to init.
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
     if(p->parent == proc){
