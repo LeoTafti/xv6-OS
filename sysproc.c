@@ -110,3 +110,9 @@ sys_setscheduler(void)
 
   return 0;
 }
+
+int
+sys_getcpu(void)
+{
+  return cpunum();
+}

@@ -24,6 +24,7 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 int setscheduler(int policy, int priority_level);
+int getcpu(void);
 
 // ulib.c
 int stat(char*, struct stat*);
