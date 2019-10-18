@@ -200,6 +200,68 @@ fork(void)
   return pid;
 }
 
+/**
+ * @brief Creates a child process which shares some of the parent's execution context / memory
+ * @param stack pointer to the beginning of a user space stack for the child (previously allocated)
+ * @param size size of the child stack
+ * @return child process id if called by parent, 0 if called by the child process, -1 in case of error
+ */
+int clone_lab3(void *stack, int size){
+  int pid;
+  struct proc *np;
+
+  acquire(&ptable.lock);
+
+  // Allocate process.
+  if((np = allocproc()) == 0){
+    release(&ptable.lock);
+    return -1;
+  }
+
+  //Check that the child stack is big enough to copy the parent stack in
+  int parentStackSize = PGROUNDUP(proc->tf->esp) - proc->tf->esp; //Since parent stack can be at most one page in xv6
+  if(size < parentStackSize) { //Doesn't fit. Abort.
+    kfree(np->kstack);
+    np->kstack = 0;
+    np->state = UNUSED;
+    release(&ptable.lock);
+    return -1;
+  }
+
+  //Child and parent share the same virtual address space
+  np->pgdir = proc->pgdir;
+
+  np->sz = proc->sz;
+  np->parent = proc;
+
+  *np->tf = *proc->tf; //For the most part. ebp, esp and eax will be set approriately just below.
+
+  //Set ebp and esp correctly for the child
+  np->tf->esp = (uint)stack + size - parentStackSize; // (+ size) needed since malloc() and such will allocate "going up" in the address space
+  np->tf->ebp = (uint)stack + size - (PGROUNDUP(proc->tf->ebp) - proc->tf->ebp);
+  
+  //Copy the parent stack into the child stack
+  memmove((char*)np->tf->esp, (char*)proc->tf->esp, parentStackSize);
+
+  // Clear %eax so that clone returns 0 in the child.
+  np->tf->eax = 0;
+
+  // Same open files and current working directory as parent
+  for(i = 0; i < NOFILE; i++)
+    if(proc->ofile[i])
+      np->ofile[i] = filedup(proc->ofile[i]);
+  np->cwd = idup(proc->cwd);
+
+  // Same name as parent
+  safestrcpy(np->name, proc->name, sizeof(proc->name));
+
+  np->state = RUNNABLE;
+
+  pid = np->pid;
+  release(&ptable.lock);
+  return pid;
+}
+
 // Exit the current process.  Does not return.
 // An exited process remains in the zombie state
 // until its parent calls wait() to find out it exited.

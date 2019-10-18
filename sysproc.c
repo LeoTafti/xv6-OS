@@ -91,7 +91,7 @@ sys_uptime(void)
 }
 
 /**
- * @brief System call to set the scheduler and priority level of the currently running process
+ * @brief Syscall to set the scheduler and priority level of the currently running process
  * @note Gets arguments and calls setscheduler_lab3, which does the actual work
  * @param policy (int) the new scheduling policy
  * @param plvl (int) the new priority level
@@ -111,14 +111,32 @@ sys_setscheduler(void)
   return 0;
 }
 
+/**
+ * @brief Get the number of the cpu on which the currently running process runs
+ * @return The CPU number
+ */
 int
 sys_getcpu(void)
 {
   return cpunum();
 }
 
+/**
+ * @brief Creates a child process which shares some of the parent's execution context / memory
+ * @param stack pointer to the beginning of a user space stack for the child (previously allocated)
+ * @param size size of the child stack
+ * @return child process id if called by parent, 0 if called by the child process, -1 in case of error
+ */
 int
 sys_clone(void)
 {
+  char* stack;
+  int size;
+
+  if(argptr(0, &stack, 4) < 0)
+    return -1;
+  if(argint(1, &size) < 0)
+    return -1;
   
+  return clone_lab3(stack, size);
 }

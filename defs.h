@@ -109,6 +109,7 @@ int             pipewrite(struct pipe*, char*, int);
 // proc.c
 void            exit(void);
 int             fork(void);
+int             clone_lab3(void * stack, int size);
 int             growproc(int);
 int             kill(int);
 void            pinit(void);
