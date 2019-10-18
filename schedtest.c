@@ -20,7 +20,7 @@ void occupy(int id){
 }
 
 int main(void){
-    setscheduler(SCHED_FIFO, NB_FORKS + 1); //We don't want the parent to be preempted until it has forked all children
+    setscheduler(SCHED_FIFO, 5); //We don't want the parent to be preempted until it has forked all children
     
     int pid, i;
     for(i = 0; i < NB_FORKS; i++){

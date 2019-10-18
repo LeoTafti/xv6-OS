@@ -31,7 +31,6 @@ pinit(void)
   initlock(&ptable.lock, "ptable");
 }
 
-void enqueue(struct proc *p, int policy); //TODO : clean up
 void print_list(int policy){
   char* list_name = ((policy == SCHED_FIFO) ? "fifo list" : "rr list");
   struct proc* nxt = ((policy == SCHED_FIFO) ? ptable.fifo_head : ptable.rr_head);
@@ -314,7 +313,50 @@ scheduler(void)
   }
 }
 
-//TODO : doc
+/**
+ * @brief Finds the next process with given policy to run and runs it
+ * @param policy the scheduler policy, either SCHED_RR or SCHED_FIFO
+ * @note Assumes that ptable.lock is already held 
+ * @return -1 if no runnable process with given policy found, 0 otherwise
+ */
+int
+scheduler_lab3(int policy){
+  struct proc *p;
+  if((p = dequeue(policy)) == (void*)0)
+    return -1;
+
+  runproc(p);
+  
+  if(p->state != ZOMBIE)
+    enqueue(p, p->scheduler);
+  return 0;
+}
+
+/**
+ * @brief Switch execution to given process.
+ * @note It is the process's job to release ptable.lock and then reacquire it before jumping back to us
+ * @param p the process to run
+ */
+void
+runproc(struct proc *p)
+{
+  proc = p;
+  switchuvm(p);
+  p->state = RUNNING;
+  swtch(&cpu->scheduler, p->context);
+  switchkvm();
+
+  // Process is done running for now.
+  // It should have changed its p->state before coming back.
+  proc = 0;
+}
+
+/**
+ * @brief Sets head and tail pointers to point to the appropriate queue pointers
+ * @param head head pointer
+ * @param tail tail pointer
+ * @param policy used to decide which queue to set pointers to
+ */
 void setqueueptrs(struct proc ***head, struct proc ***tail, int policy){
   switch (policy)
   {
@@ -332,9 +374,12 @@ void setqueueptrs(struct proc ***head, struct proc ***tail, int policy){
   }
 }
 
-//TODO : doc
-//TODO : enqueue assume that the proc isn't already present in queue
-// enqueue also asumes that p->priority has already been set
+/**
+ * @brief enqueues a process into the appropritate scheduling priority queue
+ * @note assumes that p->priority field has already been set to the desired priority level
+ * @param p (pointer to) the process to enqueue
+ * @param policy used to decide which queue to enqueue in
+ */
 void enqueue(struct proc *p, int policy){
   struct proc **head, **tail;
   setqueueptrs(&head, &tail, policy);
@@ -359,7 +404,31 @@ void enqueue(struct proc *p, int policy){
   p->next = nxt;
 }
 
-//TODO : doc
+/**
+ * @brief dequeues the highest priority RUNNABLE process from a queue
+ * @param policy used to decide which queue to dequeue from
+ * @return the highest priority RUNNABLE process, if any. Null (0) otherwise.
+ */
+struct proc* dequeue(int policy){
+  struct proc **head, **tail;
+  setqueueptrs(&head, &tail, policy);
+
+  struct proc *p, *prev;
+
+  if((p = findrunnable(&prev, head)) == (void*)0)
+    return (void*)0;
+
+  remove(p, prev, head, tail);
+
+  return p;
+}
+
+/**
+ * @brief finds and return the next runnable process in queue
+ * @param prev if runnable process found, set to point at the previous process in queue. Set to null (0) otherwise.
+ * @param head points to the head pointer of the queue to search in
+ * @return the runnable process found, if any. Null (0) otherwise.
+ */
 struct proc* findrunnable(struct proc **prev, struct proc** head){
   struct proc *nxt;
 
@@ -377,7 +446,14 @@ struct proc* findrunnable(struct proc **prev, struct proc** head){
   return nxt;
 }
 
-//TODO : doc
+/**
+ * @brief removes a given process from its queue
+ * @note doesn't check that the process is present in the queue
+ * @param p the process to remove
+ * @param prev the previous process in the queue (before p)
+ * @param head (pointer to) the head pointer
+ * @param tail (pointer to) the tail pointer
+ */
 void remove(struct proc *p, struct proc *prev, struct proc** head, struct proc** tail){
   if((*head) == p){
     *head = p->next;
@@ -393,61 +469,11 @@ void remove(struct proc *p, struct proc *prev, struct proc** head, struct proc**
   p->next = (void*)0;
 }
 
-//TODO : doc
-struct proc* dequeue(int policy){
-  struct proc **head, **tail;
-  setqueueptrs(&head, &tail, policy);
-
-  struct proc *p, *prev;
-
-  if((p = findrunnable(&prev, head)) == (void*)0)
-    return (void*)0;
-
-  remove(p, prev, head, tail);
-
-  return p;
-}
-
 /**
- * @brief Switch execution to given process.
- * @note It is the process's job to release ptable.lock and then reacquire it before jumping back to us
- * @param p the process to run
+ * @brief sets the scheduler and priority level for the currently running process and places it on the right priority queue
+ * @param new_policy the new scheduling policy
+ * @param new_plvl the new priority level
  */
-void
-runproc_lab3(struct proc *p)
-{
-  proc = p;
-  switchuvm(p);
-  p->state = RUNNING;
-  swtch(&cpu->scheduler, p->context);
-  switchkvm();
-
-  // Process is done running for now.
-  // It should have changed its p->state before coming back.
-  proc = 0;
-}
-
-/**
- * @brief Finds the next process with given policy to run and runs it
- * @param policy the scheduler policy, either SCHED_RR or SCHED_FIFO
- * @note Assumes that ptable.lock is already held 
- * @return -1 if no runnable process with given policy found, 0 otherwise
- */
-int
-scheduler_lab3(int policy){
-  struct proc *p;
-  if((p = dequeue(policy)) == (void*)0)
-    return -1;
-
-  runproc_lab3(p);
-  
-  if(p->state != ZOMBIE)
-    enqueue(p, p->scheduler);
-  return 0;
-}
-
-//TODO : doc
-//If called with the same params as already set for the process, will still remove and reinsert (possibly changing fifo order)
 void setscheduler_lab3(int new_policy, int new_plvl){
   acquire(&ptable.lock);
 
@@ -457,10 +483,6 @@ void setscheduler_lab3(int new_policy, int new_plvl){
 
   //Insert in corresp. priority queue
   enqueue(proc, new_policy);
-  
-  //print_list(SCHED_FIFO);
-  //print_list(SCHED_RR);
-  //cprintf("\n");
 
   release(&ptable.lock);
 
