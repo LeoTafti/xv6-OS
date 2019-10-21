@@ -1,4 +1,4 @@
-// Per-CPU state
+nelo// Per-CPU state
 struct cpu {
   uchar apicid;                // Local APIC ID
   struct context *scheduler;   // swtch() here to enter scheduler
@@ -66,7 +66,7 @@ struct proc {
   int scheduler;               // Scheduler policy
   struct proc *next;           // Next process in priority linked list
   int priority;                // Scheduling priority
-  int cloneChild;              // 1 if created via clone()
+  char *cloneStack;            // Bottom of stack if created via clone, null (0) otherwise
 };
 
 // Process memory is laid out contiguously, low addresses first:

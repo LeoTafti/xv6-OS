@@ -26,6 +26,7 @@ int uptime(void);
 int setscheduler(int policy, int priority_level);
 int getcpu(void);
 int clone(void * stack, int size);
+char* getclonestack(int pid);
 
 // ulib.c
 int stat(char*, struct stat*);

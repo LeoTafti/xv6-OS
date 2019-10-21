@@ -96,7 +96,7 @@ found:
 
   enqueue(p, p->scheduler);
 
-  p->cloneChild = 0;
+  p->cloneStack = (void*)0;
 
   return p;
 }
@@ -261,10 +261,34 @@ int clone_lab3(void *stack, int size){
 
   pid = np->pid;
 
-  np->cloneChild = 1; //Mark the process as beeing created via clone (useful in wait())
+  //Store the address of the bottom of the stack
+  np->cloneStack = stack;
 
   release(&ptable.lock);
   return pid;
+}
+
+/**
+ * @brief Gets the cloneStack field for process pid
+ * @note Can only be called by the parent process of child pid
+ * @param pid the child process id
+ * @return cloneStack field for child process pid
+ */
+char* getclonestack_lab3(int pid){
+  char* cloneStack;
+  acquire(&ptable.lock);
+
+  for(struct proc *p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+    if(p->pid = pid){ //Found
+      if(p->parent != proc)
+        panic("getclonestack : parent only");
+
+      cloneStack = p->cloneStack;
+    }
+  }
+
+  release(&ptable.lock);
+  return cloneStack;
 }
 
 // Exit the current process.  Does not return.
@@ -334,9 +358,8 @@ wait(void)
         kfree(p->kstack);
         p->kstack = 0;
 
-        if(p->cloneChild == 0) //We only freevm if the process is not a child created via clone()
+        if(p->cloneStack == (void*)0) //We only freevm if the process is not a child created via clone()
           freevm(p->pgdir);
-
 
         p->pid = 0;
         p->parent = 0;
