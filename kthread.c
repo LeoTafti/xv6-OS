@@ -13,16 +13,16 @@ int main(void)
       exit();
   }
 
+  printf(1, "Parent calls clone\n");
   if(clone(stack, PGSIZE) == 0){ //Returns 0 in the child process
     printf(1, "Hello from cloned child !\n");
-    printf(1, "Child exiting\n");
+    printf(1, "Child exiting\n\n");
     exit();
   }
 
 
-  printf(1, "Parent will wait\n");
+  printf(1, "Parent will wait\n\n");
   wait();
   printf(1, "Parent exiting.\n");
-  
   exit();
 }
