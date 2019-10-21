@@ -140,3 +140,19 @@ sys_clone(void)
   
   return clone_lab3(stack, size);
 }
+
+/**
+ * @brief Gets the cloneStack field for process pid
+ * @note Can only be called by the parent process of child pid
+ * @param pid the child process id
+ * @return cloneStack field for child process pid, -1 if error
+ */
+int
+sys_getclonestack_lab3(void)
+{
+  int pid;
+  if(argint(0, &pid) < 0)
+    return -1;
+  
+  return getclonestack_lab3(pid)
+}
