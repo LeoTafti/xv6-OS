@@ -26,6 +26,9 @@ int thread_create(void *(*start_routine)(void*), void *arg){
   return 0;
 }
 
+/**
+ * @brief Waits until any child thread terminates.
+ */
 void thread_join(){
   int pid = wait();
 
@@ -33,26 +36,38 @@ void thread_join(){
   free(stack);
 }
 
+/**
+ * @brief blocks waiting for stdin input
+ * @param unused unused
+ */
+void* blockingIO(void* unused){
+  //Block on I/O
+  printf(1, "Thread %d about to block.\n", getpid());
+  char buf[10];
+  read(0, buf, 10); //Read 10 bytes from stdin. Will block until 10 bytes given.
+  printf(1, "Not reaching here due to blocking I/O\n");
+}
+
+/**
+ * @brief Loops for some time, printing status at regular interval
+ * @param unused unused
+ */
+void* occupy(void* unused){
+  for(int i = 0; i < 10000; i++){
+    if(i % 2000 == 0) //print some feedback on progress
+      printf(1, "Thread %d – done %d / 5\n", getpid(), i/2000 + 1);
+  }
+}
+
 int main(void) 
 {
   setscheduler(SCHED_FIFO, 0); //Don't want the parent to be interupted by child
 
-  char* stack;
-  if((stack = malloc(PGSIZE)) == (void*)0){
-      printf(2, "malloc failed\n");
-      exit();
-  }
+  thread_create(occupy, 0);
+  thread_create(blockingIO, 0);
+  
+  thread_join();
+  thread_join();
 
-  printf(1, "Parent calls clone\n");
-  if(clone(stack, PGSIZE) == 0){ //Returns 0 in the child process
-    printf(1, "Hello from cloned child !\n");
-    printf(1, "Child exiting\n\n");
-    exit();
-  }
-
-
-  printf(1, "Parent will wait\n\n");
-  wait();
-  printf(1, "Parent exiting.\n");
   exit();
 }
