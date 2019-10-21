@@ -16,14 +16,12 @@ int main(void)
   if(clone(stack, PGSIZE) == 0){ //Returns 0 in the child process
     printf(1, "Hello from cloned child !\n");
     printf(1, "Child exiting\n");
-    sleep(200);
-    exit(); //Causes a trap (PGFault probably)
+    exit();
   }
 
 
   printf(1, "Parent will wait\n");
   wait();
-  sleep(100);
   printf(1, "Parent exiting.\n");
   
   exit();

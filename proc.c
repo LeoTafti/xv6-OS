@@ -96,6 +96,8 @@ found:
 
   enqueue(p, p->scheduler);
 
+  p->cloneChild = 0;
+
   return p;
 }
 
@@ -258,6 +260,9 @@ int clone_lab3(void *stack, int size){
   np->state = RUNNABLE;
 
   pid = np->pid;
+
+  np->cloneChild = 1; //Mark the process as beeing created via clone (useful in wait())
+
   release(&ptable.lock);
   return pid;
 }
@@ -291,8 +296,6 @@ exit(void)
 
   // Parent might be sleeping in wait().
   wakeup1(proc->parent);
-
-  cprintf("Do I reach this line ? pid = %d\n", proc->pid);
 
   // Pass abandoned children to init.
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
@@ -330,7 +333,11 @@ wait(void)
         pid = p->pid;
         kfree(p->kstack);
         p->kstack = 0;
-        freevm(p->pgdir);
+
+        if(p->cloneChild == 0) //We only freevm if the process is not a child created via clone()
+          freevm(p->pgdir);
+
+
         p->pid = 0;
         p->parent = 0;
         p->name[0] = 0;
