@@ -279,7 +279,7 @@ char* getclonestack_lab3(int pid){
   acquire(&ptable.lock);
 
   for(struct proc *p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-    if(p->pid = pid){ //Found
+    if(p->pid == pid){ //Found
       if(p->parent != proc)
         panic("getclonestack : parent only");
 

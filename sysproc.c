@@ -150,9 +150,10 @@ sys_clone(void)
 int
 sys_getclonestack_lab3(void)
 {
+  cprintf("sys_getclonestack_lab3 in sysproc.c is called, yay\n");
   int pid;
   if(argint(0, &pid) < 0)
     return -1;
   
-  return getclonestack_lab3(pid)
+  return (int)getclonestack_lab3(pid);
 }
