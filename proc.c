@@ -281,7 +281,8 @@ int clone_lab3(void *stack, int size){
   pid = np->pid;
 
   //Store the address of the bottom of the stack
-  cprintf("Setting cloneStack to %p for process %d\n", stack, pid);
+  //TODO : remove
+  //cprintf("Setting cloneStack to %p for process %d\n", stack, pid);
   np->cloneStack = stack;
 
   release(&ptable.lock);

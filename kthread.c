@@ -18,7 +18,8 @@ int thread_create(void *(*start_routine)(void*), void *arg){
       return -1;
   }
 
-  printf(1, "Thread %d cloning with stack %p\n", getpid(), stack);
+  //TODO : remove
+  //printf(1, "Thread %d cloning with stack %p\n", getpid(), stack);
 
   if(clone(stack, PGSIZE) == 0){ //Returns 0 in the child process
     start_routine(arg);
@@ -48,8 +49,8 @@ void* blockingIO(void* unused){
   //Block on I/O
   printf(1, "Thread %d about to block.\n", getpid());
   char buf[10];
-  read(0, buf, 10); //Read 10 bytes from stdin. Will block until 10 bytes given.
-  printf(1, "Not reaching here due to blocking I/O\n");
+  read(0, buf, 5); //Read 5 bytes from stdin. Will block until 5 bytes given.
+  printf(1, "Got input. Not blocking anymore.\n");
 
   return (void*)0;
 }
@@ -59,9 +60,9 @@ void* blockingIO(void* unused){
  * @param unused unused
  */
 void* occupy(void* unused){
-  for(int i = 0; i < 10000; i++){
-    if(i % 2000 == 0) //print some feedback on progress
-      printf(1, "Thread %d – done %d / 5\n", getpid(), i/2000 + 1);
+  for(int i = 0; i < 500000; i++){
+    if(i % 100000 == 0) //print some feedback on progress
+      printf(1, "Thread %d on cpu %d – done %d / 5\n", getpid(), getcpu(), i/100000 + 1);
   }
 
   return (void*)0;
@@ -72,10 +73,10 @@ int main(void)
   setscheduler(SCHED_FIFO, 0); //Don't want the parent to be interupted by child
 
   thread_create(occupy, 0);
-  //thread_create(blockingIO, 0);
+  thread_create(occupy, 0);
   
   thread_join();
-  //thread_join();
+  thread_join();
 
   exit();
 }
