@@ -241,6 +241,25 @@ int clone_lab3(void *stack, int size){
   //Set ebp and esp correctly for the child
   np->tf->esp = (uint)stack + size - parentStackSize; // (+ size) needed since malloc() and such will allocate "going up" in the address space
   np->tf->ebp = (uint)stack + size - (PGROUNDUP(proc->tf->ebp) - proc->tf->ebp);
+
+  //Update saved ebps in the child stack
+  uint parentEbp = proc->tf->ebp;
+  uint childEbp = np->tf->ebp;
+  uint parentStackTop = proc->tf->esp;
+  uint childStackTop = np->tf->esp;
+  while(parentEbp < PGROUNDUP(proc->tf->esp)){ //TODO : not sure about this condition, idk when to stop exactly (initial ebp value ??)
+    //Follow the ebp reference in parent
+    parentEbp = *((uint*)parentEbp);
+
+    //Compute its delta with the top of the stack. Same delta will hold in the child.
+    uint deltaWithTop = parentEbp - parentStackTop;
+
+    //Set the child ebp to point to the previou's frame ebp in its own stack
+    *((uint*)childEbp) = childStackTop + deltaWithTop;
+
+    //Follow the ebp reference in child
+    childEbp = *((uint*)childEbp);
+  }
   
   //Copy the parent stack into the child stack
   memmove((char*)np->tf->esp, (char*)proc->tf->esp, parentStackSize);

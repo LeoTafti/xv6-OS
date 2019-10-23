@@ -32,11 +32,11 @@ int thread_create(void *(*start_routine)(void*), void *arg){
  * @brief Waits until any child thread terminates.
  */
 void thread_join(){
-  int pid = wait();
-
-  char* stack =  getclonestack(pid);
-  printf(1, "Thread %d will free stack %p for thread %d\n", getpid(), stack, pid);
-  free(stack);
+  //FIXME: This won't work (for good reasons). Fix once I know how to make it work
+  //int pid = wait();
+  //char* stack =  getclonestack(pid);
+  //printf(1, "Thread %d will free stack %p for thread %d\n", getpid(), stack, pid);
+  //free(stack);
 }
 
 /**
