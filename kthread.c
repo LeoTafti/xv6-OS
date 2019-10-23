@@ -18,6 +18,8 @@ int thread_create(void *(*start_routine)(void*), void *arg){
       return -1;
   }
 
+  printf(1, "Thread %d cloning with stack %p\n", getpid(), stack);
+
   if(clone(stack, PGSIZE) == 0){ //Returns 0 in the child process
     start_routine(arg);
     exit();
@@ -33,6 +35,7 @@ void thread_join(){
   int pid = wait();
 
   char* stack =  getclonestack(pid);
+  printf(1, "Thread %d will free stack %p for thread %d\n", getpid(), stack, pid);
   free(stack);
 }
 
@@ -46,6 +49,8 @@ void* blockingIO(void* unused){
   char buf[10];
   read(0, buf, 10); //Read 10 bytes from stdin. Will block until 10 bytes given.
   printf(1, "Not reaching here due to blocking I/O\n");
+
+  return (void*)0;
 }
 
 /**
@@ -57,6 +62,8 @@ void* occupy(void* unused){
     if(i % 2000 == 0) //print some feedback on progress
       printf(1, "Thread %d – done %d / 5\n", getpid(), i/2000 + 1);
   }
+
+  return (void*)0;
 }
 
 int main(void) 
@@ -64,7 +71,7 @@ int main(void)
   setscheduler(SCHED_FIFO, 0); //Don't want the parent to be interupted by child
 
   thread_create(occupy, 0);
-  thread_create(blockingIO, 0);
+  //thread_create(blockingIO, 0);
   
   thread_join();
   thread_join();

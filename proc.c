@@ -262,6 +262,7 @@ int clone_lab3(void *stack, int size){
   pid = np->pid;
 
   //Store the address of the bottom of the stack
+  cprintf("Setting cloneStack to %p for process %d\n", stack, pid);
   np->cloneStack = stack;
 
   release(&ptable.lock);
@@ -275,15 +276,18 @@ int clone_lab3(void *stack, int size){
  * @return cloneStack field for child process pid
  */
 char* getclonestack_lab3(int pid){
+  cprintf("getclonestack called with pid %d\n", pid);
   char* cloneStack;
   acquire(&ptable.lock);
 
   for(struct proc *p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-    if(p->pid == pid){ //Found
+    cprintf("Considering p with p->pid %d\n", p->pid);
+    if(p->pid == pid){ //Found FIXME won't work, child process already exited at that point so not in proc table anymore...
       if(p->parent != proc)
         panic("getclonestack : parent only");
 
       cloneStack = p->cloneStack;
+      cprintf("p->cloneStack %p\n", p->cloneStack);
     }
   }
 
