@@ -37,6 +37,7 @@ void thread_join(){
   //char* stack =  getclonestack(pid);
   //printf(1, "Thread %d will free stack %p for thread %d\n", getpid(), stack, pid);
   //free(stack);
+  wait();
 }
 
 /**
@@ -74,7 +75,7 @@ int main(void)
   //thread_create(blockingIO, 0);
   
   thread_join();
-  thread_join();
+  //thread_join();
 
   exit();
 }

@@ -247,7 +247,7 @@ int clone_lab3(void *stack, int size){
   uint childEbp = np->tf->ebp;
   uint parentStackTop = proc->tf->esp;
   uint childStackTop = np->tf->esp;
-  while(parentEbp < PGROUNDUP(proc->tf->esp)){ //TODO : not sure about this condition, idk when to stop exactly (initial ebp value ??)
+  while(parentEbp < PGROUNDUP(proc->tf->esp)){
     //Follow the ebp reference in parent
     parentEbp = *((uint*)parentEbp);
 
