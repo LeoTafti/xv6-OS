@@ -52,6 +52,7 @@ void thread_setscheduler(int new_policy, int new_plvl){
 /**
  * @brief blocks waiting for stdin input
  * @param unused unused
+ * @return null (not used)
  */
 void* blockingIO(void* unused){
   //Block on I/O
@@ -66,11 +67,13 @@ void* blockingIO(void* unused){
 /**
  * @brief Loops for some time, printing status at regular interval
  * @param thread_name a name to identify the thread
+ * @return null (not used)
  */
 void* occupy(char* thread_name){
-  for(int i = 0; i < 500000; i++){
+  for(int i = 0; i < 400000; i++){
     if(i % 100000 == 0) //print some feedback on progress
-      printf(1, "Thread %s on cpu %d – done %d / 5\n", thread_name, getcpu(), i/100000 + 1);
+      printf(1, "%s %d–%d/4\n", thread_name, getcpu(), i/100000 + 1);
+      //printf(1, "Thread %s on cpu %d – done %d / 4\n", thread_name, getcpu(), i/100000 + 1);
   }
 
   return (void*)0;
@@ -83,10 +86,12 @@ struct test_struct {
   int p_lvl;
 };
 
+//TODO : doc
 void* setsched_sleep_do(struct test_struct *ts){
-  thread_setscheduler_lab3(ts->sched_policy, ts->p_lvl);
-  sleep(200);
+  thread_setscheduler(ts->sched_policy, ts->p_lvl);
+  sleep(100);
   ts->routine(ts->arg);
+  return (void*)0;
 }
 
 int main(void) 
@@ -98,40 +103,50 @@ int main(void)
   
   // thread_join();
   // thread_join();
+
+  struct test_struct ta = {(void * (*)(void *))occupy, "A", SCHED_FIFO, 3};
+  struct test_struct tb = {(void * (*)(void *))occupy, "B", SCHED_FIFO, 4};
+  struct test_struct te = {(void * (*)(void *))occupy, "E", SCHED_RR, 2};
+  struct test_struct tf = {(void * (*)(void *))occupy, "F", SCHED_RR, 2};
   
-  struct test_struct ta = {occupy, "A", SCHED_FIFO, 3};
-  struct test_struct tb = {occupy, "B", SCHED_FIFO, 4};
-  struct test_struct te = {occupy, "E", SCHED_RR, 2};
-  struct test_struct tf = {occupy, "F", SCHED_RR, 2};
   
-  
-  thread_create(setsched_sleep_do, &ta);
-  thread_create(setsched_sleep_do, &tb);
+  thread_create((void * (*)(void *))setsched_sleep_do, &ta);
+  thread_create((void * (*)(void *))setsched_sleep_do, &tb);
 
   for(int i = 0; i < 2; i++){ //Fork processes "C" and "D"
     if(fork() == 0){ //fork() returns 0 in child proc
-        
       switch (i)
       {
       case 0: //Process "C"
         setscheduler(SCHED_RR, 3);
-        thread_create(setsched_sleep_do, &te);
-        thread_create(setsched_sleep_do, &tf);
+        thread_create((void * (*)(void *))setsched_sleep_do, &te);
+        thread_create((void * (*)(void *))setsched_sleep_do, &tf);
+        sleep(100);
         occupy("C");
+        thread_join();
+        thread_join();
+        exit();
         break;
       case 1: //Process "D"
         setscheduler(SCHED_RR, 3);
+        sleep(100);
         occupy("D");
+        exit();
         break;
         
       default:
           break;
       }
-
-      sleep(200);
-      exit();
     }
   }
+
+  thread_join();
+  thread_join();
+  thread_join();
+  thread_join();
+
+  wait();
+  wait();
 
   exit();
 }
