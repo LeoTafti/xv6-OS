@@ -26,7 +26,7 @@ void occupy(int id){
 int main(void){
     setscheduler(SCHED_FIFO, 5); //We don't want the parent to be preempted until it has forked all children
     
-    int pid, i;
+    int i;
     for(i = 0; i < NB_FORKS; i++){
         if(fork() == 0){ //fork() returns 0 in child proc
             
