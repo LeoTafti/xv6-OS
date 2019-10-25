@@ -2,6 +2,16 @@
 #include "user.h"
 #include "mmu.h"
 #include "sched.h"
+#include "free_stack_and_exit.h"
+
+/**
+ * @brief sets the scheduler and priority level for the currently running thread
+ * @param new_policy the new scheduling policy
+ * @param new_plvl the new priority level
+ */
+void thread_setscheduler(int new_policy, int new_plvl){
+  setscheduler(new_policy, new_plvl);
+}
 
 /**
  * @brief Creates a new thread (via clone) which executes a start routine
@@ -20,7 +30,7 @@ int thread_create(void *(*start_routine)(void*), void *arg){
     start_routine(arg);
 
     thread_setscheduler(SCHED_RR, 0); //Required by free_stack_and_exit()
-    free_stack_and_exit();
+    free_stack_and_exit(stack);
   }
 
   return 0;
@@ -31,15 +41,6 @@ int thread_create(void *(*start_routine)(void*), void *arg){
  */
 void thread_join(){
   wait();
-}
-
-/**
- * @brief sets the scheduler and priority level for the currently running thread
- * @param new_policy the new scheduling policy
- * @param new_plvl the new priority level
- */
-void thread_setscheduler(int new_policy, int new_plvl){
-  setscheduler(new_policy, new_plvl);
 }
 
 
@@ -83,7 +84,7 @@ struct test_struct {
 //TODO : doc
 void* setsched_sleep_do(struct test_struct *ts){
   thread_setscheduler(ts->sched_policy, ts->p_lvl);
-  sleep(100);
+  sleep(150);
   ts->routine(ts->arg);
   return (void*)0;
 }
@@ -115,7 +116,7 @@ int main(void)
         setscheduler(SCHED_RR, 3);
         thread_create((void * (*)(void *))setsched_sleep_do, &te);
         thread_create((void * (*)(void *))setsched_sleep_do, &tf);
-        sleep(100);
+        sleep(150);
         occupy("C");
         thread_join();
         thread_join();
@@ -123,7 +124,7 @@ int main(void)
         break;
       case 1: //Process "D"
         setscheduler(SCHED_RR, 3);
-        sleep(100);
+        sleep(150);
         occupy("D");
         exit();
         break;
