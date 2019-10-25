@@ -140,7 +140,7 @@ tags: $(OBJS) entryother.S _init
 vectors.S: vectors.pl
 	perl vectors.pl > vectors.S
 
-ULIB = ulib.o usys.o printf.o umalloc.o printfmt.o 
+ULIB = ulib.o usys.o printf.o umalloc.o printfmt.o free_stack_and_exit.o
 
 _%: %.o $(ULIB)
 	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ $^ $(GCC_LIB)
@@ -159,6 +159,9 @@ _uthread: uthread.o uthread_switch.o
 
 mkfs: mkfs.c fs.h
 	gcc -Werror -Wall -o mkfs mkfs.c
+
+free_stack_and_exit.o: free_stack_and_exit.S
+	$(CC) $(CFLAGS) -fno-pic -nostdinc -I. -c $< -o $@
 
 # Prevent deletion of intermediate files, e.g. cat.o, after first build, so
 # that disk image changes after first build are persistent until clean.  More

@@ -16,12 +16,11 @@ int thread_create(void *(*start_routine)(void*), void *arg){
       return -1;
   }
 
-  //TODO : remove
-  //printf(1, "Thread %d cloning with stack %p\n", getpid(), stack);
-
   if(clone(stack, PGSIZE) == 0){ //Returns 0 in the child process
     start_routine(arg);
-    exit();
+
+    thread_setscheduler(SCHED_RR, 0); //Required by free_stack_and_exit()
+    free_stack_and_exit();
   }
 
   return 0;
@@ -31,11 +30,6 @@ int thread_create(void *(*start_routine)(void*), void *arg){
  * @brief Waits until any child thread terminates.
  */
 void thread_join(){
-  //FIXME: This won't work (for good reasons). Fix once I know how to make it work
-  //int pid = wait();
-  //char* stack =  getclonestack(pid);
-  //printf(1, "Thread %d will free stack %p for thread %d\n", getpid(), stack, pid);
-  //free(stack);
   wait();
 }
 
