@@ -81,7 +81,13 @@ struct test_struct {
   int p_lvl;
 };
 
-//TODO : doc
+/**
+ * @brief Wrapper routine for testing purposes.
+ * Takes a test_struct, sets the scheduling policy / priority level,
+ * sleeps for a given amount of time and then executes the actual routine
+ * @param ts (pointer) to a test_struct
+ * @return null (not used)
+ */
 void* setsched_sleep_do(struct test_struct *ts){
   thread_setscheduler(ts->sched_policy, ts->p_lvl);
   sleep(150);
