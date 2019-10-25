@@ -66,7 +66,7 @@ struct proc {
   int scheduler;               // Scheduler policy
   struct proc *next;           // Next process in priority linked list
   int priority;                // Scheduling priority
-  char *cloneStack;            // Bottom of stack if created via clone, null (0) otherwise
+  int clone;                   // Non-zero if process created via clone, zero otherwise
 };
 
 // Process memory is laid out contiguously, low addresses first:

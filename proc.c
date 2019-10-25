@@ -96,7 +96,7 @@ found:
 
   enqueue(p, p->scheduler);
 
-  p->cloneStack = (void*)0;
+  p->clone = 0;
 
   return p;
 }
@@ -280,39 +280,11 @@ int clone_lab3(void *stack, int size){
 
   pid = np->pid;
 
-  //Store the address of the bottom of the stack
-  //TODO : remove
-  //cprintf("Setting cloneStack to %p for process %d\n", stack, pid);
-  np->cloneStack = stack;
+  //New process is created via clone : set its clone field to non-zero value
+  np->clone = 1;
 
   release(&ptable.lock);
   return pid;
-}
-
-/**
- * @brief Gets the cloneStack field for process pid
- * @note Can only be called by the parent process of child pid
- * @param pid the child process id
- * @return cloneStack field for child process pid
- */
-char* getclonestack_lab3(int pid){
-  cprintf("getclonestack called with pid %d\n", pid);
-  char* cloneStack;
-  acquire(&ptable.lock);
-
-  for(struct proc *p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-    cprintf("Considering p with p->pid %d\n", p->pid);
-    if(p->pid == pid){ //Found FIXME won't work, child process already exited at that point so not in proc table anymore...
-      if(p->parent != proc)
-        panic("getclonestack : parent only");
-
-      cloneStack = p->cloneStack;
-      cprintf("p->cloneStack %p\n", p->cloneStack);
-    }
-  }
-
-  release(&ptable.lock);
-  return cloneStack;
 }
 
 // Exit the current process.  Does not return.
@@ -382,7 +354,7 @@ wait(void)
         kfree(p->kstack);
         p->kstack = 0;
 
-        if(p->cloneStack == (void*)0) //We only freevm if the process is not a child created via clone()
+        if(!p->clone) //We only freevm if the process is not a child created via clone()
           freevm(p->pgdir);
 
         p->pid = 0;

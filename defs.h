@@ -110,7 +110,6 @@ int             pipewrite(struct pipe*, char*, int);
 void            exit(void);
 int             fork(void);
 int             clone_lab3(void * stack, int size);
-char*           getclonestack_lab3(int pid);
 int             growproc(int);
 int             kill(int);
 void            pinit(void);
