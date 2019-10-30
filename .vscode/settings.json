@@ -1,0 +1,23 @@
+{
+    "files.associations": {
+        "monitor.h": "c",
+        "user.h": "c",
+        "date.h": "c",
+        "types.h": "c",
+        "stat.h": "c",
+        "fcntl.h": "c",
+        "memlayout.h": "c",
+        "spinlock.h": "c",
+        "defs.h": "c",
+        "mmu.h": "c",
+        "param.h": "c",
+        "custom_types.h": "c",
+        "fs.h": "c",
+        "traps.h": "c",
+        "_types.h": "c",
+        "iterator": "c",
+        "random": "c",
+        "proc.h": "c",
+        "sched.h": "c"
+    }
+}
