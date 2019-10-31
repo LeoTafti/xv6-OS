@@ -64,18 +64,26 @@ initlog(int dev)
   recover_from_log();
 }
 
-// Copy committed blocks from log to their home location
+/**
+ * @brief Copy committed blocks from log (or buffer) to their home location
+ * @param from_commit non-zero if called from commit(), zero otherwise
+ */
 static void
-install_trans(void)
+install_trans(int from_commit)
 {
   int tail;
 
   for (tail = 0; tail < log.lh.n; tail++) {
-    struct buf *lbuf = bread(log.dev, log.start+tail+1); // read log block
-    struct buf *dbuf = bread(log.dev, log.lh.block[tail]); // read dst
-    memmove(dbuf->data, lbuf->data, BSIZE);  // copy block to dst
+    struct buf *lbuf, *dbuf;
+
+    dbuf = bread(log.dev, log.lh.block[tail]); // read dst
+    if(from_commit){
+      lbuf = bread(log.dev, log.start+tail+1); // read log block
+      memmove(dbuf->data, lbuf->data, BSIZE);  // copy block to dst
+      brelse(lbuf);
+    }
+
     bwrite(dbuf);  // write dst to disk
-    brelse(lbuf);
     brelse(dbuf);
   }
 }
@@ -116,7 +124,7 @@ recover_from_log(void)
 {
   read_head();
   cprintf("recovery: n=%d\n", log.lh.n);
-  install_trans(); // if committed, copy from log to disk
+  install_trans(0); // if committed, copy from log to disk
   log.lh.n = 0;
   write_head(); // clear the log
 }
@@ -193,7 +201,7 @@ commit()
   if (log.lh.n > 0) {
     write_log();     // Write modified blocks from cache to log
     write_head();    // Write header to disk -- the real commit
-    install_trans(); // Now install writes to home locations
+    install_trans(1); // Now install writes to home locations
     log.lh.n = 0;
     write_head();    // Erase the transaction from the log
   }
