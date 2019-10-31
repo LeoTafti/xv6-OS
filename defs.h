@@ -8,6 +8,7 @@ struct rtcdate;
 struct spinlock;
 struct stat;
 struct superblock;
+struct ksem;
 
 // bio.c
 void            binit(void);
@@ -38,18 +39,16 @@ int             filewrite(struct file*, char*, int n);
  * @param {struct file *} f - the file to be checked
  * @return 0 for true, >0 for false, -1 for error.
  */
-int             filewriteable(struct file *);
+int             filewriteselect(struct file *, struct ksem *sem);
 
 /**
  * Indicates if a file can be read without blocking.
  * @param {struct file *} f - the file to be checked
  * @return 0 for true, >0 for false, -1 for error.
  */
-int             filereadable(struct file *);
+int             filereadselect(struct file *, struct ksem *sem);
 
-int             fileselect(struct file *, int *, struct spinlock *);
-
-int             fileclrsel(struct file *, int *);
+int             fileclrsel(struct file *, struct ksem *);
 
 // fs.c
 void            readsb(int dev, struct superblock *sb);
@@ -77,7 +76,7 @@ int             writei(struct inode*, char*, uint, uint);
  * @param {uint} off - offset into the file (unused for devices)
  * @return 0 for true, >0 for false, -1 for error.
  */
-int             readablei(struct inode*, uint);
+int             readselecti(struct inode*, uint, struct ksem *);
 
 /**
  * Indicates if a inode can be written without blocking.
@@ -85,11 +84,9 @@ int             readablei(struct inode*, uint);
  * @param {uint} off - offset into the file (unused for devices)
  * @return 0 for true, >0 for false, -1 for error.
  */
-int             writeablei(struct inode*, uint);
+int             writeselecti(struct inode*, uint, struct ksem *);
 
-int             selecti(struct inode*, int *, struct spinlock * lk);
-
-int             clrseli(struct inode*, int *);
+int             clrseli(struct inode*, struct ksem *);
 
 // ide.c
 void            ideinit(void);
@@ -145,7 +142,7 @@ int             pipewrite(struct pipe*, char*, int);
  * @param {struct pipe *} p - the pipe to be checked
  * @return 0 for true, >0 for false, -1 for error.
  */
-int             pipewriteable(struct pipe*);
+int             pipewriteselect(struct pipe*, struct ksem *);
 
 
 /**
@@ -153,11 +150,9 @@ int             pipewriteable(struct pipe*);
  * @param {struct pipe *} p - the pipe to be checked
  * @return 0 for true, >0 for false, -1 for error.
  */
-int             pipereadable(struct pipe*);
+int             pipereadselect(struct pipe*, struct ksem *);
 
-int             pipeselect(struct pipe*, int *, struct spinlock *);
-
-int             pipeclrsel(struct pipe*, int *);
+int             pipeclrsel(struct pipe*, struct ksem *);
 
 //PAGEBREAK: 16
 // proc.c

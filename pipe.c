@@ -16,8 +16,6 @@ struct pipe {
   uint nwrite;    // number of bytes written
   int readopen;   // read fd is still open
   int writeopen;  // write fd is still open
-  struct selproc selprocread;
-  struct selproc selprocwrite;
 };
 
 int
@@ -36,9 +34,6 @@ pipealloc(struct file **f0, struct file **f1)
   p->nwrite = 0;
   p->nread = 0;
   
-  initselproc(&p->selprocread);
-  initselproc(&p->selprocwrite);
- 
   initlock(&p->lock, "pipe");
   (*f0)->type = FD_PIPE;
   (*f0)->readable = 1;
@@ -93,12 +88,11 @@ pipewrite(struct pipe *p, char *addr, int n)
 
   acquire(&p->lock);
   for(i = 0; i < n; i++){
-    while(p->nwrite == p->nread + PIPESIZE){  //DOC: pipewrite-full
+    while(p->nwrite == p->nread + PIPESIZE) {  //DOC: pipewrite-full
       if(p->readopen == 0 || proc->killed){
         release(&p->lock);
         return -1;
       }
-      wakeupselect(&p->selprocread);
       wakeup(&p->nread);
       sleep(&p->nwrite, &p->lock);  //DOC: pipewrite-sleep
     }
@@ -140,61 +134,9 @@ piperead(struct pipe *p, char *addr, int n)
   return i;
 }
 
-/* Checks if this pipe is writeable or not.
- *
- * Requirements:
- *
- * 1. Return -1 if the pipe is not open for reading or the process has been killed.
- * 2. Check if the pipe is writeable and return 1 if yes and 0 if not.
- */
 int
-pipewriteable(struct pipe *p)
-{
-    // LAB 4: Your code here
-    return 0;
+pipeclrsel(struct pipe *p, struct ksem *sem) {
+  /* Work here */
+  return 0;
 }
 
-/* Checks if this pipe is readable or not.
- *
- * Requirements:
- *
- * 1. If the process has been killed, return -1.
- * 2. If the pipe is non-empty or closed, return 1; otherwise 0.
- */
-int
-pipereadable(struct pipe *p)
-{
-    // LAB 4: Your code here
-    return 0;
-}
-
-/* Sets a wakeup call.
- *
- * Requirements:
- *
- * 1. Use addselid to add the selid channel to the list of wakeups
- *
- */
-int
-pipeselect(struct pipe *p, int * selid, struct spinlock * lk)
-{
-       
-    // LAB 4: Your code here.
-
-    return 0;
-}
-
-/* Clears a wakeup call
- *
- * Requirements:
- *
- * 1. Clear a selid from the list of wakeups.
- */
-int
-pipeclrsel(struct pipe *p, int * selid)
-{
-
-    // LAB 4: Your code here.
-
-    return 0;
-}

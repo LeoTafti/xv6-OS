@@ -50,8 +50,8 @@ SECTIONS
 	PROVIDE(data = .);
 
 	/* The data segment */
-	.data : {
-		*(.data)
+	.data : AT(ADDR(.data) - 0x80000000) {
+    *(.data)
 	}
 
 	PROVIDE(edata = .);

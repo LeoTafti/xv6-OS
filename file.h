@@ -33,12 +33,7 @@ struct inode {
 struct devsw {
   int (*read)(struct inode*, char*, int);
   int (*write)(struct inode*, char*, int);
-  int (*writeable)(struct inode*);
-  int (*readable)(struct inode*);
-  int (*select)(struct inode*, int*, struct spinlock *);
-  int (*clrsel)(struct inode*, int*);
-  struct selproc selprocread;
-  struct selproc selprocwrite;
+  int (*clrsel)(struct inode*, struct ksem *sem);
 };
 
 extern struct devsw devsw[];

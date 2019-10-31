@@ -141,6 +141,31 @@ getcmd(char *buf, int nbuf)
   return 0;
 }
 
+#ifdef TESTFILE
+int
+main(void)
+{
+  int fd;
+
+  // Ensure that three file descriptors are open.
+  while((fd = open("console", O_RDWR)) >= 0){
+    if(fd >= 3){
+      close(fd);
+      break;
+    }
+  }
+
+  printf(1, "!TESTSTART!\n");
+
+  if(fork1() == 0)
+    runcmd(parsecmd(TESTFILE));
+  wait();
+
+  printf(1, "\n!TESTEND!\n");
+  while(1) ;
+  exit();
+}
+#else
 int
 main(void)
 {
@@ -170,6 +195,7 @@ main(void)
   }
   exit();
 }
+#endif
 
 void
 panic(char *s)

@@ -14,6 +14,7 @@
 #include "file.h"
 #include "fcntl.h"
 #include "select.h"
+#include "ksem.h"
 
 // Fetch the nth word-sized system call argument as a file descriptor
 // and return both the descriptor and the corresponding struct file.
@@ -461,26 +462,8 @@ sys_pipe(void)
 int
 sys_select(void)
 {
-    int nfds;
-    fd_set *readfds, *writefds, retreadfds, retwritefds;
-    FD_ZERO(&retreadfds);
-    FD_ZERO(&retwritefds);
-
-    if (argint(0, (void*)&nfds) < 0)
-        return -1;
-    if (argptr(1, (void*)&readfds, sizeof(readfds)) < 0)
-        return -1;
-    if (argptr(2, (void*)&writefds, sizeof(writefds)) < 0)
-        return -1;
-    acquire(&proc->selectlock);
-
-    // LAB4: Your Code Here
-
-    *readfds = retreadfds;
-    *writefds = retwritefds;
-
-    release(&proc->selectlock);
-    return 0;
+  /* LAB 4 -- build select */
+  cprintf("ERROR: Select Unimplemented");
+  return -1;
 }
-
 

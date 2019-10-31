@@ -19,6 +19,7 @@ main(void)
 {
   kinit1(end, P2V(4*1024*1024)); // phys page allocator
   kvmalloc();      // kernel page table
+
   mpinit();        // detect other processors
   lapicinit();     // interrupt controller
   seginit();       // segment descriptors
@@ -27,6 +28,7 @@ main(void)
   ioapicinit();    // another interrupt controller
   consoleinit();   // console hardware
   uartinit();      // serial port
+
   pinit();         // process table
   tvinit();        // trap vectors
   binit();         // buffer cache
@@ -60,7 +62,12 @@ mpmain(void)
   scheduler();     // start running processes
 }
 
-pde_t entrypgdir[];  // For entry.S
+// The boot page table used in entry.S and entryother.S.
+// Page directories (and page tables) must start on page boundaries,
+// hence the __aligned__ attribute.
+// PTE_PS in a page directory entry enables 4Mbyte pages.
+
+extern pte_t entrypgdir[];
 
 // Start the non-boot (AP) processors.
 static void
@@ -96,11 +103,6 @@ startothers(void)
       ;
   }
 }
-
-// The boot page table used in entry.S and entryother.S.
-// Page directories (and page tables) must start on page boundaries,
-// hence the __aligned__ attribute.
-// PTE_PS in a page directory entry enables 4Mbyte pages.
 
 __attribute__((__aligned__(PGSIZE)))
 pde_t entrypgdir[NPDENTRIES] = {

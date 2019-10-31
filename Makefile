@@ -4,6 +4,7 @@ OBJS = \
 	exec.o\
 	file.o\
 	fs.o\
+	ksem.o\
 	ide.o\
 	ioapic.o\
 	kalloc.o\
@@ -27,7 +28,7 @@ OBJS = \
 	uart.o\
 	vectors.o\
 	vm.o\
-	select.o\
+
 
 # Cross-compiling (e.g., on Mac OS X)
 # TOOLPREFIX = i386-jos-elf
@@ -81,6 +82,14 @@ CFLAGS += $(shell $(CC) -fno-stack-protector -E -x c /dev/null >/dev/null 2>&1 &
 ASFLAGS = -m32 -gdwarf-2 -Wa,-divide
 # FreeBSD ld wants ``elf_i386_fbsd''
 LDFLAGS += -m $(shell $(LD) -V | grep elf_i386 2>/dev/null)
+
+ifdef TESTFILE
+TESTBASE=$(patsubst %.c,%, $(TESTFILE))
+TESTBIN=$(patsubst %,_%, $(TESTBASE))
+CFLAGS += -DTESTFILE=\"$(TESTBASE)\"
+endif
+
+GCC_LIB := $(shell $(CC) $(CFLAGS) -print-libgcc-file-name)
 
 xv6.img: bootblock kernel fs.img
 	dd if=/dev/zero of=xv6.img count=10000
@@ -174,7 +183,7 @@ UPROGS=\
 	_wc\
 	_zombie\
 	_pipenet\
-	_selecttest\
+	$(TESTBIN)\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)

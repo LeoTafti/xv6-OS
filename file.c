@@ -155,53 +155,15 @@ filewrite(struct file *f, char *addr, int n)
 }
 
 int
-filewriteable(struct file * f)
+fileclrsel(struct file *f, struct ksem *sem)
 {
     if (f->type == FD_PIPE)
-        return pipewriteable(f->pipe);
+        return pipeclrsel(f->pipe, sem);
     if (f->type == FD_INODE)
-        return writeablei(f->ip, f->off);
-    else
-        return -1;
-    
-    return 0;
-}
-
-int
-filereadable(struct file * f)
-{
-    if (f->type == FD_PIPE)
-        return pipereadable(f->pipe);
-    if (f->type == FD_INODE)
-        return readablei(f->ip, f->off);
-    else
-        return -1;
-     
-    return 0;
-}
-
-int
-fileselect(struct file *f, int *selid, struct spinlock *lk)
-{
-    if (f->type == FD_PIPE)
-        return pipeselect(f->pipe, selid, lk);
-    if (f->type == FD_INODE)
-        return selecti(f->ip, selid, lk);
+        return clrseli(f->ip, sem);
     else
         return -1;
  
     return 0;
 }
 
-int
-fileclrsel(struct file *f, int *selid)
-{
-    if (f->type == FD_PIPE)
-        return pipeclrsel(f->pipe, selid);
-    if (f->type == FD_INODE)
-        return clrseli(f->ip, selid);
-    else
-        return -1;
- 
-    return 0;
-}
