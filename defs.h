@@ -34,20 +34,6 @@ int             fileread(struct file*, char*, int n);
 int             filestat(struct file*, struct stat*);
 int             filewrite(struct file*, char*, int n);
 
-/**
- * Indicates if a file can be written without blocking.
- * @param {struct file *} f - the file to be checked
- * @return 0 for true, >0 for false, -1 for error.
- */
-int             filewriteselect(struct file *, struct ksem *sem);
-
-/**
- * Indicates if a file can be read without blocking.
- * @param {struct file *} f - the file to be checked
- * @return 0 for true, >0 for false, -1 for error.
- */
-int             filereadselect(struct file *, struct ksem *sem);
-
 int             fileclrsel(struct file *, struct ksem *);
 
 // fs.c
@@ -69,22 +55,6 @@ int             readi(struct inode*, char*, uint, uint);
 void            stati(struct inode*, struct stat*);
 int             writei(struct inode*, char*, uint, uint);
 
-
-/**
- * Indicates if a inode can be read without blocking.
- * @param {struct inode *} i - the inode to be checked
- * @param {uint} off - offset into the file (unused for devices)
- * @return 0 for true, >0 for false, -1 for error.
- */
-int             readselecti(struct inode*, uint, struct ksem *);
-
-/**
- * Indicates if a inode can be written without blocking.
- * @param {struct inode *} i - the inode to be checked
- * @param {uint} off - offset into the file (unused for devices)
- * @return 0 for true, >0 for false, -1 for error.
- */
-int             writeselecti(struct inode*, uint, struct ksem *);
 
 int             clrseli(struct inode*, struct ksem *);
 
@@ -135,22 +105,6 @@ int             pipealloc(struct file**, struct file**);
 void            pipeclose(struct pipe*, int);
 int             piperead(struct pipe*, char*, int);
 int             pipewrite(struct pipe*, char*, int);
-
-
-/**
- * Indicates if a pipe can be written without blocking.
- * @param {struct pipe *} p - the pipe to be checked
- * @return 0 for true, >0 for false, -1 for error.
- */
-int             pipewriteselect(struct pipe*, struct ksem *);
-
-
-/**
- * Indicates if a pipe can be read without blocking.
- * @param {struct pipe *} p - the pipe to be checked
- * @return 0 for true, >0 for false, -1 for error.
- */
-int             pipereadselect(struct pipe*, struct ksem *);
 
 int             pipeclrsel(struct pipe*, struct ksem *);
 
