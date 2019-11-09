@@ -8,6 +8,8 @@
 #include "fs.h"
 #include "file.h"
 #include "spinlock.h"
+#include "proc.h"
+#include "ksem.h"
 
 struct devsw devsw[NDEV];
 struct {
@@ -96,19 +98,33 @@ int
 fileread(struct file *f, char *addr, int n)
 {
   int r;
+  int ret = -1;
 
   if(f->readable == 0)
     return -1;
   if(f->type == FD_PIPE)
-    return piperead(f->pipe, addr, n);
+    ret = piperead(f->pipe, addr, n);
   if(f->type == FD_INODE){
     ilock(f->ip);
     if((r = readi(f->ip, addr, f->off, n)) > 0)
       f->off += r;
     iunlock(f->ip);
-    return r;
+    ret = r;
   }
-  panic("fileread");
+  
+  if(ret > 0){
+    //Read successful – wake up processes waiting to write
+    acquire(&f->lock);
+    for(int i = 0; i < MAX_NB_SLEEPING; i++){
+      if(f->selwritable[i])
+        ksem_up(f->selwritable[i]);
+    }
+    release(&f->lock);
+  }
+
+  return ret;
+  //panic("fileread"); // TODO : remove ?
+
 }
 
 //PAGEBREAK!
@@ -117,11 +133,12 @@ int
 filewrite(struct file *f, char *addr, int n)
 {
   int r;
+  int ret = -1;
 
   if(f->writable == 0)
     return -1;
   if(f->type == FD_PIPE)
-    return pipewrite(f->pipe, addr, n);
+    ret = pipewrite(f->pipe, addr, n);
   if(f->type == FD_INODE){
     // write a few blocks at a time to avoid exceeding
     // the maximum log transaction size, including
@@ -149,21 +166,114 @@ filewrite(struct file *f, char *addr, int n)
         panic("short filewrite");
       i += r;
     }
-    return i == n ? n : -1;
+    ret = i == n ? n : -1;
   }
-  panic("filewrite");
+
+  if (ret > 0){
+    //Write successful – wake up processes waiting to read
+    acquire(&f->lock);
+    for(int i = 0; i < MAX_NB_SLEEPING; i++){
+      if(f->selreadable[i])
+        ksem_up(f->selreadable[i]);
+    }
+    release(&f->lock);
+  }
+
+  return ret;
+  //panic("filewrite"); //TODO : remove?
 }
 
+/**
+ * TODO : doc
+ */
 int
 fileclrsel(struct file *f, struct ksem *sem)
 {
-    if (f->type == FD_PIPE)
-        return pipeclrsel(f->pipe, sem);
-    if (f->type == FD_INODE)
-        return clrseli(f->ip, sem);
-    else
-        return -1;
- 
-    return 0;
+  int cleared = 0;
+  acquire(&f->lock);
+  for(int i = 0; i < MAX_NB_SLEEPING; i++){
+    if(f->selreadable[i] == sem){
+      f->selreadable[i] = (void*)0;
+      cleared = 1;
+    }
+    if(f->selwritable[i] == sem){
+      f->selwritable[i] = (void*)0;
+      cleared = 1;
+    }
+  }
+  release(&f->lock);
+  //TODO : remove if unused
+  // if (f->type == FD_PIPE){
+  //   return pipeclrsel(f->pipe, sem);
+  // } else if (f->type == FD_INODE){
+  //   return clrseli(f->ip, sem);
+  // } else {
+  //   return -1;
+  // }
+
+  return cleared ? 0 : -1;
 }
 
+/**
+ * TODO : doc
+ */
+int registerproc(struct ksem* list[], struct ksem* sem){
+  //Loop over list, try to find an available spost
+  for(int i = 0; i<MAX_NB_SLEEPING; i++){
+    if(!list[i]){
+      list[i] = sem;
+      return 0;
+    }
+  }
+  return -1;
+}
+
+/**
+ * TODO doc
+ */
+int fileselectread(struct file *f, struct ksem *sem){
+  int readable, ret;
+  acquire(&f->lock);
+
+  //Check if readable
+  if (f->type == FD_PIPE){
+    readable = pipereadable(f->pipe);
+  } else if (f->type == FD_INODE){
+    readable = readablei(f->ip);
+  } else {
+    return -1;
+  }
+ 
+  if(!readable){
+    ret = registerproc(f->selreadable, sem);
+  }
+
+  release(&f->lock);
+
+  return readable ? 1 : ret;
+}
+
+/**
+ * TODO doc
+ */
+int fileselectwrite(struct file *f, struct ksem *sem){
+  int writable, ret;
+  acquire(&f->lock);
+
+  //Check if writable
+  if (f->type == FD_PIPE){
+    writable = pipewritable(f->pipe);
+  } else if (f->type == FD_INODE){
+    writable = writablei(f->ip);
+  } else {
+    return -1;
+  }
+ 
+  if(!writable){
+    ret = registerproc(f->selwritable, sem);
+  }
+
+  release(&f->lock);
+
+  return writable ? 1 : ret;
+}

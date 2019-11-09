@@ -1,4 +1,5 @@
 #include "spinlock.h"
+#include "ksem.h"
 
 // Per-CPU state
 struct cpu {
@@ -65,6 +66,7 @@ struct proc {
   struct file *ofile[NOFILE];  // Open files
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
+  struct ksem selsem;          // Semaphore for the "select" operation implementation
 };
 
 // Process memory is laid out contiguously, low addresses first:

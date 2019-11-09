@@ -23,6 +23,10 @@ static inline void _fd_zero(fd_set* set) {
   *set = 0;
 }
 
+static inline int _fd_izzero(fd_set* set) {
+  return *set == 0;
+}
+
 #define FD_SET(fd, set) _fd_set(fd, set)
 
 #define FD_ISSET(fd, set) _fd_isset(fd,set)
@@ -30,5 +34,7 @@ static inline void _fd_zero(fd_set* set) {
 #define FD_CLR(fd, set) _fd_clr(fd, set)
 
 #define FD_ZERO(set) _fd_zero(set)
+
+#define FD_ISZERO(set) _fd_iszero(set)
 
 #endif  // __INCLUDE_select_h

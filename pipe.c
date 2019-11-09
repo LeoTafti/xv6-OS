@@ -6,6 +6,7 @@
 #include "fs.h"
 #include "file.h"
 #include "spinlock.h"
+#include "ksem.h"
 
 #define PIPESIZE 512
 
@@ -69,7 +70,7 @@ pipeclose(struct pipe *p, int writable)
   } else {
     p->readopen = 0;
     // Wake up anything waiting to write
-    // LAB 4: Your code here
+    // TODO LAB 4: Your code here
     
     wakeup(&p->nwrite);
   }
@@ -100,7 +101,7 @@ pipewrite(struct pipe *p, char *addr, int n)
   }
   
   // Wake up anything waiting to read
-  // LAB 4: Your code here
+  // TODO LAB 4: Your code here
   
   wakeup(&p->nread);  //DOC: pipewrite-wakeup1
   release(&p->lock);
@@ -127,16 +128,44 @@ piperead(struct pipe *p, char *addr, int n)
   }
   
   // Wake up anything waiting to write
-  // LAB 4: Your code here
+  // TODO LAB 4: Your code here
   
   wakeup(&p->nwrite);  //DOC: piperead-wakeup
   release(&p->lock);
   return i;
 }
 
+/**
+ * TODO doc
+ */
+// int
+// pipeclrsel(struct pipe *p, struct ksem *sem) { //TODO : remove if unused
+//   /* TODO Work here */
+
+//   return 0;
+// }
+
+/**
+ * TODO : doc
+ * @return -1 if error, 0 if not readable, 1 if readable
+ */
 int
-pipeclrsel(struct pipe *p, struct ksem *sem) {
-  /* Work here */
-  return 0;
+pipereadable(struct pipe *p) {
+  if(proc->killed)
+    return -1;
+
+  return (p->nwrite > p->nread || !p->writeopen) ? 1:0;
+}
+
+/**
+ * TODO : doc
+ * @return -1 if error, 0 if not readable, 1 if readable
+ */
+int
+pipewritable(struct pipe *p){
+  if(!p->readopen || proc->killed)
+      return -1;
+
+  return (p->nwrite - p->nread != PIPESIZE) ? 1:0;
 }
 

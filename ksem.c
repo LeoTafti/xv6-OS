@@ -14,7 +14,7 @@
  * @param init -- the inital value for the semaphore
  */
 void ksem_init(struct ksem *sem, int init) {
-  sem->count = 0;
+  sem->count = init;
   initlock(&sem->lock, "semlock");
 }
 

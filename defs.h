@@ -33,8 +33,9 @@ void            fileinit(void);
 int             fileread(struct file*, char*, int n);
 int             filestat(struct file*, struct stat*);
 int             filewrite(struct file*, char*, int n);
-
 int             fileclrsel(struct file *, struct ksem *);
+int             fileselectread(struct file *f, struct ksem *sem);
+int             fileselectwrite(struct file *f, struct ksem *sem);
 
 // fs.c
 void            readsb(int dev, struct superblock *sb);
@@ -54,9 +55,9 @@ struct inode*   nameiparent(char*, char*);
 int             readi(struct inode*, char*, uint, uint);
 void            stati(struct inode*, struct stat*);
 int             writei(struct inode*, char*, uint, uint);
-
-
-int             clrseli(struct inode*, struct ksem *);
+int             clrseli(struct inode*, struct ksem *); //TODO : remove if unused
+int             readablei(struct inode*);
+int             writablei(struct inode*);
 
 // ide.c
 void            ideinit(void);
@@ -106,7 +107,9 @@ void            pipeclose(struct pipe*, int);
 int             piperead(struct pipe*, char*, int);
 int             pipewrite(struct pipe*, char*, int);
 
-int             pipeclrsel(struct pipe*, struct ksem *);
+int             pipeclrsel(struct pipe*, struct ksem *); //TODO : remove if unused
+int             pipereadable(struct pipe*);
+int             pipewritable(struct pipe*);
 
 //PAGEBREAK: 16
 // proc.c

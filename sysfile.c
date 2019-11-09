@@ -461,9 +461,73 @@ sys_pipe(void)
  */
 int
 sys_select(void)
-{
-  /* LAB 4 -- build select */
-  cprintf("ERROR: Select Unimplemented");
-  return -1;
+{ 
+  int nfds;
+  fd_set *readfds, *writefds;
+
+  if(argint(0, &nfds) < 0)
+    return -1;
+  if(argptr(1, &readfds, sizeof(*readfds)) < 0)
+    return -1;
+  if(argptr(2, &writefds, sizeof(*writefds)) < 0)
+    return -1;
+  
+  //Special case
+  if(FD_ISZERO(readfds) && FD_ISZERO(writefds))
+    return 0;
+
+  //"return" fd_sets
+  fd_set retreadfds, retwritefds;
+  FD_ZERO(&retreadfds);
+  FD_ZERO(&retwritefds);
+
+  struct file *file;
+
+  int none_available = 1; //Process will sleep if it doesn't find any readable or writable fd
+  int ret;
+
+  while(none_available){ // Will loop everytime we found nothing available, wait and then get woken up
+    ret = 0;
+    for(int fd = 0; fd<nfds; fd++){
+      file = proc->ofile[fd];
+      if(file && FD_ISSET(fd, readfds)){ //For fd in readset
+        int readable = fileselectread(file, &proc->selsem);
+        if(readable < 0)
+          return -1; //TODO : Is it okay to quit here ?
+        else if (readable == 1){
+          FD_SET(fd, &retreadfds);
+          ret++;
+          none_available = 0;
+        }
+      }
+
+      if(file && FD_ISSET(fd, writefds)){ //For fd in writeset
+        int writable = fileselectwrite(file, &proc->selsem);
+        if(writable < 0)
+          return -1; //TODO : same as above
+        else if (writable == 1){
+          FD_SET(fd, &retwritefds);
+          ret++;
+          none_available = 0;
+        }
+      }
+    }
+
+    if(none_available){
+      ksem_down(&proc->selsem); //Will sleep until some file in readfds/writefds becomes readable/writable
+      for(int fd = 0; fd<nfds; fd++){
+        file = proc->ofile[fd];
+        if(file && (FD_ISSET(fd, readfds) || FD_ISSET(fd, writefds))){ //Unregister proc from read and write wait lists
+          if(fileclrsel(file, &proc->selsem) < 0)
+            panic("select");
+        }
+      }
+    }
+  }
+  
+  *readfds = retreadfds;
+  *writefds = retwritefds;
+
+  return ret;
 }
 

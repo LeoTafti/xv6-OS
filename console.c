@@ -222,7 +222,7 @@ consoleintr(int (*getc)(void))
           input.w = input.e;
           wakeup(&input.r);
           // Wake up anything waiting on console read
-          // LAB 4: Your code here
+          // TODO LAB 4: Your code here
         }
       }
       break;
@@ -287,12 +287,30 @@ consolewrite(struct inode *ip, char *buf, int n)
   return n;
 }
 
+// TODO : remove if unused
 // Console select clear
 //
 // Removes the selid from being woken up.
 int consoleclrsel(struct inode *ip, struct ksem *sem) {
-  /* Console select code here */
+  /* TODO : Console select code here */
   return 0;
+}
+
+
+/**
+ * TODO : doc
+ */
+int consolereadable(struct inode *ip){
+  if(proc->killed)
+    return -1;
+  return input.w > input.r;
+}
+
+/**
+ * TODO : doc
+ */
+int consolewritable(struct inode *ip){
+  return 1;
 }
 
 void
@@ -302,7 +320,9 @@ consoleinit(void)
 
   devsw[CONSOLE].write = consolewrite;
   devsw[CONSOLE].read = consoleread;
-  devsw[CONSOLE].clrsel = consoleclrsel;
+  //devsw[CONSOLE].clrsel = consoleclrsel; //TODO : remove if unused
+  devsw[CONSOLE].readable = consolereadable;
+  devsw[CONSOLE].writable = consolewritable;
   cons.locking = 1;
 
   picenable(IRQ_KBD);

@@ -654,13 +654,43 @@ nameiparent(char *path, char *name)
   return namex(path, 1, name);
 }
 
+//TODO : remove if unused
+// int
+// clrseli(struct inode *ip, struct ksem *sem)
+// {
+//  if(ip->type == T_DEV){
+//     if(ip->major < 0 || ip->major >= NDEV || !devsw[ip->major].clrsel)
+//       return -1;
+//     return devsw[ip->major].clrsel(ip, sem);
+//   }
+
+//   return -1;
+// }
+
+
+/**
+ * TODO : doc
+ */
 int
-clrseli(struct inode *ip, struct ksem *sem)
-{
- if(ip->type == T_DEV){
-    if(ip->major < 0 || ip->major >= NDEV || !devsw[ip->major].clrsel)
+readablei(struct inode *ip){
+  if(ip->type == T_DEV){
+    if(ip->major < 0 || ip->major >= NDEV || !devsw[ip->major].readable)
       return -1;
-    return devsw[ip->major].clrsel(ip, sem);
+    return devsw[ip->major].readable(ip);
+  }
+
+  return -1;
+}
+
+/**
+ * TODO : doc
+ */
+int
+writablei(struct inode *ip){
+  if(ip->type == T_DEV){
+    if(ip->major < 0 || ip->major >= NDEV || !devsw[ip->major].writable)
+      return -1;
+    return devsw[ip->major].writable(ip);
   }
 
   return -1;
