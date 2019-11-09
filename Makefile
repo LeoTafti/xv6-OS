@@ -183,6 +183,7 @@ UPROGS=\
 	_wc\
 	_zombie\
 	_pipenet\
+	_seltest\
 	$(TESTBIN)\
 
 fs.img: mkfs README $(UPROGS)
