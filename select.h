@@ -23,7 +23,7 @@ static inline void _fd_zero(fd_set* set) {
   *set = 0;
 }
 
-static inline int _fd_izzero(fd_set* set) {
+static inline int _fd_iszero(fd_set* set) {
   return *set == 0;
 }
 

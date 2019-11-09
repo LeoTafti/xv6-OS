@@ -467,9 +467,9 @@ sys_select(void)
 
   if(argint(0, &nfds) < 0)
     return -1;
-  if(argptr(1, &readfds, sizeof(*readfds)) < 0)
+  if(argptr(1, (void*)&readfds, sizeof(*readfds)) < 0)
     return -1;
-  if(argptr(2, &writefds, sizeof(*writefds)) < 0)
+  if(argptr(2, (void*)&writefds, sizeof(*writefds)) < 0)
     return -1;
   
   //Special case

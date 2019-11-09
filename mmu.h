@@ -1,3 +1,6 @@
+#ifndef __INCLUDE_mmu_h_
+#define __INCLUDE_mmu_h_
+
 // This file contains definitions for the
 // x86 memory management unit (MMU).
 
@@ -228,3 +231,5 @@ struct gatedesc {
 }
 
 #endif
+
+#endif  // __INCLUDE_mmu_h_

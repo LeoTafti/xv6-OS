@@ -1,5 +1,5 @@
-#include "spinlock.h"
 #include "ksem.h"
+#include "mmu.h"
 
 // Per-CPU state
 struct cpu {
