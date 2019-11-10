@@ -173,8 +173,11 @@ filewrite(struct file *f, char *addr, int n)
     //Write successful – wake up processes waiting to read
     acquire(&f->lock);
     for(int i = 0; i < MAX_NB_SLEEPING; i++){
-      if(f->selreadable[i])
+      if(f->type == FD_PIPE) cprintf("considering f %x\n", f);
+      if(f->selreadable[i]){
+        if(f->type == FD_PIPE) cprintf("really waking up\n");
         ksem_up(f->selreadable[i]);
+      }
     }
     release(&f->lock);
   }
@@ -245,7 +248,9 @@ int fileselectread(struct file *f, struct ksem *sem){
   }
  
   if(!readable){
+    cprintf("Registering for f %x\n", f);
     ret = registerproc(f->selreadable, sem);
+    cprintf("Registering ret val %d", ret);
   }
 
   release(&f->lock);

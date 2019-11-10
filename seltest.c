@@ -107,7 +107,7 @@ void basic_test(){
  * @brief Ensure that select properly waits and wakes up
  */
 void waiting_test(){
-  int r, nfds;
+  int r;
 
   fd_set readfds, writefds;
   FD_ZERO(&readfds);
@@ -119,16 +119,15 @@ void waiting_test(){
   pipe(p);
 
   FD_SET(*p_out, &readfds);
-
   //Fork a child. Child sleeps for some time, then puts data into the pipe and sleeps again.
   //Parent calls select right away, trying to read from the end of the pipe (should result in parent waiting);
   if(fork() == 0){
-    printf(1, "Child : created, about to sleep.");
-    sleep(400);
+    printf(1, "Child : created, about to sleep.\n");
+    sleep(200);
     printf(1, "Child : writing to pipe\n");
     write(*p_in, "Hello", 6);
     printf(1, "Child : sleeping again\n");
-    sleep(400);
+    sleep(200);
     printf(1, "Child : exiting\n");
     close(*p_in);
     close(*p_out);
