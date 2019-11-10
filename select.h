@@ -3,6 +3,8 @@
 
 typedef unsigned int fd_set;
 
+#define MAX_NB_SLEEPING 16
+
 /* NOTE: static functions do not suffer from multiple definiton problems when
  * defined in headers, so this will compile.  In general you should only declare
  * very simple (e.g. one-line) functions in headers like this

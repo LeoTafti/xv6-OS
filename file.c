@@ -98,32 +98,31 @@ int
 fileread(struct file *f, char *addr, int n)
 {
   int r;
-  int ret = -1;
 
   if(f->readable == 0)
     return -1;
   if(f->type == FD_PIPE)
-    ret = piperead(f->pipe, addr, n);
+    return piperead(f->pipe, addr, n);
   if(f->type == FD_INODE){
     ilock(f->ip);
     if((r = readi(f->ip, addr, f->off, n)) > 0)
       f->off += r;
     iunlock(f->ip);
-    ret = r;
+    return r;
   }
   
-  if(ret > 0){
-    //Read successful – wake up processes waiting to write
-    acquire(&f->lock);
-    for(int i = 0; i < MAX_NB_SLEEPING; i++){
-      if(f->selwritable[i])
-        ksem_up(f->selwritable[i]);
-    }
-    release(&f->lock);
-  }
+  // TODO : remove if unused
+  // if(ret > 0){
+  //   //Read successful – wake up processes waiting to write
+  //   acquire(&f->lock);
+  //   for(int i = 0; i < MAX_NB_SLEEPING; i++){
+  //     if(f->selwritable[i])
+  //       ksem_up(f->selwritable[i]);
+  //   }
+  //   release(&f->lock);
+  // }
 
-  return ret;
-  //panic("fileread"); // TODO : remove ?
+  panic("fileread");
 
 }
 
@@ -133,12 +132,11 @@ int
 filewrite(struct file *f, char *addr, int n)
 {
   int r;
-  int ret = -1;
 
   if(f->writable == 0)
     return -1;
   if(f->type == FD_PIPE)
-    ret = pipewrite(f->pipe, addr, n);
+    return pipewrite(f->pipe, addr, n);
   if(f->type == FD_INODE){
     // write a few blocks at a time to avoid exceeding
     // the maximum log transaction size, including
@@ -166,24 +164,24 @@ filewrite(struct file *f, char *addr, int n)
         panic("short filewrite");
       i += r;
     }
-    ret = i == n ? n : -1;
+    return i == n ? n : -1;
   }
 
-  if (ret > 0){
-    //Write successful – wake up processes waiting to read
-    acquire(&f->lock);
-    for(int i = 0; i < MAX_NB_SLEEPING; i++){
-      if(f->type == FD_PIPE) cprintf("considering f %x\n", f);
-      if(f->selreadable[i]){
-        if(f->type == FD_PIPE) cprintf("really waking up\n");
-        ksem_up(f->selreadable[i]);
-      }
-    }
-    release(&f->lock);
-  }
+  //TODO : remove if unused
+  // if (ret > 0){
+  //   //Write successful – wake up processes waiting to read
+  //   acquire(&f->lock);
+  //   for(int i = 0; i < MAX_NB_SLEEPING; i++){
+  //     if(f->type == FD_PIPE) cprintf("considering f %x\n", f);
+  //     if(f->selreadable[i]){
+  //       if(f->type == FD_PIPE) cprintf("really waking up\n");
+  //       ksem_up(f->selreadable[i]);
+  //     }
+  //   }
+  //   release(&f->lock);
+  // }
 
-  return ret;
-  //panic("filewrite"); //TODO : remove?
+  panic("filewrite");
 }
 
 /**
@@ -192,29 +190,31 @@ filewrite(struct file *f, char *addr, int n)
 int
 fileclrsel(struct file *f, struct ksem *sem)
 {
-  int cleared = 0;
-  acquire(&f->lock);
-  for(int i = 0; i < MAX_NB_SLEEPING; i++){
-    if(f->selreadable[i] == sem){
-      f->selreadable[i] = (void*)0;
-      cleared = 1;
-    }
-    if(f->selwritable[i] == sem){
-      f->selwritable[i] = (void*)0;
-      cleared = 1;
-    }
-  }
-  release(&f->lock);
   //TODO : remove if unused
-  // if (f->type == FD_PIPE){
-  //   return pipeclrsel(f->pipe, sem);
-  // } else if (f->type == FD_INODE){
-  //   return clrseli(f->ip, sem);
-  // } else {
-  //   return -1;
+  // int cleared = 0;
+  // acquire(&f->lock);
+  // for(int i = 0; i < MAX_NB_SLEEPING; i++){
+  //   if(f->selreadable[i] == sem){
+  //     f->selreadable[i] = (void*)0;
+  //     cleared = 1;
+  //   }
+  //   if(f->selwritable[i] == sem){
+  //     f->selwritable[i] = (void*)0;
+  //     cleared = 1;
+  //   }
   // }
+  // release(&f->lock);
 
-  return cleared ? 0 : -1;
+  if (f->type == FD_PIPE){
+    return pipeclrsel(f->pipe, sem);
+  } else if (f->type == FD_INODE){
+    return clrseli(f->ip, sem);
+  } else {
+    return -1;
+  }
+  
+  //TODO : remove if unused
+  // return cleared ? 0 : -1;
 }
 
 /**
@@ -248,9 +248,11 @@ int fileselectread(struct file *f, struct ksem *sem){
   }
  
   if(!readable){
-    cprintf("Registering for f %x\n", f);
-    ret = registerproc(f->selreadable, sem);
-    cprintf("Registering ret val %d", ret);
+    if (f->type == FD_PIPE){
+      ret = piperegister(f->pipe, sem, 0);
+    } else if (f->type == FD_INODE){
+      ret = registeri(f->ip, sem, 0);
+    }
   }
 
   release(&f->lock);
@@ -275,7 +277,11 @@ int fileselectwrite(struct file *f, struct ksem *sem){
   }
  
   if(!writable){
-    ret = registerproc(f->selwritable, sem);
+    if (f->type == FD_PIPE){
+      ret = piperegister(f->pipe, sem, 1);
+    } else if (f->type == FD_INODE){
+      ret = egisteri(f->ip, sem, 1);
+    }
   }
 
   release(&f->lock);

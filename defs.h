@@ -55,9 +55,10 @@ struct inode*   nameiparent(char*, char*);
 int             readi(struct inode*, char*, uint, uint);
 void            stati(struct inode*, struct stat*);
 int             writei(struct inode*, char*, uint, uint);
-int             clrseli(struct inode*, struct ksem *); //TODO : remove if unused
+int             clrseli(struct inode*, struct ksem *);
 int             readablei(struct inode*);
 int             writablei(struct inode*);
+int             registeri(struct inode*, struct ksem *, int);
 
 // ide.c
 void            ideinit(void);
@@ -107,9 +108,10 @@ void            pipeclose(struct pipe*, int);
 int             piperead(struct pipe*, char*, int);
 int             pipewrite(struct pipe*, char*, int);
 
-int             pipeclrsel(struct pipe*, struct ksem *); //TODO : remove if unused
+int             pipeclrsel(struct pipe*, struct ksem *);
 int             pipereadable(struct pipe*);
 int             pipewritable(struct pipe*);
+int             piperegister(struct pipe*, struct ksem *, int);
 
 //PAGEBREAK: 16
 // proc.c

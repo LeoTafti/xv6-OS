@@ -17,6 +17,8 @@ struct pipe {
   uint nwrite;    // number of bytes written
   int readopen;   // read fd is still open
   int writeopen;  // write fd is still open
+  struct ksem* selreadable[MAX_NB_SLEEPING]; //List of (semaphores' of) processes waiting for the pipe to become readable
+  struct ksem* selwritable[MAX_NB_SLEEPING]; //List of (semaphores' of) processes waiting for the pipe to become writable
 };
 
 int
@@ -64,13 +66,24 @@ pipeclose(struct pipe *p, int writable)
   if(writable){
     p->writeopen = 0;
     // Wake up anything waiting to read
-    // Lab 4: Your code here.
+    // TODO: Lab 4: Your code here.
+    for(int i = 0; i < MAX_NB_SLEEPING; i++){
+      if(p->selreadable[i]){
+        ksem_up(p->selreadable[i]);
+      }
+    }
     
     wakeup(&p->nread);
   } else {
     p->readopen = 0;
     // Wake up anything waiting to write
     // TODO LAB 4: Your code here
+    for(int i = 0; i < MAX_NB_SLEEPING; i++){
+      if(p->selwritable[i]){
+        ksem_up(p->selwritable[i]);
+      }
+    }
+
     
     wakeup(&p->nwrite);
   }
@@ -102,6 +115,11 @@ pipewrite(struct pipe *p, char *addr, int n)
   
   // Wake up anything waiting to read
   // TODO LAB 4: Your code here
+  for(int i = 0; i < MAX_NB_SLEEPING; i++){
+    if(p->selreadable[i]){
+      ksem_up(p->selreadable[i]);
+    }
+  }
   
   wakeup(&p->nread);  //DOC: pipewrite-wakeup1
   release(&p->lock);
@@ -129,6 +147,11 @@ piperead(struct pipe *p, char *addr, int n)
   
   // Wake up anything waiting to write
   // TODO LAB 4: Your code here
+  for(int i = 0; i < MAX_NB_SLEEPING; i++){
+    if(p->selwritable[i]){
+      ksem_up(p->selwritable[i]);
+    }
+  }
   
   wakeup(&p->nwrite);  //DOC: piperead-wakeup
   release(&p->lock);
@@ -138,12 +161,38 @@ piperead(struct pipe *p, char *addr, int n)
 /**
  * TODO doc
  */
-// int
-// pipeclrsel(struct pipe *p, struct ksem *sem) { //TODO : remove if unused
-//   /* TODO Work here */
+int
+pipeclrsel(struct pipe *p, struct ksem *sem) {
+  acquire(&p->lock);
+  for(int i = 0; i < MAX_NB_SLEEPING; i++){
+    if(p->selreadable[i] == sem){
+      p->selreadable[i] = (void*)0;
+      return 1;
+    }
+    if(p->selwritable[i] == sem){
+      p->selwritable[i] = (void*)0;
+      return 1;
+    }
+  }
+  release(&p->lock);
 
-//   return 0;
-// }
+  return 0;
+}
+
+/**
+ * TODO : doc
+ */
+int
+piperegister(struct pipe *p, struct ksem *sem, int on_read_list){
+  acquire(&p->lock);
+
+  if(on_read_list)
+    registerproc(p->selreadable, sem);
+  else
+    registerproc(p->selwritable, sem);
+
+  release(&p->lock);
+}
 
 /**
  * TODO : doc

@@ -654,18 +654,28 @@ nameiparent(char *path, char *name)
   return namex(path, 1, name);
 }
 
-//TODO : remove if unused
-// int
-// clrseli(struct inode *ip, struct ksem *sem)
-// {
-//  if(ip->type == T_DEV){
-//     if(ip->major < 0 || ip->major >= NDEV || !devsw[ip->major].clrsel)
-//       return -1;
-//     return devsw[ip->major].clrsel(ip, sem);
-//   }
+int
+clrseli(struct inode *ip, struct ksem *sem)
+{
+ if(ip->type == T_DEV){
+    if(ip->major < 0 || ip->major >= NDEV || !devsw[ip->major].clrsel)
+      return -1;
+    return devsw[ip->major].clrsel(ip, sem);
+  }
 
-//   return -1;
-// }
+  return -1;
+}
+
+int
+registeri(struct inode *ip, struct ksem *sem, int on_read_list){
+  if(ip->type == T_DEV){
+    if(ip->major < 0 || ip->major >= NDEV || !devsw[ip->major].regster)
+      return -1;
+    return devsw[ip->major].regster(ip, sem, on_read_list);
+  }
+
+  return -1;
+}
 
 
 /**
@@ -695,3 +705,4 @@ writablei(struct inode *ip){
 
   return -1;
 }
+

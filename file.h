@@ -1,8 +1,6 @@
 #include "select.h"
 #include "spinlock.h"
 
-#define MAX_NB_SLEEPING 16
-
 struct file {
   enum { FD_NONE, FD_PIPE, FD_INODE } type;
   int ref; // reference count
@@ -12,8 +10,6 @@ struct file {
   struct inode *ip;
   uint off;
   struct spinlock lock;
-  struct ksem* selreadable[MAX_NB_SLEEPING];
-  struct ksem* selwritable[MAX_NB_SLEEPING];
 };
 
 int registerproc(struct ksem* list[], struct ksem* sem);
@@ -40,7 +36,8 @@ struct inode {
 struct devsw {
   int (*read)(struct inode*, char*, int);
   int (*write)(struct inode*, char*, int);
-  //int (*clrsel)(struct inode*, struct ksem *sem); //TODO : remove if I don't use it
+  int (*clrsel)(struct inode*, struct ksem *);
+  int (*regster)(struct inode*, struct ksem *, int);
   int (*readable)(struct inode*);
   int (*writable)(struct inode*);
 };

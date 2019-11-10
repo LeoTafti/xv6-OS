@@ -13,7 +13,6 @@
 #include "mmu.h"
 #include "proc.h"
 #include "x86.h"
-
 #include "ksem.h"
 
 static void consputc(int);
@@ -184,6 +183,8 @@ struct {
   uint r;  // Read index
   uint w;  // Write index
   uint e;  // Edit index
+  struct ksem * selreadable[MAX_NB_SLEEPING]; // List of (semaphores' of) processes waiting for the console to become readable
+  struct spinlock lock;
 } input;
 
 #define C(x)  ((x)-'@')  // Control-x
@@ -223,6 +224,11 @@ consoleintr(int (*getc)(void))
           wakeup(&input.r);
           // Wake up anything waiting on console read
           // TODO LAB 4: Your code here
+          for(int i = 0; i < MAX_NB_SLEEPING; i++){
+            if(input.selreadable[i]){
+              ksem_up(input.selreadable[i]);
+            }
+          }
         }
       }
       break;
@@ -287,13 +293,35 @@ consolewrite(struct inode *ip, char *buf, int n)
   return n;
 }
 
-// TODO : remove if unused
-// Console select clear
-//
-// Removes the selid from being woken up.
+
+/**
+ * TODO : doc
+ */
 int consoleclrsel(struct inode *ip, struct ksem *sem) {
-  /* TODO : Console select code here */
-  return 0;
+  acquire(&input.lock);
+  for(int i = 0; i < MAX_NB_SLEEPING; i++){
+    if(input.selreadable[i] == sem){
+      input.selreadable[i] = (void*)0;
+      return 1;
+    }
+  }
+  release(&input.lock);
+}
+
+/**
+ * TODO : doc
+ */
+int consoleregister(struct inode *ip, struct ksem *sem, int on_read_list) {
+  if(!on_read_list)
+    panic("consoleregister"); //Should never be called with on_read_list false since console always writable
+
+  int ret;
+
+  acquire(&input.lock);
+  ret = registerproc(input.selreadable, sem);
+  release(&input.lock);
+
+  return ret;
 }
 
 
@@ -320,7 +348,8 @@ consoleinit(void)
 
   devsw[CONSOLE].write = consolewrite;
   devsw[CONSOLE].read = consoleread;
-  //devsw[CONSOLE].clrsel = consoleclrsel; //TODO : remove if unused
+  devsw[CONSOLE].clrsel = consoleclrsel;
+  devsw[CONSOLE].regster = consoleregister;
   devsw[CONSOLE].readable = consolereadable;
   devsw[CONSOLE].writable = consolewritable;
   cons.locking = 1;
