@@ -46,6 +46,10 @@ pipealloc(struct file **f0, struct file **f1)
   (*f1)->readable = 0;
   (*f1)->writable = 1;
   (*f1)->pipe = p;
+
+  memset(p->selreadable, 0, sizeof(p->selreadable));
+  memset(p->selwritable, 0, sizeof(p->selwritable));
+
   return 0;
 
 //PAGEBREAK: 20

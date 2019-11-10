@@ -357,6 +357,8 @@ consoleinit(void)
   devsw[CONSOLE].writable = consolewritable;
   cons.locking = 1;
 
+  memset(input.selreadable, 0, sizeof(input.selreadable));
+
   picenable(IRQ_KBD);
   ioapicenable(IRQ_KBD, 0);
 }
