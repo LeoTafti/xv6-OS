@@ -184,7 +184,6 @@ struct {
   uint w;  // Write index
   uint e;  // Edit index
   struct ksem * selreadable[MAX_NB_SLEEPING]; // List of (semaphores' of) processes waiting for the console to become readable
-  struct spinlock lock;
 } input;
 
 #define C(x)  ((x)-'@')  // Control-x
@@ -299,7 +298,7 @@ consolewrite(struct inode *ip, char *buf, int n)
  */
 int consoleclrsel(struct inode *ip, struct ksem *sem) {
   int ret = 0;
-  acquire(&input.lock);
+  acquire(&cons.lock);
   for(int i = 0; i < MAX_NB_SLEEPING; i++){
     if(input.selreadable[i] == sem){
       input.selreadable[i] = (void*)0;
@@ -307,7 +306,7 @@ int consoleclrsel(struct inode *ip, struct ksem *sem) {
       break;
     }
   }
-  release(&input.lock);
+  release(&cons.lock);
 
   return ret;
 }
@@ -321,9 +320,9 @@ int consoleregister(struct inode *ip, struct ksem *sem, int on_read_list) {
 
   int ret;
 
-  acquire(&input.lock);
+  acquire(&cons.lock);
   ret = registerproc(input.selreadable, sem);
-  release(&input.lock);
+  release(&cons.lock);
 
   return ret;
 }
