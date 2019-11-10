@@ -493,7 +493,7 @@ sys_select(void)
       if(file && FD_ISSET(fd, readfds)){ //For fd in readset
         int readable = fileselectread(file, &proc->selsem);
         if(readable < 0)
-          return -1; //TODO : Is it okay to quit here ?
+          return -1;
         else if (readable == 1){
           FD_SET(fd, &retreadfds);
           ret++;
@@ -504,7 +504,7 @@ sys_select(void)
       if(file && FD_ISSET(fd, writefds)){ //For fd in writeset
         int writable = fileselectwrite(file, &proc->selsem);
         if(writable < 0)
-          return -1; //TODO : same as above
+          return -1;
         else if (writable == 1){
           FD_SET(fd, &retwritefds);
           ret++;

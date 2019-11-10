@@ -70,7 +70,6 @@ pipeclose(struct pipe *p, int writable)
   if(writable){
     p->writeopen = 0;
     // Wake up anything waiting to read
-    // TODO: Lab 4: Your code here.
     for(int i = 0; i < MAX_NB_SLEEPING; i++){
       if(p->selreadable[i]){
         ksem_up(p->selreadable[i]);
@@ -81,7 +80,6 @@ pipeclose(struct pipe *p, int writable)
   } else {
     p->readopen = 0;
     // Wake up anything waiting to write
-    // TODO LAB 4: Your code here
     for(int i = 0; i < MAX_NB_SLEEPING; i++){
       if(p->selwritable[i]){
         ksem_up(p->selwritable[i]);
@@ -118,7 +116,6 @@ pipewrite(struct pipe *p, char *addr, int n)
   }
   
   // Wake up anything waiting to read
-  // TODO LAB 4: Your code here
   for(int i = 0; i < MAX_NB_SLEEPING; i++){
     if(p->selreadable[i]){
       ksem_up(p->selreadable[i]);
@@ -150,7 +147,6 @@ piperead(struct pipe *p, char *addr, int n)
   }
   
   // Wake up anything waiting to write
-  // TODO LAB 4: Your code here
   for(int i = 0; i < MAX_NB_SLEEPING; i++){
     if(p->selwritable[i]){
       ksem_up(p->selwritable[i]);

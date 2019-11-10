@@ -110,17 +110,6 @@ fileread(struct file *f, char *addr, int n)
     iunlock(f->ip);
     return r;
   }
-  
-  // TODO : remove if unused
-  // if(ret > 0){
-  //   //Read successful – wake up processes waiting to write
-  //   acquire(&f->lock);
-  //   for(int i = 0; i < MAX_NB_SLEEPING; i++){
-  //     if(f->selwritable[i])
-  //       ksem_up(f->selwritable[i]);
-  //   }
-  //   release(&f->lock);
-  // }
 
   panic("fileread");
 
@@ -167,20 +156,6 @@ filewrite(struct file *f, char *addr, int n)
     return i == n ? n : -1;
   }
 
-  //TODO : remove if unused
-  // if (ret > 0){
-  //   //Write successful – wake up processes waiting to read
-  //   acquire(&f->lock);
-  //   for(int i = 0; i < MAX_NB_SLEEPING; i++){
-  //     if(f->type == FD_PIPE) cprintf("considering f %x\n", f);
-  //     if(f->selreadable[i]){
-  //       if(f->type == FD_PIPE) cprintf("really waking up\n");
-  //       ksem_up(f->selreadable[i]);
-  //     }
-  //   }
-  //   release(&f->lock);
-  // }
-
   panic("filewrite");
 }
 
@@ -190,21 +165,6 @@ filewrite(struct file *f, char *addr, int n)
 int
 fileclrsel(struct file *f, struct ksem *sem)
 {
-  //TODO : remove if unused
-  // int cleared = 0;
-  // acquire(&f->lock);
-  // for(int i = 0; i < MAX_NB_SLEEPING; i++){
-  //   if(f->selreadable[i] == sem){
-  //     f->selreadable[i] = (void*)0;
-  //     cleared = 1;
-  //   }
-  //   if(f->selwritable[i] == sem){
-  //     f->selwritable[i] = (void*)0;
-  //     cleared = 1;
-  //   }
-  // }
-  // release(&f->lock);
-
   if (f->type == FD_PIPE){
     return pipeclrsel(f->pipe, sem);
   } else if (f->type == FD_INODE){
@@ -212,9 +172,6 @@ fileclrsel(struct file *f, struct ksem *sem)
   } else {
     return -1;
   }
-  
-  //TODO : remove if unused
-  // return cleared ? 0 : -1;
 }
 
 /**

@@ -222,7 +222,6 @@ consoleintr(int (*getc)(void))
           input.w = input.e;
           wakeup(&input.r);
           // Wake up anything waiting on console read
-          // TODO LAB 4: Your code here
           for(int i = 0; i < MAX_NB_SLEEPING; i++){
             if(input.selreadable[i]){
               ksem_up(input.selreadable[i]);
