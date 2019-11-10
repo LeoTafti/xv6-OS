@@ -138,16 +138,16 @@ void waiting_test(){
   r = select(*p_out + 1, &readfds, &writefds);
   printf(1, "Parent : back from select\n");
 
-  //TODO : need to wait() somewhere ?
-
   print_result("waiting 1", r, r == 1 && FD_ISSET(*p_out, &readfds));
 
   close(*p_in);
   close(*p_out);
+
+  wait(); //Wait for child to exit
 }
 
 int main(void){
-    basic_test();
-    //waiting_test();
+    //basic_test();
+    waiting_test();
     exit();
 }
