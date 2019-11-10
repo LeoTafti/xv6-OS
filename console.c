@@ -298,14 +298,18 @@ consolewrite(struct inode *ip, char *buf, int n)
  * TODO : doc
  */
 int consoleclrsel(struct inode *ip, struct ksem *sem) {
+  int ret = 0;
   acquire(&input.lock);
   for(int i = 0; i < MAX_NB_SLEEPING; i++){
     if(input.selreadable[i] == sem){
       input.selreadable[i] = (void*)0;
-      return 1;
+      ret = 1;
+      break;
     }
   }
   release(&input.lock);
+
+  return ret;
 }
 
 /**
