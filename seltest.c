@@ -49,27 +49,24 @@ void basic(){
   // Test 1 : Console should always be writable
   FD_SET(0, &writefds);
   r = select(1, &readfds, &writefds);
-  print_result(1, r, r == 1 && FD_ISSET(0, writefds));
+  print_result(1, r, r == 1 && FD_ISSET(0, &writefds));
 
-  // Test 2 : Console shouldn't be readable before we write anything to it //TODO : is this correct ?
+  // Test 2 : Console shouldn't be readable if we don't write anything to it
   // Note : we let fd0 still set in writefds s.t. select doesn't wait
   FD_SET(0, &readfds);
   r = select(1, &readfds, &writefds);
-  print_result(2, r, r == 1 && FD_ISSET(0, writefds) && !FD_ISSET(0, readfds));
+  print_result(2, r, r == 1 && FD_ISSET(0, &writefds) && !FD_ISSET(0, &readfds));
 
   // Test 3 : Pipe shouldn't be readable when empty, but should be writable
   pipe(p);
-  printf(1, "Check that using pointers p_out and p_in works. *p_out = %d\n", *p_out);
 
   FD_ZERO(&readfds);
   FD_ZERO(&writefds);
   FD_SET(*p_out, &readfds);
   FD_SET(*p_in, &writefds);
 
-  printf(1, "Check that get_nfds works properly : *p_out = %d, *p_in = %d, get_nfds(…) = %d\n", *p_out, *p_in, get_nfds(readfds, writefds));
-
   r = select(get_nfds(readfds, writefds), &readfds, &writefds);
-  print_result(3, r, r == 1 && FD_ISSET(*p_in, writefds) && !FD_ISSET(*p_out, &readfds));
+  print_result(3, r, r == 1 && FD_ISSET(*p_in, &writefds) && !FD_ISSET(*p_out, &readfds));
 
   // Test 4 : Pipe should become readable once some data has been written to it
   char txt[] = "Hello world";
@@ -81,7 +78,7 @@ void basic(){
   FD_SET(*p_in, &writefds); //To check select's behavior with both readable and writable fd's
 
   r = select(get_nfds(readfds, writefds), &readfds, &writefds);
-  print_result(4, r, r == 2 && FD_ISSET(*p_in, writefds) && FD_ISSET(*p_out, &readfds));
+  print_result(4, r, r == 2 && FD_ISSET(*p_in, &writefds) && FD_ISSET(*p_out, &readfds));
 
   // Test 5 : Pipe should not be readable after it gets emptied again.
   char buf[5];
@@ -89,13 +86,15 @@ void basic(){
 
   //Note : we let *p_in fd set in writefds, s.t. select doesn't wait.
   r = select(get_nfds(readfds, writefds), &readfds, &writefds);
-  print_result(5, r, r == 1 && FD_ISSET(*p_in, writefds) && !FD_ISSET(*p_out, &readfds));
+  print_result(5, r, r == 1 && FD_ISSET(*p_in, &writefds) && !FD_ISSET(*p_out, &readfds));
 
   // Test 6 : Pipe should become readable again if we close its write fd(s)
   close(*p_in);
 
+  FD_ZERO(&readfds);
   FD_ZERO(&writefds);
-  //*p_out still set in readfds
+
+  FD_SET(*p_out, &readfds);
 
   r = select(get_nfds(readfds, writefds), &readfds, &writefds);
   print_result(6, r, r == 1 && FD_ISSET(*p_out, &readfds));
