@@ -221,7 +221,7 @@ fileclrsel(struct file *f, struct ksem *sem)
  * TODO : doc
  */
 int registerproc(struct ksem* list[], struct ksem* sem){
-  //Loop over list, try to find an available spost
+  //Loop over list, try to find an available spot
   for(int i = 0; i<MAX_NB_SLEEPING; i++){
     if(!list[i]){
       list[i] = sem;
@@ -246,12 +246,12 @@ int fileselectread(struct file *f, struct ksem *sem){
   } else {
     return -1;
   }
- 
+
   if(!readable){
     if (f->type == FD_PIPE){
-      ret = piperegister(f->pipe, sem, 0);
+      ret = piperegister(f->pipe, sem, 1);
     } else if (f->type == FD_INODE){
-      ret = registeri(f->ip, sem, 0);
+      ret = registeri(f->ip, sem, 1);
     }
   }
 
@@ -278,9 +278,9 @@ int fileselectwrite(struct file *f, struct ksem *sem){
  
   if(!writable){
     if (f->type == FD_PIPE){
-      ret = piperegister(f->pipe, sem, 1);
+      ret = piperegister(f->pipe, sem, 0);
     } else if (f->type == FD_INODE){
-      ret = registeri(f->ip, sem, 1);
+      ret = registeri(f->ip, sem, 0);
     }
   }
 
