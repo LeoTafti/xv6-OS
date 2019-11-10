@@ -235,7 +235,7 @@ int registerproc(struct ksem* list[], struct ksem* sem){
  * TODO doc
  */
 int fileselectread(struct file *f, struct ksem *sem){
-  int readable, ret;
+  int readable, ret = 0;
   acquire(&f->lock);
 
   //Check if readable
@@ -264,7 +264,7 @@ int fileselectread(struct file *f, struct ksem *sem){
  * TODO doc
  */
 int fileselectwrite(struct file *f, struct ksem *sem){
-  int writable, ret;
+  int writable, ret = 0;
   acquire(&f->lock);
 
   //Check if writable
@@ -280,7 +280,7 @@ int fileselectwrite(struct file *f, struct ksem *sem){
     if (f->type == FD_PIPE){
       ret = piperegister(f->pipe, sem, 1);
     } else if (f->type == FD_INODE){
-      ret = egisteri(f->ip, sem, 1);
+      ret = registeri(f->ip, sem, 1);
     }
   }
 

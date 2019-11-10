@@ -188,14 +188,17 @@ pipeclrsel(struct pipe *p, struct ksem *sem) {
  */
 int
 piperegister(struct pipe *p, struct ksem *sem, int on_read_list){
+  int ret;
   acquire(&p->lock);
 
   if(on_read_list)
-    registerproc(p->selreadable, sem);
+    ret = registerproc(p->selreadable, sem);
   else
-    registerproc(p->selwritable, sem);
+    ret = registerproc(p->selwritable, sem);
 
   release(&p->lock);
+
+  return ret;
 }
 
 /**

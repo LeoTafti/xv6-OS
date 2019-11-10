@@ -147,7 +147,7 @@ void waiting_test(){
 }
 
 int main(void){
-    //basic_test();
-    waiting_test();
+    basic_test();
+    //waiting_test();
     exit();
 }
