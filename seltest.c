@@ -158,27 +158,11 @@ void waiting_test_2(){
 
   FD_SET(0, &readfds);
 
-  //Fork a child. Child sleeps for some time, then writes to console and sleeps again.
-  //Parent calls select right away, checking if the console is readable (should result in parent waiting);
-
-  if(fork() == 0){
-    printf(1, "Child : created, about to sleep.\n");
-    sleep(200);
-    printf(1, "Child : writing to console\n");
-    write(1, "Hello\n", 7);
-    printf(1, "Child : sleeping again\n");
-    sleep(200);
-    printf(1, "Child : exiting\n");
-    exit();
-  }
-
-  printf(1, "Parent : calling select\n");
+  printf(1, "Calling select\n");
   r = select(1, &readfds, &writefds);
-  printf(1, "Parent : back from select\n");
+  printf(1, "Back from select\n");
 
   print_result("waiting_test_2", r, r == 1 && FD_ISSET(0, &readfds));
-
-  wait(); //Wait for child to exit
 }
 
 void waiting_test_3(){
