@@ -160,7 +160,9 @@ void waiting_test_2(){
 
   printf(1, "Calling select\n");
   r = select(1, &readfds, &writefds);
-  printf(1, "Back from select\n");
+  printf(1, "Back from select, reading\n");
+  char buf[10];
+  read(0, buf, 10);
 
   print_result("waiting_test_2", r, r == 1 && FD_ISSET(0, &readfds));
 }
