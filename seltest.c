@@ -165,7 +165,7 @@ void waiting_test_2(){
     printf(1, "Child : created, about to sleep.\n");
     sleep(200);
     printf(1, "Child : writing to console\n");
-    write(1, "Hello", 6);
+    write(1, "Hello\n", 7);
     printf(1, "Child : sleeping again\n");
     sleep(200);
     printf(1, "Child : exiting\n");
