@@ -104,9 +104,9 @@ void basic_test(){
 }
 
 /**
- * @brief Ensure that select properly waits and wakes up
+ * @brief Ensure that select properly waits and wakes up, with pipes
  */
-void waiting_test(){
+void waiting_test_1(){
   int r;
 
   fd_set readfds, writefds;
@@ -120,7 +120,7 @@ void waiting_test(){
 
   FD_SET(*p_out, &readfds);
   //Fork a child. Child sleeps for some time, then puts data into the pipe and sleeps again.
-  //Parent calls select right away, trying to read from the end of the pipe (should result in parent waiting);
+  //Parent calls select right away, checking if the pipe is readable (should result in parent waiting);
   if(fork() == 0){
     printf(1, "Child : created, about to sleep.\n");
     sleep(200);
@@ -138,7 +138,7 @@ void waiting_test(){
   r = select(*p_out + 1, &readfds, &writefds);
   printf(1, "Parent : back from select\n");
 
-  print_result("waiting 1", r, r == 1 && FD_ISSET(*p_out, &readfds));
+  print_result("waiting_test_1", r, r == 1 && FD_ISSET(*p_out, &readfds));
 
   close(*p_in);
   close(*p_out);
@@ -146,8 +146,88 @@ void waiting_test(){
   wait(); //Wait for child to exit
 }
 
+/**
+ * @brief Ensure that select properly waits and wakes up, with console
+ */
+void waiting_test_2(){
+  int r;
+
+  fd_set readfds, writefds;
+  FD_ZERO(&readfds);
+  FD_ZERO(&writefds);
+
+  FD_SET(0, &readfds);
+
+  //Fork a child. Child sleeps for some time, then writes to console and sleeps again.
+  //Parent calls select right away, checking if the console is readable (should result in parent waiting);
+
+  if(fork() == 0){
+    printf(1, "Child : created, about to sleep.\n");
+    sleep(200);
+    printf(1, "Child : writing to console\n");
+    write(1, "Hello", 6);
+    printf(1, "Child : sleeping again\n");
+    sleep(200);
+    printf(1, "Child : exiting\n");
+    exit();
+  }
+
+  printf(1, "Parent : calling select\n");
+  r = select(1, &readfds, &writefds);
+  printf(1, "Parent : back from select\n");
+
+  print_result("waiting_test_2", r, r == 1 && FD_ISSET(0, &readfds));
+
+  wait(); //Wait for child to exit
+}
+
+void waiting_test_3(){
+  int r;
+
+  fd_set readfds, writefds;
+  FD_ZERO(&readfds);
+  FD_ZERO(&writefds);
+
+  int p[2];
+  int *p_out = &p[0];
+  int *p_in = &p[1];
+  pipe(p);
+
+  //Fork two children. Both call select checking if the pipe is readable.
+
+  for(int i = 1; i<=2; i++){
+    if(fork() == 0){
+      FD_SET(*p_out, &readfds);
+      printf(1, "Child %d : created, calling select.\n", i);
+      r = select(*p_out + 1, &readfds, &writefds);
+      printf(1, "Child %d : back from select.\n", i);
+      
+      print_result("waiting_test_3 (child)", r, r == 1 && FD_ISSET(*p_out, &readfds));
+
+      close(*p_in);
+      close(*p_out);
+      exit();
+    }
+  }
+
+  printf(1, "Parent : about to sleep.\n");
+  sleep(200);
+
+  printf(1, "Parent : writing to pipe.\n");
+  write(*p_in, "Hello", 6);
+
+  printf(1, "Parent : waiting for children.\n");
+  wait(); //Wait for children to exit
+  wait();
+
+  close(*p_in);
+  close(*p_out);
+}
+
 int main(void){
     //basic_test();
-    waiting_test();
+    //waiting_test_1();
+    waiting_test_2();
+    //waiting_test_3();
     exit();
 }
