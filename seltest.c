@@ -165,7 +165,7 @@ void waiting_test_2(){
   char buf[20];
   read(0, buf, 20);
 
-  printf("Just read : \"%s\"\n", buf);
+  printf(1, "Just read : %s", buf);
 
   print_result("waiting_test_2", r, r == 1 && FD_ISSET(0, &readfds));
 }
