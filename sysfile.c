@@ -472,12 +472,12 @@ sys_select(void)
   if(argptr(2, (void*)&writefds, sizeof(*writefds)) < 0)
     return -1;
   
-  //Special case
-  if(FD_ISZERO(readfds) && FD_ISZERO(writefds))
-    return 0;
-
+  //Special cases
   if(nfds < 0 || nfds > MAX_NFDS)
     return -1;
+
+  if(FD_ISZERO(readfds) && FD_ISZERO(writefds))
+    return 0;
 
   //"return" fd_sets
   fd_set retreadfds, retwritefds;

@@ -226,11 +226,11 @@ void err_chk_test(){
 
   //Negative nfds
   r = select(-1, &readfds, &writefds);
-  print_result("err_chk_test_2", r, r == -1);
+  print_result("err_chk_test_2", 0, r == -1); //Note : I set retval to 0 here instead of r to avoid printing "ERROR"
 
   //nfds > MAX_NFDS
   r = select(MAX_NFDS + 1, &readfds, &writefds);
-  print_result("eerr_chk_test_3", r, r == -1);
+  print_result("err_chk_test_3", 0, r == -1); //Note : as above
 }
 
 int main(void){

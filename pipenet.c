@@ -13,7 +13,7 @@ void pipenet(void) {
   int bytesread;
   int pid;
 
-  fd_set readfds, writefds;
+  //fd_set readfds, writefds;
 
   if (pipe(toshfds) != 0) {
     printf(2, "Pipe failed!");
