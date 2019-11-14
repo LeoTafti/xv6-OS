@@ -442,6 +442,18 @@ sys_pipe(void)
   return 0;
 }
 
+static void
+unregisterall(int nfds, fd_set *readfds, fd_set *writefds){
+  for(int fd = 0; fd<nfds; fd++){
+    struct file* file = proc->ofile[fd];
+    if(file && (FD_ISSET(fd, readfds) || FD_ISSET(fd, writefds))){ //Unregister proc from read and write wait lists
+      if(fileclrsel(file, &proc->selsem) < 0){ //This shouldn't happen. unregisterall should only be called with readfds and writefds set for files it has registered for
+        panic("unregisterall (select)");
+      }
+    }
+  }
+}
+
 /* This system call looks for fds within its sets that are ready to read or write.
  * If any fd is ready, it returns immediately with the returned sets containing
  * the fds that are ready. On the other hand, if none are ready it sleeps on all the
@@ -484,6 +496,12 @@ sys_select(void)
   FD_ZERO(&retreadfds);
   FD_ZERO(&retwritefds);
 
+  //"registered" fd_sets, allow to cleanly unregister if need be
+  fd_set regreadfds, regwritefds;
+  FD_ZERO(&regreadfds);
+  FD_ZERO(&regwritefds);
+  int reg_nfds = 0;
+
   struct file *file;
 
   int none_available = 1; //Process will sleep if it doesn't find any readable or writable fd
@@ -495,36 +513,40 @@ sys_select(void)
       file = proc->ofile[fd];
       if(file && FD_ISSET(fd, readfds)){ //For fd in readset
         int readable = fileselectread(file, &proc->selsem);
-        if(readable < 0)
-          goto fail;
-        else if (readable == 1){
+        if(readable < 0){
+          unregisterall(reg_nfds, &regreadfds, &regwritefds);
+          return -1;
+        }else if (readable == 1){
           FD_SET(fd, &retreadfds);
           ret++;
           none_available = 0;
+        }else{
+          FD_SET(fd, &regreadfds);
+          reg_nfds = fd + 1;
         }
       }
 
       if(file && FD_ISSET(fd, writefds)){ //For fd in writeset
         int writable = fileselectwrite(file, &proc->selsem);
-        if(writable < 0)
-          goto fail;
-        else if (writable == 1){
+        if(writable < 0){
+          unregisterall(reg_nfds, &regreadfds, &regwritefds);
+          return -1;
+        }else if (writable == 1){
           FD_SET(fd, &retwritefds);
           ret++;
           none_available = 0;
+        }else{
+          FD_SET(fd, &retwritefds);
+          reg_nfds = fd + 1;
         }
       }
     }
 
     if(none_available){
       ksem_down(&proc->selsem); //Will sleep until some file in readfds/writefds becomes readable/writable
-      for(int fd = 0; fd<nfds; fd++){
-        file = proc->ofile[fd];
-        if(file && (FD_ISSET(fd, readfds) || FD_ISSET(fd, writefds))){ //Unregister proc from read and write wait lists
-          if(fileclrsel(file, &proc->selsem) < 0)
-            panic("select");
-        }
-      }
+      unregisterall(nfds, readfds, writefds);
+    }else{ //Found some file available, hence didn't need to register for the other files. Undo that.
+      unregisterall(reg_nfds, &regreadfds, &regwritefds);
     }
   }
   
@@ -532,20 +554,5 @@ sys_select(void)
   *writefds = retwritefds;
 
   return ret;
-
-fail:
-  //Unregister proc from read and write wait lists
-  //Note : if it hasn't previously registered, will do nothing and exit
-  //(since the above code registers proc in order of increasing fd numbers, as soon as
-  //we find one for which proc didn't register, we know we can safely exit)
-  for(int fd = 0; fd<nfds; fd++){
-    file = proc->ofile[fd];
-    if(file && (FD_ISSET(fd, readfds) || FD_ISSET(fd, writefds))){
-      if(fileclrsel(file, &proc->selsem) < 0)
-        break;
-    }
-  }
-
-  return -1;
 }
 
