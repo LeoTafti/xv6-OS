@@ -65,10 +65,12 @@ void pipenet(void) {
       FD_SET(toshfds[1], &writefds);
       FD_SET(1, &writefds);
 
+      printf(1, "Before select.\n");
       if(select(nfds, &readfds, &writefds) < 0){
         printf(2, "Select failed\n");
         exit();
       }
+      printf(1, "After select.\n");
 
 
       if(FD_ISSET(0, &readfds) && bytesbuffered1 < BUFSIZE){
