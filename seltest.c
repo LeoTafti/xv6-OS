@@ -234,10 +234,10 @@ void err_chk_test(){
 }
 
 int main(void){
-    //basic_test();
-    //waiting_test_1();
-    //waiting_test_2();
-    //waiting_test_3();
+    basic_test();
+    waiting_test_1();
+    waiting_test_2();
+    waiting_test_3();
     err_chk_test();
     exit();
 }

@@ -498,9 +498,6 @@ sys_select(void)
 
   //"registered" fd_sets, allow to cleanly unregister if need be
   fd_set regreadfds, regwritefds;
-  FD_ZERO(&regreadfds);
-  FD_ZERO(&regwritefds);
-  int reg_nfds = 0;
 
   struct file *file;
 
@@ -508,6 +505,12 @@ sys_select(void)
   int ret;
 
   while(none_available){ // Will loop everytime we found nothing available, wait and then get woken up
+
+    //Reset "register" fd_sets
+    FD_ZERO(&regreadfds);
+    FD_ZERO(&regwritefds);
+    int reg_nfds = 0;
+
     ret = 0;
     for(int fd = 0; fd<nfds; fd++){
       file = proc->ofile[fd];
@@ -536,7 +539,7 @@ sys_select(void)
           ret++;
           none_available = 0;
         }else{
-          FD_SET(fd, &retwritefds);
+          FD_SET(fd, &regwritefds);
           reg_nfds = fd + 1;
         }
       }
