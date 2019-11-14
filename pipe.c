@@ -163,18 +163,18 @@ piperead(struct pipe *p, char *addr, int n)
  */
 int
 pipeclrsel(struct pipe *p, struct ksem *sem) {
-  int ret = 0;
+  int ret = -1;
 
   acquire(&p->lock);
   for(int i = 0; i < MAX_NB_SLEEPING; i++){
     if(p->selreadable[i] == sem){
       p->selreadable[i] = (void*)0;
-      ret = 1;
+      ret = 0;
       break;
     }
     if(p->selwritable[i] == sem){
       p->selwritable[i] = (void*)0;
-      ret = 1;
+      ret = 0;
       break;
     }
   }

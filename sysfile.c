@@ -476,6 +476,9 @@ sys_select(void)
   if(FD_ISZERO(readfds) && FD_ISZERO(writefds))
     return 0;
 
+  if(nfds < 0 || nfds > MAX_NFDS)
+    return -1;
+
   //"return" fd_sets
   fd_set retreadfds, retwritefds;
   FD_ZERO(&retreadfds);
@@ -493,7 +496,7 @@ sys_select(void)
       if(file && FD_ISSET(fd, readfds)){ //For fd in readset
         int readable = fileselectread(file, &proc->selsem);
         if(readable < 0)
-          return -1;
+          goto fail;
         else if (readable == 1){
           FD_SET(fd, &retreadfds);
           ret++;
@@ -504,7 +507,7 @@ sys_select(void)
       if(file && FD_ISSET(fd, writefds)){ //For fd in writeset
         int writable = fileselectwrite(file, &proc->selsem);
         if(writable < 0)
-          return -1;
+          goto fail;
         else if (writable == 1){
           FD_SET(fd, &retwritefds);
           ret++;
@@ -529,5 +532,20 @@ sys_select(void)
   *writefds = retwritefds;
 
   return ret;
+
+fail:
+  //Unregister proc from read and write wait lists
+  //Note : if it hasn't previously registered, will do nothing and exit
+  //(since the above code registers proc in order of increasing fd numbers, as soon as
+  //we find one for which proc didn't register, we know we can safely exit)
+  for(int fd = 0; fd<nfds; fd++){
+    file = proc->ofile[fd];
+    if(file && (FD_ISSET(fd, readfds) || FD_ISSET(fd, writefds))){
+      if(fileclrsel(file, &proc->selsem) < 0)
+        break;
+    }
+  }
+
+  return -1;
 }
 

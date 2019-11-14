@@ -192,7 +192,7 @@ int registerproc(struct ksem* list[], struct ksem* sem){
  * TODO doc
  */
 int fileselectread(struct file *f, struct ksem *sem){
-  int readable, ret = 0;
+  int readable = 0, ret = 0;
   acquire(&f->lock);
 
   //Check if readable
@@ -201,7 +201,7 @@ int fileselectread(struct file *f, struct ksem *sem){
   } else if (f->type == FD_INODE){
     readable = readablei(f->ip);
   } else {
-    return -1;
+    ret = -1;
   }
 
   if(!readable){

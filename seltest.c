@@ -75,7 +75,7 @@ void basic_test(){
   FD_ZERO(&readfds);
   FD_ZERO(&writefds);
   FD_SET(*p_out, &readfds);
-  FD_SET(*p_in, &writefds); //To check select's behavior with both readable and writable fd's
+  FD_SET(*p_in, &writefds); //To check select's behavior and return value with both readable and writable fd's
 
   r = select(get_nfds(readfds, writefds), &readfds, &writefds);
   print_result("basic 4", r, r == 2 && FD_ISSET(*p_in, &writefds) && FD_ISSET(*p_out, &readfds));
@@ -213,10 +213,31 @@ void waiting_test_3(){
   close(*p_out);
 }
 
+void err_chk_test(){
+  int r;
+
+  fd_set readfds, writefds;
+  FD_ZERO(&readfds);
+  FD_ZERO(&writefds);
+
+  //Zero readfds / writefds, shouldn't wait
+  r = select(0, &readfds, &writefds);
+  print_result("err_chk_test_1", r, r == 0);
+
+  //Negative nfds
+  r = select(-1, &readfds, &writefds);
+  print_result("err_chk_test_2", r, r == -1);
+
+  //nfds > MAX_NFDS
+  r = select(MAX_NFDS + 1, &readfds, &writefds);
+  print_result("eerr_chk_test_3", r, r == -1);
+}
+
 int main(void){
     //basic_test();
     //waiting_test_1();
-    waiting_test_2();
+    //waiting_test_2();
     //waiting_test_3();
+    err_chk_test();
     exit();
 }

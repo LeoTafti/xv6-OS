@@ -2,6 +2,7 @@
 #include "user.h"
 #include "stat.h"
 #include "syscall.h"
+#include "select.h"
 
 
 char * shargv[] = { "sh", 0 };
@@ -11,6 +12,8 @@ void pipenet(void) {
   char buf[100];
   int bytesread;
   int pid;
+
+  fd_set readfds, writefds;
 
   if (pipe(toshfds) != 0) {
     printf(2, "Pipe failed!");

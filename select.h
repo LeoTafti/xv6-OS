@@ -1,7 +1,10 @@
 #ifndef __INCLUDE_select_h
 #define __INCLUDE_select_h
 
+#include "param.h"
+
 typedef unsigned int fd_set;
+#define MAX_NFDS NOFILE
 
 #define MAX_NB_SLEEPING 16
 
