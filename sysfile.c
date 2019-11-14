@@ -546,6 +546,12 @@ sys_select(void)
     }
 
     if(none_available){
+      if(reg_nfds == 0){ //This only happens if the process didn't register for any file
+        //This is only the case if the user made an incorrect call to select.
+        //Even though not strictly necessary, we catch it here to avoid a deadlock and return -1.
+        return -1;
+      }
+
       ksem_down(&proc->selsem); //Will sleep until some file in readfds/writefds becomes readable/writable
       unregisterall(nfds, readfds, writefds);
     }else{ //Found some file available, hence didn't need to register for the other files. Undo that.
