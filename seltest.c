@@ -232,7 +232,7 @@ void unregister_test(){
 
   int p1[2];
   int *p_out_1 = &p1[0];
-  int *p_in_1 = &p1[1];
+  //int *p_in_1 = &p1[1];
   pipe(p1);
 
   int p2[2];
@@ -250,7 +250,7 @@ void unregister_test(){
   for(int i = 0; i < 2*MAX_NB_SLEEPING; i++){ //If we don't unregister properly, this will exhaust ressources and fail
     r = select(get_nfds(readfds, writefds), &readfds, &writefds);
     if(r < 0)
-      cprintf("unregister_test : select failed");
+      printf(2, "unregister_test : select failed");
   }
 
   print_result("unregister_test", r, r == 1 && !FD_ISSET(*p_out_1, &readfds) && FD_ISSET(*p_out_2, &readfds));
@@ -281,7 +281,7 @@ int main(void){
     //waiting_test_1();
     //waiting_test_2();
     //waiting_test_3();
-    unregister_test();
+    //unregister_test();
     //err_chk_test();
     exit();
 }
