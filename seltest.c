@@ -12,7 +12,6 @@ int get_nfds(fd_set readset, fd_set writeset){
     if(FD_ISSET(i, &readset) || FD_ISSET(i, &writeset))
       return i + 1;
   }
-
   return -1;
 }
 
