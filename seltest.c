@@ -223,8 +223,37 @@ void waiting_test_3(){
   close(*p_out);
 }
 
-void waiting_test_4(){
-  //TODO : implement
+void unregister_test(){
+  int r;
+
+  fd_set readfds, writefds;
+  FD_ZERO(&readfds);
+  FD_ZERO(&writefds);
+
+  int p1[2];
+  int *p_out_1 = &p1[0];
+  int *p_in_1 = &p1[1];
+  pipe(p1);
+
+  int p2[2];
+  int *p_out_2 = &p2[0];
+  int *p_in_2 = &p2[1];
+  pipe(p2);
+
+  //p_out_1 isn't readable, we make p_out_2 readable by writing to pipe 2
+  char txt[] = "Hello world";
+  write(*p_in_2, txt, 5);
+
+  FD_SET(*p_out_1, &readfds);
+  FD_SET(*p_out_2, &readfds);
+
+  for(int i = 0; i < 2*MAX_NB_SLEEPING; i++){ //If we don't unregister properly, this will exhaust ressources and fail
+    r = select(get_nfds(readfds, writefds), &readfds, &writefds);
+    if(r < 0)
+      cprintf("unregister_test : select failed");
+  }
+
+  print_result("unregister_test", r, r == 1 && !FD_ISSET(*p_out_1, &readfds) && FD_ISSET(*p_out_2, &readfds));
 }
 
 void err_chk_test(){
@@ -252,6 +281,7 @@ int main(void){
     //waiting_test_1();
     //waiting_test_2();
     //waiting_test_3();
+    unregister_test();
     //err_chk_test();
     exit();
 }
