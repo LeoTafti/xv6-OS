@@ -49,13 +49,13 @@ void basic_test(){
   // Test 1 : Console should always be writable
   FD_SET(0, &writefds);
   r = select(1, &readfds, &writefds);
-  print_result("basic 1", r, r == 1 && FD_ISSET(0, &writefds));
+  print_result("basic_test_1", r, r == 1 && FD_ISSET(0, &writefds));
 
   // Test 2 : Console shouldn't be readable if we don't write anything to it
   // Note : we let fd0 still set in writefds s.t. select doesn't wait
   FD_SET(0, &readfds);
   r = select(1, &readfds, &writefds);
-  print_result("basic 2", r, r == 1 && FD_ISSET(0, &writefds) && !FD_ISSET(0, &readfds));
+  print_result("basic_test_2", r, r == 1 && FD_ISSET(0, &writefds) && !FD_ISSET(0, &readfds));
 
   // Test 3 : Pipe shouldn't be readable when empty, but should be writable
   pipe(p);
@@ -66,7 +66,7 @@ void basic_test(){
   FD_SET(*p_in, &writefds);
 
   r = select(get_nfds(readfds, writefds), &readfds, &writefds);
-  print_result("basic 3", r, r == 1 && FD_ISSET(*p_in, &writefds) && !FD_ISSET(*p_out, &readfds));
+  print_result("basic_test_3", r, r == 1 && FD_ISSET(*p_in, &writefds) && !FD_ISSET(*p_out, &readfds));
 
   // Test 4 : Pipe should become readable once some data has been written to it
   char txt[] = "Hello world";
@@ -75,20 +75,28 @@ void basic_test(){
   FD_ZERO(&readfds);
   FD_ZERO(&writefds);
   FD_SET(*p_out, &readfds);
-  FD_SET(*p_in, &writefds); //To check select's behavior and return value with both readable and writable fd's
+  FD_SET(*p_in, &writefds); //To check select's behavior and return value with both readable and writable fd's set
 
   r = select(get_nfds(readfds, writefds), &readfds, &writefds);
-  print_result("basic 4", r, r == 2 && FD_ISSET(*p_in, &writefds) && FD_ISSET(*p_out, &readfds));
+  print_result("basic_test_4", r, r == 2 && FD_ISSET(*p_in, &writefds) && FD_ISSET(*p_out, &readfds));
 
-  // Test 5 : Pipe should not be readable after it gets emptied again.
-  char buf[5];
-  read(*p_out, buf, 5);
+  // Test 5 : Pipe should not be writable when full
+  // Note : 512 is PIPESIZE, but PIPESIZE wasn't visible from here (since defined in pipe.c)
+  // and I didn't want to change it only for the purpose of writing this test.
+  char txt2[512] = "bBGv1VVXCSUw6Di87W6cbB71eiiz2nCRwbqXV7K6p95O1ojtTrsI6BVVWz1X1gLGxLS9hcF0KiSI4ptXh7SJWf0RK09Dps0ODE2DWVCM0TLkz8u0YD4il7FUZGk1lHA2sx37b1GWmvBCNGInK5S8uer2b6fqcSH8oGjoXhAB8BYDXbNBQgw2ZBL7DCxbxMKQcT4ITOrdSJyCKasIfn1WUcZON69DzszteRYcpXfzz1dwP6kCiXlgqanoMxdGQFSsi7c3NYMdbj7HjwimaCakE5r7XwVVGXjzP1zPwye3WSP9Ejc8uKJ7KkGiUkPeybLuu3d1JV2aPtZXlWJHzyiQCFFJXriINgzRS0vg6vVwIhVMqEs4bgkWWsPPB9alQUc9EwxWFsUaA9LkdKRutraoYzB8IJ7FfOmHmF5ls2r39tumWGGUvsRWR4I6nG2xP4EeE1Y0JeJZR1BPfHFuYXv3W8UwHFeWaeQsgkwiGzNULAVxw375M1R0JZj6cVuFfOaf";
+  write(*p_in, txt2, 512 - 5); //"Hello" is still in the pipe
+
+  r = select(get_nfds(readfds, writefds), &readfds, &writefds);
+  print_result("basic_test_5", r, r == 1 && !FD_ISSET(*p_in, &writefds) && FD_ISSET(*p_out, &readfds));
+
+  // Test 6 : Pipe should not be readable after it gets emptied again, but should be writable.
+  read(*p_out, txt2, 512);
 
   //Note : we let *p_in fd set in writefds, s.t. select doesn't wait.
   r = select(get_nfds(readfds, writefds), &readfds, &writefds);
-  print_result("basic 5", r, r == 1 && FD_ISSET(*p_in, &writefds) && !FD_ISSET(*p_out, &readfds));
+  print_result("basic_test_6", r, r == 1 && FD_ISSET(*p_in, &writefds) && !FD_ISSET(*p_out, &readfds));
 
-  // Test 6 : Pipe should become readable again if we close its write fd(s)
+  // Test 7 : Pipe should become readable again if we close its write fd(s)
   close(*p_in);
 
   FD_ZERO(&readfds);
@@ -97,7 +105,7 @@ void basic_test(){
   FD_SET(*p_out, &readfds);
 
   r = select(get_nfds(readfds, writefds), &readfds, &writefds);
-  print_result("basic 6", r, r == 1 && FD_ISSET(*p_out, &readfds));
+  print_result("basic_test_7", r, r == 1 && FD_ISSET(*p_out, &readfds));
 
   close(*p_in);
   close(*p_out);
@@ -211,6 +219,10 @@ void waiting_test_3(){
 
   close(*p_in);
   close(*p_out);
+}
+
+void waiting_test_4(){
+  //TODO : implement
 }
 
 void err_chk_test(){
