@@ -654,6 +654,13 @@ nameiparent(char *path, char *name)
   return namex(path, 1, name);
 }
 
+/**
+ * @brief Removes ("unregisters") a semaphore from the select "waiting" lists of the device
+ * @note Disk-based files (type T_FILE) not supported
+ * @param ip the inode corresponding to the device
+ * @param sem the semaphore of the process to unregister
+ * @return 0 if successful, -1 otherwise
+ */
 int
 clrseli(struct inode *ip, struct ksem *sem)
 {
@@ -666,6 +673,14 @@ clrseli(struct inode *ip, struct ksem *sem)
   return -1;
 }
 
+/**
+ * @brief Registers a proc's semaphore on the device's select "waiting" list
+ * @note Disk-based files (type T_FILE) not supported
+ * @param ip the inode corresponding to the device
+ * @param sem the semaphore of the proc to register
+ * @param on_read_list (bool) register on device's select read "waiting" list if non-zero, on write list otherwise
+ * @return 0 if successful, -1 otherwise
+ */
 int
 registeri(struct inode *ip, struct ksem *sem, int on_read_list){
   if(ip->type == T_DEV){
@@ -679,7 +694,10 @@ registeri(struct inode *ip, struct ksem *sem, int on_read_list){
 
 
 /**
- * TODO : doc
+ * @brief Checks if the device is readable
+ * @note Disk-based files (type T_FILE) not supported
+ * @param ip the inode corresponding to the device
+ * @return 1 if readable, 0 if not readable, -1 if error
  */
 int
 readablei(struct inode *ip){
@@ -693,7 +711,10 @@ readablei(struct inode *ip){
 }
 
 /**
- * TODO : doc
+ * @brief Checks if the device is writable
+ * @note Disk-based files (type T_FILE) not supported
+ * @param ip the inode corresponding to the device
+ * @return 1 if writable, 0 if not writable, -1 if error
  */
 int
 writablei(struct inode *ip){

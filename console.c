@@ -293,7 +293,10 @@ consolewrite(struct inode *ip, char *buf, int n)
 
 
 /**
- * TODO : doc
+ * @brief Removes ("unregisters") a semaphore from the select "waiting" list of the console
+ * @param ip (unused) the inode corresponding to the console device
+ * @param sem the semaphore of the process to unregister
+ * @return 0 if successful, -1 otherwise
  */
 int consoleclrsel(struct inode *ip, struct ksem *sem) {
   int ret = -1;
@@ -311,7 +314,11 @@ int consoleclrsel(struct inode *ip, struct ksem *sem) {
 }
 
 /**
- * TODO : doc
+ * @brief Registers a proc's semaphore on the console's select "waiting" list
+ * @param ip (unused) the inode corresponding to the console device
+ * @param sem the semaphore of the proc to register
+ * @param on_read_list (bool) register on console's selreadable list if non-zero, fails otherwise
+ * @return 0 if successful, -1 otherwise
  */
 int consoleregister(struct inode *ip, struct ksem *sem, int on_read_list) {
   if(!on_read_list)
@@ -328,18 +335,25 @@ int consoleregister(struct inode *ip, struct ksem *sem, int on_read_list) {
 
 
 /**
- * TODO : doc
+ * @brief Checks if the console is readable
+ * @param ip (unused) the inode corresponding to the console device
+ * @return 1 if readable, 0 if not readable, -1 if error
  */
 int consolereadable(struct inode *ip){
   if(proc->killed)
     return -1;
-  return input.w > input.r;
+  return input.w > input.r ? 1 : 0;
 }
 
 /**
- * TODO : doc
+ * @brief Checks if the console is writable
+ * @note Console is always writable
+ * @param ip (unused) the inode corresponding to the console device
+ * @return 1 if readable, -1 if error
  */
 int consolewritable(struct inode *ip){
+  if(proc->killed)
+    return -1;
   return 1;
 }
 

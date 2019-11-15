@@ -160,7 +160,10 @@ filewrite(struct file *f, char *addr, int n)
 }
 
 /**
- * TODO : doc
+ * @brief Removes ("unregisters") a semaphore from the select "waiting" lists of file f
+ * @param f the file to remove sem from
+ * @param sem the semaphore of the process to unregister
+ * @return 0 if successful, -1 otherwise
  */
 int
 fileclrsel(struct file *f, struct ksem *sem)
@@ -175,7 +178,10 @@ fileclrsel(struct file *f, struct ksem *sem)
 }
 
 /**
- * TODO : doc
+ * @brief Registers a proc's semaphore on the given select "waiting" list
+ * @param list the list to register sem on
+ * @param sem the semaphore of the proc to register
+ * @return 0 if successful, -1 otherwise
  */
 int registerproc(struct ksem* list[], struct ksem* sem){
   //Loop over list, try to find an available spot
@@ -189,7 +195,10 @@ int registerproc(struct ksem* list[], struct ksem* sem){
 }
 
 /**
- * TODO doc
+ * @brief Atomically checks if the file is readable and if not registers the semaphore to be notified
+ * @param f the file to check readable and register if needed
+ * @param sem the proc's semaphore to register if needed
+ * @return 1 if readable, 0 if not readable (and registered), -1 if error
  */
 int fileselectread(struct file *f, struct ksem *sem){
   int readable = 0, ret = 0;
@@ -218,7 +227,10 @@ int fileselectread(struct file *f, struct ksem *sem){
 }
 
 /**
- * TODO doc
+ * @brief Atomically checks if the file is writable and if not registers the semaphore to be notified
+ * @param f the file to check writable and register if needed
+ * @param sem the proc's semaphore to register if needed
+ * @return 1 if writable, 0 if not writable (and registered), -1 if error
  */
 int fileselectwrite(struct file *f, struct ksem *sem){
   int writable, ret = 0;

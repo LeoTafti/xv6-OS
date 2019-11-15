@@ -180,6 +180,9 @@ void waiting_test_2(){
   print_result("waiting_test_2", r, r == 1 && FD_ISSET(0, &readfds));
 }
 
+/**
+ * @brief Tests select() behavior when two processes were sleeping on the same fd when it becomes readable.
+ */
 void waiting_test_3(){
   int r;
 
@@ -223,6 +226,10 @@ void waiting_test_3(){
   close(*p_out);
 }
 
+/**
+ * @brief Tests that select() unregisters process from files that weren't readable/writable
+ * if it finds (later in the same execution of `select()`)some other file that is readable/writable
+ */
 void unregister_test(){
   int r;
 
@@ -256,6 +263,10 @@ void unregister_test(){
   print_result("unregister_test", r, r == 1 && !FD_ISSET(*p_out_1, &readfds) && FD_ISSET(*p_out_2, &readfds));
 }
 
+/**
+ * @brief Tests select() behavior when provided wrong inputs
+ * @note only tests for inputs that are out of the domain they should be in.
+ */
 void err_chk_test(){
   int r;
 

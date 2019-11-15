@@ -159,7 +159,10 @@ piperead(struct pipe *p, char *addr, int n)
 }
 
 /**
- * TODO doc
+ * @brief Removes ("unregisters") a semaphore from the select "waiting" lists of the pipe
+ * @param p the pipe to remove sem from
+ * @param sem the semaphore of the process to unregister
+ * @return 0 if successful, -1 otherwise
  */
 int
 pipeclrsel(struct pipe *p, struct ksem *sem) {
@@ -184,7 +187,11 @@ pipeclrsel(struct pipe *p, struct ksem *sem) {
 }
 
 /**
- * TODO : doc
+ * @brief Registers a proc's semaphore on the pipe's select read or write "waiting" lists
+ * @param p the pipe on which to register sem
+ * @param sem the semaphore of the proc to register
+ * @param on_read_list (bool) register on pipe's selreadable list if non-zero, selwritable list if zero
+ * @return 0 if successful, -1 otherwise
  */
 int
 piperegister(struct pipe *p, struct ksem *sem, int on_read_list){
@@ -202,8 +209,9 @@ piperegister(struct pipe *p, struct ksem *sem, int on_read_list){
 }
 
 /**
- * TODO : doc
- * @return -1 if error, 0 if not readable, 1 if readable
+ * @brief Checks if the pipe is readable
+ * @param p the pipe to check readable
+ * @return 1 if readable, 0 if not readable, -1 if error
  */
 int
 pipereadable(struct pipe *p) {
@@ -214,8 +222,9 @@ pipereadable(struct pipe *p) {
 }
 
 /**
- * TODO : doc
- * @return -1 if error, 0 if not readable, 1 if readable
+ * @brief Checks if the pipe is writable
+ * @param p the pipe to check writable
+ * @return 1 if writable, 0 if not writable, -1 if error
  */
 int
 pipewritable(struct pipe *p){
