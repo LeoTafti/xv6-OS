@@ -72,6 +72,7 @@ void basic_test(){
   char txt[] = "Hello world";
   write(*p_in, txt, 5); //Writes "Hello"
 
+
   FD_ZERO(&readfds);
   FD_ZERO(&writefds);
   FD_SET(*p_out, &readfds);
@@ -92,7 +93,8 @@ void basic_test(){
   // Test 6 : Pipe should not be readable after it gets emptied again, but should be writable.
   read(*p_out, txt2, 512);
 
-  //Note : we let *p_in fd set in writefds, s.t. select doesn't wait.
+  FD_SET(*p_in, &writefds);
+
   r = select(get_nfds(readfds, writefds), &readfds, &writefds);
   print_result("basic_test_6", r, r == 1 && FD_ISSET(*p_in, &writefds) && !FD_ISSET(*p_out, &readfds));
 
@@ -247,9 +249,9 @@ void err_chk_test(){
 
 int main(void){
     basic_test();
-    waiting_test_1();
-    waiting_test_2();
-    waiting_test_3();
-    err_chk_test();
+    //waiting_test_1();
+    //waiting_test_2();
+    //waiting_test_3();
+    //err_chk_test();
     exit();
 }
